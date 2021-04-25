@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  jekyll:
+    image: jekyll/jekyll:latest
+    working_dir: /usr/src/site
+    command: jekyll serve --livereload --verbose
+    ports:
+      - 4000:4000
+      - 35729:35729
+    volumes:
+      - ./:/usr/src/site
+      - ./vendor/bundle:/usr/local/bundle
+  uikit:
+    image: node:latest
+    working_dir: /usr/src/site
+    volumes:
+      - src_volume:/usr/src/site
+    command: [npm, install]
+    #command: [npm, start]
+volumes:
+  src_volume:
+    driver_opts:
+      type: none
+      device: .
+      o: bind
