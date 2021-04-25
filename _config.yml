@@ -1,0 +1,21 @@
+# Where things are
+source: .
+destination: ./_site
+plugins_dir: '_plugins'
+layouts_dir: '_layouts'
+data_dir: '_data'
+includes_dir: '_includes'
+#collections: null
+#  my_collection:
+#    output: true
+#    permalink: /awesome/:path/
+
+# Handling Reading
+#safe:           false
+#include:        ['.htaccess']
+exclude:
+  - package*
+#keep_files:     ['.git', '.svn']
+#encoding: 'utf-8'
+#markdown_ext:   'markdown,mkdown,mkdn,mkd,md'
+

@@ -1,0 +1,18 @@
+{
+  "name": "uikit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "css-watch": "node-sass _sass/main.scss assets/css/styles.css -w",
+    "start": "npm run css-watch",
+    "test": "echo \"This is a test.\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "purecss": "^2.0.5",
+    "uikit": "^3.6.20"
+  }
+}
