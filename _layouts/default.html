@@ -12,26 +12,8 @@
 </head>
 
 <body>
-    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
-    <div class="uk-navbar-left">
-        <ul class="uk-navbar-nav">
-            
-            <li>
-                <a href="/">Home</a>
-            </li>
-            
-            <li>
-                <a href="/about.html">About</a>
-            </li>
-            
-            <li>
-                <a href="/articles.html">Articles</a>
-            </li>
-            
-        </ul>
-    </div>
-</nav>
-    <h1>Home page</h1>
+    {% include navigation.html %}
+    {{ content }}
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.20/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.20/dist/js/uikit-icons.min.js"></script>

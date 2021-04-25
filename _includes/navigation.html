@@ -1,0 +1,11 @@
+<nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+    <div class="uk-navbar-left">
+        <ul class="uk-navbar-nav">
+            {% for item in site.data.navigation %}
+            <li>
+                <a href="{{ item.link }}">{{ item.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
