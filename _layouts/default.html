@@ -16,9 +16,12 @@
 
 
     <div class="uk-child-width-expand" uk-grid>
-        <div class="uk-width-1-3@m uk-height-viewport ">
-            {% include header.html %}
-            {% include navigation.html %}
+        <div class="uk-width-1-4@m uk-height-viewport header-background uk-background-cover">
+            <div class="uk-position-relative uk-position-center">
+                {% include header.html %}
+                {% include navigation.html %}
+            </div>
+
         </div>
         <div class="uk-width-expand"> {{ content }}</div>
     </div>
