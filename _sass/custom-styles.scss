@@ -7,10 +7,10 @@
   top: 0px;
 }
 
-.grey {
-  background-color: #ccc;
-}
-
-.header-background {
-  background-image: url('/assets/images/rdaszinskiego-400x1300.png');
+.epr-header-text {
+  background-color: #183c4d;
+  h1,
+  h2 {
+    color: white;
+  }
 }

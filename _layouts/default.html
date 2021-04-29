@@ -12,26 +12,18 @@
 </head>
 
 <body>
-
-
-
-    <div class="uk-child-width-expand" uk-grid>
-        <div class="uk-width-1-4@m uk-height-viewport header-background uk-background-cover">
-            <div class="uk-position-relative uk-position-center">
+    <div class="uk-grid " uk-grid>
+        <div class="epr-header-text uk-width-1-1@s uk-width-2-5@m  uk-width-1-3@l uk-text-center">
+            <div class="uk-margin-xlarge-top" uk-sticky="media: 960">
                 {% include header.html %}
                 {% include navigation.html %}
             </div>
-
         </div>
-        <div class="uk-width-expand"> {{ content }}</div>
+        <div class="uk-width-expand uk-height-viewport">
+            {{ content }}
+        </div>
+
     </div>
-
-
-
-
-
-
-
 
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.20/dist/js/uikit.min.js"></script>
