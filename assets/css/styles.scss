@@ -1,6 +1,21 @@
 ---
 ---
 
-@import 'uikit_styles';
+//------------------------------
+//1.- Custom variables and variable overwrites
+@import 'custom_vars';
+
+//2.- Default variables and availabe mixins
+@import '../node_modules/uikit/src/scss/variables.scss';
+@import '../node_modules/uikit/src/scss/mixins.scss';
+
+//3.- Custom mixin overwrites and styles
 @import 'custom-styles';
+
+//4.- UIKit
+@import '../node_modules/uikit/src/scss/uikit.scss';
+
+//5.- Debug
 //@import 'debug';
+
+//------------------------------

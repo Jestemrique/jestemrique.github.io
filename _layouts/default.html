@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="uk-grid " uk-grid>
+    <div class="uk-grid" uk-grid>
         <div class="epr-header-text uk-width-1-1@s uk-width-2-5@m  uk-width-1-3@l uk-text-center">
             <div class="uk-margin-xlarge-top" uk-sticky="media: 960">
                 {% include header.html %}
@@ -20,8 +20,15 @@
             </div>
         </div>
         <div class="uk-width-expand uk-height-viewport">
-            {{ content }}
+            <div class="uk-section uk-padding-small">
+                {{ content }}
+            </div>
+
         </div>
+
+        <div class="uk-width-1-6@l">
+        </div>
+
 
     </div>
 

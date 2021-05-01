@@ -1,6 +1,15 @@
 ---
-layout: page
+layout: articles
 title: Articles
 ---
 
-<h1>Articles page</h1>
+{% for post in site.posts %}
+<div class="columns is-mobile">
+    <div class="column is-one-quarter has-text-right">
+        {{post.date | date_to_string}}
+    </div>
+    <div class="column has-text-left">
+        <h3><a href="{{ post.url }}" class="subtitle link is-size-4-mobile">{{ post.title }}</a></h3>
+    </div>
+</div>
+{% endfor %}

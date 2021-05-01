@@ -1,11 +1,6 @@
-.main-content {
-  overflow-y: auto;
-}
-
-.sticky-position {
-  position: sticky;
-  top: 0px;
-}
+/*--------------*\
+  Custom styles
+\*--------------*/
 
 .epr-header-text {
   background-color: #183c4d;
@@ -13,4 +8,44 @@
   h2 {
     color: white;
   }
+}
+
+//Main header navbar
+.epr-main-header-navigation {
+  .uk-navbar-nav a {
+    color: $epr-main-navbar-font-color;
+    font-size: $epr-main-navbar-font-size;
+    :hover {
+      color: $epr-main-navbar-hover-color;
+    }
+  }
+}
+
+/*--------------*\
+  Custom hooks
+\*--------------*/
+
+//uk-tab hooks
+//---------------------------------------------------------
+@mixin hook-tab-item() {
+  font-family: $base-heading-font-family;
+  color: $epr-grey;
+}
+
+@mixin hook-tab-item-active() {
+  border-bottom: 1px solid $tab-item-active-color;
+}
+
+@mixin hook-tab-item-hover() {
+  border-bottom: 1px solid $tab-item-active-color;
+}
+
+@mixin hook-tab() {
+  box-shadow: 0 1em 1em -0.9em $epr-shadow-color;
+}
+
+//Sandbox hooks
+@mixin hook-text-lead() {
+  color: red;
+  font-size: 2em;
 }

@@ -1,0 +1,34 @@
+/*--------------*\
+  Typography
+\*--------------*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&family=Roboto:wght@100&display=swap');
+//font-family: 'Roboto', sans-serif;
+//font-family: 'Roboto Slab', serif;
+
+/*--------------*\
+  Colors
+\*--------------*/
+
+// General
+$epr-grey: #606060;
+$epr-shadow-color: #dee2e6;
+
+// Main header Navbar
+$epr-main-navbar-font-color: #ffffff;
+$epr-main-navbar-hover-color: #cccccc;
+$epr-main-navbar-font-size: 1.2em;
+
+/*--------------*\
+  Fonts options
+\*--------------*/
+
+// Base body and headings
+$base-body-font-family: 'Roboto Slab', serif;
+$base-body-color: $epr-grey;
+$global-font-size: 18px;
+$base-heading-font-family: 'Roboto', sans-serif;
+$base-heading-color: $epr-grey;
+
+// Navbar
+$navbar-nav-item-font-family: $base-heading-font-family;
+$tab-item-active-color: #183c4d;
