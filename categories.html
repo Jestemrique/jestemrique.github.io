@@ -5,7 +5,7 @@ layout: articles
 <ul class="uk-subnav uk-padding">
     {% for category in site.categories %}
     <li>
-        <a href="#{{category[0] }}">
+        <a href="#{{category[0]}}">
             <span>{{ category[0] | capitalize}}</span>
             <span>({{ category[1].size }})</span>
         </a>
@@ -18,7 +18,7 @@ layout: articles
     {% for category in site.categories %}
     {% capture category_name %}{{ category | first }}{% endcapture %}
     <li>
-        <a name="{{tag[0]}}"></a>
+        <a name="{{category[0]}}"></a>
         <h3 class="uk-heading-divider">{{ category_name }}</h2>
 
             <div class="uk-grid ">
