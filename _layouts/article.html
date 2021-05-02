@@ -12,7 +12,8 @@ layout: default
 
     <h1 class="uk-article-title"><a class="uk-link-reset" href="">{{page.title}}</a></h1>
 
-    <p class="uk-article-meta">Written by <a href="#">Super User</a> on {{post.date}}. Posted in <a href="#">Blog</a>
+    <p class="uk-article-meta">Written by <a href="#">Super User</a> on {{page.date | date_to_string}}. Posted in <a
+            href="#">{{page.categories}}</a>
     </p>
 
     <p class="uk-text-lead">{{post.excerpt}}</p>
