@@ -29,10 +29,10 @@ layout: articles
             <div class="uk-grid ">
                 {% assign fli = forloop.index | minus: counter %}
                 {% for post2 in site.posts limit: counter offset: fli %}
-                <div class="uk-width-1-3@s uk-width-1-6@xl uk-text-right">
+                <div class="uk-width-2-5 uk-width-1-6@xl uk-text-right">
                     {{ post2.date | date_to_string}}
                 </div>
-                <div class="uk-width-2-3@s uk-width-5-6@xl">
+                <div class="uk-width-3-5 uk-width-5-6@xl">
                     <a class="uk-link-muted" href="{{ post2.url }}">{{ post2.title }}</a>
                 </div>
                 {% endfor %}
