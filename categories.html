@@ -2,4 +2,35 @@
 layout: articles
 ---
 
-esta es la pagina de posts categories
+<ul class="uk-subnav uk-padding">
+    {% for category in site.categories %}
+    <li>
+        <a href="#{{category[0] }}">
+            <span>{{ category[0] | capitalize}}</span>
+            <span>({{ category[1].size }})</span>
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+
+<ul class="uk-list">
+    {% for category in site.categories %}
+    {% capture category_name %}{{ category | first }}{% endcapture %}
+    <li>
+        <a name="{{tag[0]}}"></a>
+        <h3 class="uk-heading-divider">{{ category_name }}</h2>
+
+            <div class="uk-grid ">
+                {% for post in site.categories[category_name] %}
+                <div class="uk-width-1-4  uk-width-1-6@xl uk-text-right">
+                    {{post.date | date_to_string}}
+                </div>
+                <div class="uk-width-3-4  uk-width-5-6@xl ">
+                    <a class="uk-link-muted" href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a><br>
+                </div>
+                {% endfor %}
+            </div>
+    </li>
+    {% endfor %}
+</ul>

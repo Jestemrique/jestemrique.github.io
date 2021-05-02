@@ -1,29 +1,7 @@
-<!-- <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
-    <div class="uk-navbar-center">
-        <ul class="uk-navbar-nav">
-            {% for item in site.data.clasification %}
-            <li>
-                <a href="{{ item.link }}">{{ item.name }}</a>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-</nav> -->
-
-
-<!-- <ul class="uk-tab">
-    {% for item in site.data.clasification %}
-    <li><a href="{{ item.link }}">{{ item.name }}</a></li>
-    {% endfor %}
-</ul> -->
-
-
-
-
-
 <ul class="uk-tab">
     {% for item in site.data.clasification %}
-    <li {% if item.link==page.url %} class="uk-active epr-color-red" {% endif %}><a href="{{ item.link }}">{{ item.name
+    <li {% if item.link==page.url %} class="uk-active" {% endif %}><a class="uk-text-bold" href="{{ item.link }}">{{
+            item.name
             }}</a></li>
     {% endfor %}
 </ul>

@@ -11,7 +11,8 @@
 
 // General
 $epr-grey: #606060;
-$epr-shadow-color: #dee2e6;
+// $epr-shadow-color: #dee2e6;
+$epr-shadow-color: #50575a;
 
 // Main header Navbar
 $epr-main-navbar-font-color: #ffffff;
@@ -32,3 +33,6 @@ $base-heading-color: $epr-grey;
 // Navbar
 $navbar-nav-item-font-family: $base-heading-font-family;
 $tab-item-active-color: #183c4d;
+
+//Links
+$link-muted-color: #093d4b;

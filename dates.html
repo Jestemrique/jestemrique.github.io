@@ -2,4 +2,44 @@
 layout: articles
 ---
 
-Esta es la pagina de posts dates
+<ul class="uk-subnav uk-padding">
+    {% assign counter = 0 %}
+    {% for post in site.posts %}
+    {% assign thisyear = post.date | date: "%Y" %}
+    {% assign prevyear = post.previous.date | date: "%Y" %}
+    {% assign counter = counter | plus: 1 %}
+    {% if thisyear != prevyear %}
+    <li>
+        <a href="/archive/#{{ post.date | date:" %Y" }}">{{ thisyear }} ({{ counter }})</a>
+    </li>
+    {% assign counter = 0 %}
+    {% endif %}
+    {% endfor %}
+</ul>
+
+<ul class="uk-list">
+    {% for post in site.posts %}
+    {% assign thisyear = post.date | date: "%Y" %}
+    {% assign prevyear = post.previous.date | date: "%Y" %}
+    {% assign counter = counter | plus: 1 %}
+    {% if thisyear != prevyear %}
+    <li>
+        <a name="{{thisyear}}"></a>
+        <h3 class="uk-heading-divider">{{ thisyear }}</h2>
+            <div class="uk-grid ">
+                {% assign fli = forloop.index | minus: counter %}
+                {% for post2 in site.posts limit: counter offset: fli %}
+                <div class="uk-width-1-4@s uk-width-1-6@xl uk-text-right">
+                    {{ post2.date | date_to_string}}
+                </div>
+                <div class="uk-width-3-4@s uk-width-5-6@xl">
+                    <a class="uk-link-muted" href="{{ post2.url }}">{{ post2.title }}</a>
+                </div>
+                {% endfor %}
+
+            </div>
+            {% assign counter = 0 %}
+            {% endif %}
+    </li>
+    {% endfor %}
+</ul>
