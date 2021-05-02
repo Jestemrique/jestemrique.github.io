@@ -2,5 +2,29 @@
 layout: default
 ---
 
-<h1>{{page.title}}</h1>
-{{content}}
+<!-- <h1>{{page.title}}</h1>
+{{content}} -->
+
+
+
+
+<article class="uk-article">
+
+    <h1 class="uk-article-title"><a class="uk-link-reset" href="">{{page.title}}</a></h1>
+
+    <p class="uk-article-meta">Written by <a href="#">Super User</a> on {{post.date}}. Posted in <a href="#">Blog</a>
+    </p>
+
+    <p class="uk-text-lead">{{post.excerpt}}</p>
+
+    {{content}}
+    <div class="uk-grid-small uk-child-width-auto" uk-grid>
+        <div>
+            <a class="uk-button uk-button-text" href="#">Read more</a>
+        </div>
+        <div>
+            <a class="uk-button uk-button-text" href="#">5 Comments</a>
+        </div>
+    </div>
+
+</article>
