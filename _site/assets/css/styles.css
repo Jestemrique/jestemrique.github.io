@@ -1102,10 +1102,10 @@ select.uk-form-width-xsmall { width: 75px; }
 
 /* ======================================================================== Component: Badge ========================================================================== */
 /* 1. Style 2. Center child vertically and horizontally */
-.uk-badge { box-sizing: border-box; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 500px; vertical-align: middle; /* 1 */ background: #1e87f0; color: #fff; font-size: 0.875rem; /* 2 */ display: inline-flex; justify-content: center; align-items: center; }
+.uk-badge { box-sizing: border-box; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 500px; vertical-align: middle; /* 1 */ background: #1e87f0; color: #fff; font-size: 0.875rem; /* 2 */ display: inline-flex; justify-content: center; align-items: center; border-radius: 8px; background: white; color: #606060; border: 1px solid #999; padding: 5 5; }
 
 /* Required for `a` */
-.uk-badge:hover, .uk-badge:focus { color: #fff; text-decoration: none; outline: none; }
+.uk-badge:hover, .uk-badge:focus { color: #fff; text-decoration: none; outline: none; background-color: #999; }
 
 /* ======================================================================== Component: Label ========================================================================== */
 .uk-label { display: inline-block; padding: 0 10px; background: #1e87f0; line-height: 1.5; font-size: 0.875rem; color: #fff; vertical-align: middle; white-space: nowrap; }

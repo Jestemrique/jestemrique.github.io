@@ -34,29 +34,3 @@ layout: articles
     </li>
     {% endfor %}
 </ul>
-
-
-
-
-<!-- <ul class="uk-list">
-    {% for category in site.categories %}
-    {% capture category_name %}{{ category | first }}{% endcapture %}
-    <li>
-        <a name="{{tag[0]}}"></a>
-        <h3 class="uk-heading-divider uk-margin-remove-bottom">{{ category_name }}</h2>
-
-            <table class="uk-table-small uk-table-justify">
-                <tbody>
-                    {% for post in site.categories[category_name] %}
-                    <tr>
-                        <td class="uk-text-right">{{post.date | date_to_string}}</td>
-                        <td class="uk-text-left">
-                            <a class="uk-link-muted" href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-    </li>
-    {% endfor %}
-</ul> -->

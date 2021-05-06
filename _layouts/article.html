@@ -12,13 +12,26 @@ layout: default
 
     <h1 class="uk-article-title"><a class="uk-link-reset" href="">{{page.title}}</a></h1>
 
-    <p class="uk-article-meta">Written by <a href="#">Super User</a> on {{page.date | date_to_string}}. Posted in <a
-            href="#">{{page.categories}}</a>
-    </p>
-
+    <p class="uk-article-meta"> {{page.date | date_to_string}} - {{page.author}}</p>
     <p class="uk-text-lead">{{post.excerpt}}</p>
 
     {{content}}
+
+
+    <hr>
+    <ul class="uk-subnav">
+        <li>
+            <span uk-icon="tag"></span>
+        </li>
+        {% for tag in site.tags %}
+        <li>
+            <a href="/tags.html#{{tag[0] }}">
+                <span>{{ tag[0] | capitalize}}</span>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+
     <div class="uk-grid-small uk-child-width-auto" uk-grid>
         <div>
             <a class="uk-button uk-button-text" href="#">Read more</a>
@@ -27,5 +40,6 @@ layout: default
             <a class="uk-button uk-button-text" href="#">5 Comments</a>
         </div>
     </div>
+
 
 </article>

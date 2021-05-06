@@ -3,19 +3,6 @@ layout: articles
 title: Articles
 ---
 
-<!-- {% for post in site.posts %}
-<div class="columns is-mobile">
-    <div class="column is-one-quarter has-text-right">
-        {{post.date | date_to_string}}
-    </div>
-    <div class="column has-text-left">
-        <h3><a href="{{ post.url }}" class="subtitle link is-size-4-mobile">{{ post.title }}</a></h3>
-    </div>
-</div>
-{% endfor %} -->
-
-
-
 <ul class="uk-subnav uk-padding">
     {% assign counter = 0 %}
     {% for post in site.posts %}
@@ -31,6 +18,7 @@ title: Articles
     {% endfor %}
 </ul>
 
+
 <ul class="uk-list">
     {% for post in site.posts %}
     {% assign thisyear = post.date | date: "%Y" %}
@@ -43,10 +31,10 @@ title: Articles
             <div class="uk-grid ">
                 {% assign fli = forloop.index | minus: counter %}
                 {% for post2 in site.posts limit: counter offset: fli %}
-                <div class="uk-width-1-4@s uk-width-1-6@xl uk-text-right">
+                <div class="uk-width-2-5 uk-width-1-6@xl uk-text-right">
                     {{ post2.date | date_to_string}}
                 </div>
-                <div class="uk-width-3-4@s uk-width-5-6@xl">
+                <div class="uk-width-3-5 uk-width-5-6@xl">
                     <a class="uk-link-muted" href="{{ post2.url }}">{{ post2.title }}</a>
                 </div>
                 {% endfor %}

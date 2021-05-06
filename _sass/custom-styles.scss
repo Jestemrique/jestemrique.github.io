@@ -53,4 +53,13 @@
 //uk-badge hooks
 //---------------------------------------------------------
 @mixin hook-badge() {
+  border-radius: 8px;
+  background: white;
+  color: $epr-grey;
+  border: 1px solid $epr-grey-lighter;
+  padding: 5 5;
+}
+
+@mixin hook-badge-hover() {
+  background-color: $epr-grey-lighter;
 }
