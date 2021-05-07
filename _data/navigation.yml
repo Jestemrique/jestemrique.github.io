@@ -1,8 +1,8 @@
 # - name: Home
 #   link: /
 - name: Articles
-  link: /articles.html
+  link: /
 - name: About
-  link: /about.html
+  link: /about
 # - name: Sandbox
 #   link: /sandbox.html
