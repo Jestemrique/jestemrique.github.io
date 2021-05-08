@@ -2,30 +2,30 @@
 layout: default
 ---
 
-<!-- <h1>{{page.title}}</h1>
-{{content}} -->
-
-
-
-
 <article class="uk-article">
 
     <h1 class="uk-article-title"><a class="uk-link-reset" href="">{{page.title}}</a></h1>
+    <hr>
 
-    <p class="uk-article-meta"> {{page.date | date_to_string}} - {{page.author}}</p>
-    <p class="uk-text-lead">{{post.excerpt}}</p>
+    <p class="uk-article-meta"> {{page.date | date_to_string}} en
+        {% for category in site.categories %}
+        <a class="uk-link-muted" href="/categories#{{category[0]}}">
+            <span class="uk-padding-small">{{ category[0] | capitalize}}</span>
+        </a>
+        {% endfor %}
+    </p>
 
     {{content}}
-
 
     <hr>
     <ul class="uk-subnav">
         <li>
-            <span uk-icon="tag"></span>
+            <!-- <span uk-icon="tag"></span> -->
+            <i class="fas fa-tags"></i>
         </li>
         {% for tag in site.tags %}
         <li>
-            <a href="/tags.html#{{tag[0] }}">
+            <a href="/tags#{{tag[0] }}">
                 <span>{{ tag[0] | capitalize}}</span>
             </a>
         </li>

@@ -1,0 +1,12 @@
+- name: github
+  link: https://github.com/Jestemrique
+  icon: <i class="fab fa-github"></i>
+- name: email
+  link: mailto://jestemrique@gmail.com
+  icon: <i class="far fa-envelope"></i>
+- name: Linkedin
+  link: https://www.linkedin.com/in/enriquepastrana/
+  icon: <i class="fab fa-linkedin-in"></i>
+- name: instagram
+  link: https://www.instagram.com/enrique.cedor/
+  icon: <i class="fab fa-instagram"></i>

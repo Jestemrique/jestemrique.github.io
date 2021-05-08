@@ -21,6 +21,12 @@
   }
 }
 
+//Iconify
+.iconify {
+  width: 3em;
+  height: 3em;
+}
+
 /*--------------*\
   Custom hooks
 \*--------------*/
@@ -42,12 +48,6 @@
 
 @mixin hook-tab() {
   box-shadow: 0 1em 1em -0.9em $epr-shadow-color;
-}
-
-//Sandbox hooks
-@mixin hook-text-lead() {
-  color: red;
-  font-size: 2em;
 }
 
 //uk-badge hooks

@@ -10,7 +10,8 @@ layout: articles
     {% assign counter = counter | plus: 1 %}
     {% if thisyear != prevyear %}
     <li>
-        <a href="/archive/#{{ post.date | date:" %Y" }}">{{ thisyear }} ({{ counter }})</a>
+        <!-- <a href="/dates/#{{ post.date | date:" %Y" }}">{{thisyear}} ({{ counter }})</a> -->
+        <a href="/dates/#{{thisyear}}">{{thisyear}} ({{ counter }})</a>
     </li>
     {% assign counter = 0 %}
     {% endif %}
