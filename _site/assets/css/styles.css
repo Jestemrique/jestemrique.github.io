@@ -12,7 +12,9 @@
 
 .epr-main-header-navigation .uk-navbar-nav a :hover { color: #cccccc; }
 
-.iconify { width: 3em; height: 3em; }
+.iconify { width: 3em; height: 3em; padding-right: 0.5em; }
+
+.fa-star, .fa-star-half-alt { color: #ff7239; }
 
 /*--------------*\ Custom hooks \*--------------*/
 /* ======================================================================== Component: Base ========================================================================== */

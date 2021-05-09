@@ -35,6 +35,12 @@
 .iconify {
   width: 3em;
   height: 3em;
+  padding-right: 0.5em;
+}
+
+.fa-star,
+.fa-star-half-alt {
+  color: $skills-color;
 }
 
 /*--------------*\
