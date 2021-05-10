@@ -33,14 +33,18 @@
 
 //Iconify
 .iconify {
-  width: 2.5em;
-  height: 2.5em;
+  width: 3em;
+  height: 3em;
   padding: 0.5em;
 }
 
 .fa-star,
 .fa-star-half-alt {
   color: $skills-color;
+}
+
+//Skill rating mixin.
+@mixin skill-rating($level) {
 }
 
 /*--------------*\
