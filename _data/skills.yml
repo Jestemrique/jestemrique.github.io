@@ -4,21 +4,15 @@ BI:
       icon: <i class="iconify uk-margin-small-left" style = "color:rgb(231, 3, 53);"  data-icon="simple-icons:microstrategy" data-inline="false"></i>
       level: 5
     - skill: MicroStrategy SDK
-      icon:
-        <i class="iconify uk-margin-small-left" style = "color:rgb(231, 3, 53);" data-icon="simple-icons:microstrategy"
-        data-inline="false"></i>
+      icon: <i class="iconify uk-margin-small-left" style = "color:rgb(231, 3, 53);" data-icon="simple-icons:microstrategy" data-inline="false"></i>
       level: 5
     - skill: MicroStrategy Architect
-      icon:
-        <i class="iconify uk-margin-small-left" style = "color:rgb(231, 3, 53);" data-icon="simple-icons:microstrategy"
-        data-inline="false"></i>
+      icon: <i class="iconify uk-margin-small-left" style = "color:rgb(231, 3, 53);" data-icon="simple-icons:microstrategy" data-inline="false"></i>
       level: 5
 Tools:
   details:
     - skill: Docker
-      icon:
-        <i class="iconify  uk-margin-small-left" style = "color:rgb(0, 154, 235);" data-icon="cib-docker"
-        data-inline="false"></i>
+      icon: <i class="iconify  uk-margin-small-left" style = "color:rgb(0, 154, 235);" data-icon="cib-docker" data-inline="false"></i>
       level: 2
     - skill: Git
       icon: <i class="iconify uk-margin-small-left" data-icon="logos-git-icon" data-inline="false"></i>
