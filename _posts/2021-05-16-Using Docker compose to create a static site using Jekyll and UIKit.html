@@ -1,0 +1,88 @@
+---
+layout: article
+title: Using Docker compose to create a static site using Jekyll and UIKit
+date: 16 May 2021
+tags: [Jekyll, UIKit, Docker]
+categories: [Web, Blog, Tutorial]
+---
+
+
+<p>The reason for creating a static blog template is to have a quick and easy method of putting together a website in
+  a matter of minutes. I used this template as a starting potin to build this blog. I also use it to spin up a tet
+  environment whenever I need to test something locally.</p>
+
+<p>The template can be found in the Github repository <a
+    href="https://github.com/Jestemrique/jekyll-uikit-template">jekyll-uikit-template</a>
+</p>
+
+<h3 class="post-heading">How to install and use the template:</h3>
+
+<p> <b> Note: As requirements, Docker and Nodejs need to be installed on our computer to create Jekyll and UIKit
+    service.</b></p>
+
+<p> First of all we need to clone or download the repository to our machine.</p>
+
+
+<div class="code">
+  <span class="uk-margin-small-right" uk-icon="code"></span> git clone
+  https://github.com/Jestemrique/jekyll-uikit-template.git
+</div>
+
+
+
+<p>Once the repository is cloned, we can rename the directory to any other name
+<div class="code"><span class="uk-margin-small-right" uk-icon="code"></span> mv jekyll-uikit-template my-fav-name</div>
+
+<p> and remove the hidden directories from git <b>(.git)</b> to create a new repository from scratch.</p>
+
+<p> Once the above is done, execute `docker-compose up -d` so that Docker does all the work and have the site ready to
+  be seen in our browser through <b> port 4000</b>
+<div class="code"> <span class="uk-margin-small-right" uk-icon="code"></span>localhost: 4000 </div>
+</p>
+
+
+<h3 class="post-heading">Explanation of docker-compose.yml</h3>
+
+
+<p>There are two services in docker-compose.yml:</p>
+
+<ul class="uk-list uk-list-hyphen uk-list-large uk-margin-small-left">
+  <li>
+    <b>jekyll:</b> In charge of installing the Jekyll image and launching the site. For this service, Jekyll has an
+    image
+    on
+    **Docker Hub** that can be downloaded from [jekyl/jekyll](https://hub.docker.com/r/jekyll/jekyll). More detailed
+    information can be found in their Github repo [engygeeks/jekyll-docker](https://github.com/envygeeks/jekyll-docker)
+  </li>
+
+  <li>
+    <b>uikit:</b> To have UIKit available, an image of **Node.js** `node:latest` will help us to install the UIKit
+    modules
+    specified in `package.json`
+  </li>
+</ul>
+
+<pre>
+  File: package.son
+  
+  {
+    "name": "uikit",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "css-watch": "node-sass _sass/main.scss assets/css/styles.css -w",
+      "start": "npm run css-watch",
+      "test": "echo \"This is a test.\""
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "purecss": "^2.0.5",
+      "uikit": "^3.6.20"
+    }
+  }
+</pre>
+
+Y esto es todo :)

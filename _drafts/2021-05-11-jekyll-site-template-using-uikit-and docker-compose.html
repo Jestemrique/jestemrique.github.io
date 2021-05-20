@@ -1,7 +1,63 @@
 ---
 layout: article
-title: Using Docker compose to create a static site usint Jekyll and UIKit
+title: Using Docker compose to create a static site using Jekyll and UIKit
 date: 11 May 2021
 tags: [Jekyll, UIKit, Docker]
 categories: [Web, Blog, Tutorial]
 ---
+
+
+
+El motivo de crear una plantilla para un blog estático era tener un método rápido y fácil para montar un sitio web en cuestión de un par de minutos. En primer lugar sirvió para constuir este blog y, en segundo lugar para tener un entorno de pruebas rapidamente y tener un entorno de pruebas rapidamente. 
+
+
+
+
+La plantilla está disponible en el repositosio <code>template de Github.</code> (Poner link aquí)
+
+Explicación de cómo instalarlo y usarlo:
+Note: Como requisitos, tenemos que tener instalado Docker y Nodejs en nuestro equipo para crear el servicio UIKit.
+
+Clonar o bajar el repositoio a nuestro equipo 
+
+git clone https://github.com/Jestemrique/jekyll-uikit-template.git
+
+Una vez clonado el repositorio, podemos renombrar el directorio a cualquier otro nombre <code>mv jekyll-uikit-template my-fav-name</code> y eliminamos los directoris ocultos de git (.git) para crear desde cero un nuevo repositorio desde cero.
+
+Una vez hecho lo de arriba, sólo tenemos que ejecutar <code>docker-compose up -d</code> para que Docker haga todo el trabajo y tener el sitio listo para ser visto en nuestro navegador a traveś del puerto 4000 <code>localhost:4000</code>.
+
+Explicación de docker-compose.yml
+
+Para componer el sitio usé dos servicios:
+- jekyll: Encargado de instalar la imagen de Jekyll y poner en marcha el sitio. Para este servicio, Jekyll tiene una imagen en Docker Hub que puede ser descargada desde aqui <a href="https://hub.docker.com/r/jekyll/jekyll">jekyll/jekyll</a>. Se puede encontar más información detallada en su repo de Github <a href="https://github.com/envygeeks/jekyll-docker">engygeeks/jekyll-docker</a>
+
+- uikit: Para tener disponible UIKit se instala una imagen de Node <code>node:latest</code> que nos serviŕá para instalar los módulos de UIKit especificados en <code>package.json</code>
+
+<code>
+    File: package.son
+    {
+        "name": "uikit",
+        "version": "1.0.0",
+        "description": "",
+        "main": "index.js",
+        "scripts": {
+          "css-watch": "node-sass _sass/main.scss assets/css/styles.css -w",
+          "start": "npm run css-watch",
+          "test": "echo \"This is a test.\""
+        },
+        "keywords": [],
+        "author": "",
+        "license": "ISC",
+        "dependencies": {
+          "purecss": "^2.0.5",
+          "uikit": "^3.6.20"
+        }
+      }
+</code>
+
+Y esto es todo.
+
+
+
+
+

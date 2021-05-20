@@ -16,6 +16,11 @@
 
 .fa-star, .fa-star-half-alt { color: #ff7239; }
 
+/*--------------*\ Post styles \*--------------*/
+.code { color: #183c4d; }
+
+.post-heading { border-bottom: 1px solid #cccccc; }
+
 /*--------------*\ Custom hooks \*--------------*/
 /* ======================================================================== Component: Base ========================================================================== */
 /* 1. Set `font-size` to support `rem` units Not using `font` property because a leading hyphen (e.g. -apple-system) causes the font to break in IE11 and Edge 2. Prevent adjustments of font size after orientation changes in iOS. 3. Style */
