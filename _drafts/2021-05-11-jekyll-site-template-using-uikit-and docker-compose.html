@@ -8,7 +8,9 @@ categories: [Web, Blog, Tutorial]
 
 
 
-El motivo de crear una plantilla para un blog estático era tener un método rápido y fácil para montar un sitio web en cuestión de un par de minutos. En primer lugar sirvió para constuir este blog y, en segundo lugar para tener un entorno de pruebas rapidamente y tener un entorno de pruebas rapidamente. 
+El motivo de crear una plantilla para un blog estático era tener un método rápido y fácil para montar un sitio web en
+cuestión de un par de minutos. En primer lugar sirvió para constuir este blog y, en segundo lugar para tener un entorno
+de pruebas rapidamente y tener un entorno de pruebas rapidamente.
 
 
 
@@ -18,20 +20,27 @@ La plantilla está disponible en el repositosio <code>template de Github.</code>
 Explicación de cómo instalarlo y usarlo:
 Note: Como requisitos, tenemos que tener instalado Docker y Nodejs en nuestro equipo para crear el servicio UIKit.
 
-Clonar o bajar el repositoio a nuestro equipo 
+Clonar o bajar el repositoio a nuestro equipo
 
 git clone https://github.com/Jestemrique/jekyll-uikit-template.git
 
-Una vez clonado el repositorio, podemos renombrar el directorio a cualquier otro nombre <code>mv jekyll-uikit-template my-fav-name</code> y eliminamos los directoris ocultos de git (.git) para crear desde cero un nuevo repositorio desde cero.
+Una vez clonado el repositorio, podemos renombrar el directorio a cualquier otro nombre
+<code>mv jekyll-uikit-template my-fav-name</code> y eliminamos los directoris ocultos de git (.git) para crear desde
+cero un nuevo repositorio desde cero.
 
-Una vez hecho lo de arriba, sólo tenemos que ejecutar <code>docker-compose up -d</code> para que Docker haga todo el trabajo y tener el sitio listo para ser visto en nuestro navegador a traveś del puerto 4000 <code>localhost:4000</code>.
+Una vez hecho lo de arriba, sólo tenemos que ejecutar <code>docker-compose up -d</code> para que Docker haga todo el
+trabajo y tener el sitio listo para ser visto en nuestro navegador a traveś del puerto 4000 <code>localhost:4000</code>.
 
 Explicación de docker-compose.yml
 
 Para componer el sitio usé dos servicios:
-- jekyll: Encargado de instalar la imagen de Jekyll y poner en marcha el sitio. Para este servicio, Jekyll tiene una imagen en Docker Hub que puede ser descargada desde aqui <a href="https://hub.docker.com/r/jekyll/jekyll">jekyll/jekyll</a>. Se puede encontar más información detallada en su repo de Github <a href="https://github.com/envygeeks/jekyll-docker">engygeeks/jekyll-docker</a>
+- jekyll: Encargado de instalar la imagen de Jekyll y poner en marcha el sitio. Para este servicio, Jekyll tiene una
+imagen en Docker Hub que puede ser descargada desde aqui <a
+  href="https://hub.docker.com/r/jekyll/jekyll">jekyll/jekyll</a>. Se puede encontar más información detallada en su
+repo de Github <a href="https://github.com/envygeeks/jekyll-docker">engygeeks/jekyll-docker</a>
 
-- uikit: Para tener disponible UIKit se instala una imagen de Node <code>node:latest</code> que nos serviŕá para instalar los módulos de UIKit especificados en <code>package.json</code>
+- uikit: Para tener disponible UIKit se instala una imagen de Node <code>node:latest</code> que nos serviŕá para
+instalar los módulos de UIKit especificados en <code>package.json</code>
 
 <code>
     File: package.son
@@ -56,8 +65,3 @@ Para componer el sitio usé dos servicios:
 </code>
 
 Y esto es todo.
-
-
-
-
-
