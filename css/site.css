@@ -5,22 +5,29 @@
    para que todo combine.
    ═══════════════════════════════════════════════════════════════ */
 
-/* --- Rejilla general: barra lateral | contenido, y footer a todo el ancho --- */
+/* ─────────────────────────────────────────────────────────────────
+   ESTADO BASE = TABLET (768–1023px): header + navegación juntos en la
+   barra lateral izquierda. Es el comportamiento por defecto; desktop y
+   móvil son variaciones sobre esta base (mobile-first con breakpoints Pico).
+   ───────────────────────────────────────────────────────────────── */
+
+/* Rejilla: columna lateral (header apilado sobre aside) | contenido;
+   footer a todo el ancho abajo. header y aside comparten la columna izq. */
 .layout {
   display: grid;
   grid-template-columns: 260px 1fr;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: auto 1fr auto;
   grid-template-areas:
-    "sidebar main"
+    "header  main"
+    "aside   main"
     "footer  footer";
   min-height: 100vh;
 }
 
-/* --- Barra lateral (izquierda): header → idioma → navegación --- */
+/* Header (identidad: nombre + lema), arriba de la barra lateral */
 .site-header {
-  grid-area: sidebar;
-  border-right: 1px solid var(--pico-muted-border-color);
-  padding: 2rem 1.5rem;
+  grid-area: header;
+  padding: 2rem 1.5rem 0;
 }
 .site-header .site-name {
   font-size: 1.4rem;
@@ -31,6 +38,58 @@
   color: var(--pico-muted-color);
   font-size: 0.9rem;
   margin-top: 0.2rem;
+}
+
+/* Barra lateral: navegación + selector de idioma, bajo el header.
+   Todo el contenido de la columna lateral se alinea a la derecha. */
+.site-aside {
+  grid-area: aside;
+  border-right: 1px solid var(--pico-muted-border-color);
+  padding: 1.5rem;
+  text-align: right;
+}
+/* Las listas son flex (por Pico): para pegarlas a la derecha hay que usar
+   justify-content, no text-align. El menú va en columna; sus ítems a la dcha. */
+.site-aside .site-menu {
+  flex-direction: column;
+  align-items: flex-end;
+}
+.site-aside .site-langs {
+  justify-content: flex-end;
+}
+
+/* La línea divisoria de la columna lateral la lleva el aside (border-right).
+   En tablet, header y aside están en la misma columna, así que el borde
+   derecho del aside no cubre la fila del header: se lo damos también.
+   El contenido del header también se alinea a la derecha en la barra lateral. */
+.site-header {
+  border-right: 1px solid var(--pico-muted-border-color);
+  text-align: right;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   DESKTOP (≥1280px, breakpoint de Pico): el header sube ARRIBA a todo
+   el ancho; debajo quedan lateral | contenido. En 1024px (tablet
+   horizontal) el header sigue en la barra lateral.
+   ───────────────────────────────────────────────────────────────── */
+@media (min-width: 1280px) {
+  .layout {
+    grid-template-areas:
+      "header  header"
+      "aside   main"
+      "footer  footer";
+  }
+  /* Arriba a todo el ancho: borde inferior en vez de derecho.
+     Full-bleed: el header cruza toda la ventana de borde a borde, con el
+     texto alineado al .container (misma técnica que el footer). */
+  .site-header {
+    border-right: none;
+    border-bottom: 1px solid var(--pico-muted-border-color);
+    text-align: left;                                 /* arriba: vuelve a la izq. */
+    padding-block: 2rem;                              /* vertical */
+    margin-inline: calc(-50vw + 50%);                 /* estira borde a borde */
+    padding-inline: calc(50vw - 50% + 1.5rem);        /* re-alinea el texto */
+  }
 }
 .site-nav .site-menu,
 .site-nav .site-langs {
@@ -58,13 +117,18 @@
   max-width: 720px;
 }
 
-/* --- Footer (cruza ambas columnas, abajo) --- */
+/* --- Footer (cruza ambas columnas, abajo) ---
+   Full-bleed: el borde superior cruza toda la ventana de borde a borde,
+   pero el texto queda alineado al .container (misma técnica que el header).
+   Visible en tablet y desktop; en móvil se oculta (regla de móvil). */
 .site-footer {
   grid-area: footer;
   border-top: 1px solid var(--pico-muted-border-color);
-  padding: 1rem 1.5rem;
   color: var(--pico-muted-color);
   font-size: 0.9rem;
+  padding-block: 1rem;                              /* vertical */
+  margin-inline: calc(-50vw + 50%);                 /* estira borde a borde */
+  padding-inline: calc(50vw - 50% + 1.5rem);        /* re-alinea el texto */
 }
 
 /* Piezas que solo se usan en móvil: ocultas en escritorio */
@@ -75,15 +139,24 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   MÓVIL (≤ 700px): barra inferior FIJA; el contenido scrollea encima
+   MÓVIL (< 768px, breakpoint de Pico): barra inferior FIJA; el
+   contenido scrollea encima
    ═══════════════════════════════════════════════════════════════ */
-@media (max-width: 700px) {
+@media (max-width: 767px) {
+  /* Altura fija de la barra inferior, en UN solo sitio: la usan tanto la barra
+     (para medir su alto) como el menú desplegable (para anclarse justo encima).
+     Así el borde superior de la barra coincide con el inferior del menú. */
+  :root {
+    --mobile-bar-h: 3.5rem;
+  }
   .layout {
     display: block;
   }
 
-  /* La barra lateral de escritorio y el footer se ocultan en móvil */
+  /* El header superior, la barra lateral y el footer de escritorio se ocultan
+     en móvil (la identidad y navegación pasan a la barra inferior fija). */
   .site-header,
+  .site-aside,
   .site-footer {
     display: none;
   }
@@ -96,7 +169,8 @@
     max-width: none;
   }
 
-  /* Barra inferior fija: ☰ | marca | selector de idioma */
+  /* Barra inferior fija: ☰ | marca | selector de idioma.
+     Altura fija (--mobile-bar-h) para que coincida con el bottom del menú. */
   .mobile-bar {
     display: flex;
     align-items: center;
@@ -105,10 +179,13 @@
     bottom: 0;
     left: 0;
     right: 0;
+    height: var(--mobile-bar-h);
+    box-sizing: border-box;
     background: var(--pico-card-background-color);
     border-top: 1px solid var(--pico-muted-border-color);
-    padding: 0.6rem 1rem;
-    z-index: 10;
+    padding: 0 1rem;
+    z-index: 20; /* por encima del menú desplegable (z-index:10): el burger
+                    y la barra siempre visibles y pulsables */
   }
   .mobile-bar .mobile-brand {
     flex: 1;
@@ -133,29 +210,38 @@
   .mobile-bar .site-langs {
     display: flex;
     gap: 0.6rem;
-    list-style: none;
     padding: 0;
     margin: 0;
+  }
+  /* Pico pone list-style:square en el <li> (regla "ul li"); para quitarlo hay
+     que anularlo en el propio <li>, no en el <ul>. */
+  .mobile-bar .site-langs li {
+    list-style: none;
   }
   .mobile-bar .site-langs a {
     text-decoration: none;
   }
 
-  /* Menú que despliega el botón ☰ (aparece sobre la barra) */
+  /* Menú que despliega el botón ☰ (aparece sobre la barra).
+     Es un <nav>: Pico ya le quita los puntos (list-style:none) y lo pone en
+     flex; lo forzamos a columna para que los enlaces vayan en vertical. */
   .mobile-menu {
     position: fixed;
-    bottom: 56px;
+    bottom: var(--mobile-bar-h); /* arranca justo donde acaba la barra */
     left: 0;
     right: 0;
     background: var(--pico-background-color);
     border-top: 1px solid var(--pico-muted-border-color);
-    list-style: none;
     padding: 0.5rem 1rem;
-    margin: 0;
     z-index: 10;
   }
   .mobile-menu.open {
     display: block;
+  }
+  /* El <ul> de Pico viene en flex (horizontal); lo pasamos a columna */
+  .mobile-menu ul {
+    flex-direction: column;
+    align-items: flex-start;
   }
   .mobile-menu li {
     padding: 0.4rem 0;
