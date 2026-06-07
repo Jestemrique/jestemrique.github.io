@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Docker for development</title><link rel="stylesheet" href="/css/pico.min.css">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <div class="layout">
+
+    <header class="site-header"><div class="site-brand">
+        <a href="/en/" class="site-name">Enrique</a>
+        <p class="site-tagline">Development, IT and learning</p>
+      </div>
+
+      <nav class="site-nav">
+        <ul class="site-langs">
+          <li><a href="/es/articulos/docker-desarrollo/">ES</a></li>
+        </ul><ul class="site-menu">
+          <li>
+            <a href="/en/">Home</a>
+          </li>
+          <li>
+            <a href="/en/articles/">Articles</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      
+<article>
+  <h1>Docker for development</h1>
+  <p><time datetime="2026-05-02">May 2, 2026</time></p>
+
+  <p>One of the first decisions in this project was to use <strong>Docker</strong> instead of installing Node.js directly on my machine.</p>
+<h2>The problem it solves</h2>
+<p>Without Docker, I'd have to install Node.js, the right version, and the project tools on my computer. Over time that becomes a mess that's hard to keep clean.</p>
+<p>Docker puts all of that into an isolated <strong>container</strong>: the project carries its own environment and my machine stays clean.</p>
+<h2>How I start it</h2>
+<p>To bring the site up I use a single command:</p>
+<pre><code class="language-bash">docker compose up --build -d
+</code></pre>
+<p>And to stop it:</p>
+<pre><code class="language-bash">docker compose down
+</code></pre>
+<h2>What I learned</h2>
+<ul>
+<li>Only the <code>src/</code> folder is mounted as a volume, so changes there reload on their own.</li>
+<li>If I change the configuration (<code>.eleventy.js</code>, <code>Dockerfile</code>), I have to <strong>rebuild</strong> the image with <code>--build</code>.</li>
+</ul>
+<p>Having an isolated environment gives me peace of mind: I can break things inside the container without affecting the rest of my system.</p>
+
+</article>
+
+<p><a href="/en/articles/">&larr; Back to the articles</a></p>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>Enrique – 2026</p>
+    </footer>
+  </div><div class="mobile-bar">
+    <button class="site-burger" aria-label="Abrir menú" aria-expanded="false"
+            onclick="const m=document.getElementById('mobileMenu');const o=m.classList.toggle('open');this.setAttribute('aria-expanded',o)">☰</button>
+    <div class="mobile-brand">
+      <a href="/en/" class="site-name">Enrique</a>
+      <p class="site-tagline">Development, IT and learning</p>
+    </div>
+    <ul class="site-langs">
+      <li><a href="/es/articulos/docker-desarrollo/">ES</a></li>
+    </ul>
+  </div><ul class="mobile-menu" id="mobileMenu">
+    <li><a href="/en/">Home</a></li>
+    <li><a href="/en/articles/">Articles</a></li>
+  </ul>
+</body>
+</html>

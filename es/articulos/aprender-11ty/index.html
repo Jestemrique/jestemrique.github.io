@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Por qué elegí 11ty</title><link rel="stylesheet" href="/css/pico.min.css">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <div class="layout">
+
+    <header class="site-header"><div class="site-brand">
+        <a href="/es/" class="site-name">Enrique</a>
+        <p class="site-tagline">Desarrollo, IT y aprendizaje</p>
+      </div>
+
+      <nav class="site-nav">
+        <ul class="site-langs">
+          <li><a href="/en/articles/why-11ty/">EN</a></li>
+        </ul><ul class="site-menu">
+          <li>
+            <a href="/es/">Home</a>
+          </li>
+          <li>
+            <a href="/es/articulos/">Artículos</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      
+<article>
+  <h1>Por qué elegí 11ty</h1>
+  <p><time datetime="2026-05-20">20 de mayo de 2026</time></p>
+
+  <p>Cuando empecé este sitio tenía que elegir una herramienta para generarlo. Acabé eligiendo <strong>11ty (Eleventy)</strong> y aquí explico por qué.</p>
+<h2>Qué es un generador de sitios estáticos</h2>
+<p>Un generador de sitios estáticos toma archivos sencillos (Markdown, plantillas) y produce <strong>HTML puro</strong>. No hay base de datos ni servidor ejecutando código en cada visita: el resultado son ficheros listos para servir.</p>
+<h2>Las razones</h2>
+<ul>
+<li><strong>Sencillez</strong>: escribo en Markdown y 11ty hace el resto.</li>
+<li><strong>Rapidez</strong>: al ser HTML estático, el sitio carga muy rápido.</li>
+<li><strong>Sin ataduras</strong>: el resultado es HTML normal, lo puedo alojar en cualquier sitio.</li>
+</ul>
+<blockquote>
+<p>No necesitaba algo complejo. Necesitaba algo que no se interpusiera en el camino.</p>
+</blockquote>
+<p>Para una página personal con artículos, era justo lo que buscaba.</p>
+
+</article>
+
+<p><a href="/es/articulos/">&larr; Volver a los artículos</a></p>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>Enrique – 2026</p>
+    </footer>
+  </div><div class="mobile-bar">
+    <button class="site-burger" aria-label="Abrir menú" aria-expanded="false"
+            onclick="const m=document.getElementById('mobileMenu');const o=m.classList.toggle('open');this.setAttribute('aria-expanded',o)">☰</button>
+    <div class="mobile-brand">
+      <a href="/es/" class="site-name">Enrique</a>
+      <p class="site-tagline">Desarrollo, IT y aprendizaje</p>
+    </div>
+    <ul class="site-langs">
+      <li><a href="/en/articles/why-11ty/">EN</a></li>
+    </ul>
+  </div><ul class="mobile-menu" id="mobileMenu">
+    <li><a href="/es/">Home</a></li>
+    <li><a href="/es/articulos/">Artículos</a></li>
+  </ul>
+</body>
+</html>

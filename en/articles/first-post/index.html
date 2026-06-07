@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My first post</title><link rel="stylesheet" href="/css/pico.min.css">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <div class="layout">
+
+    <header class="site-header"><div class="site-brand">
+        <a href="/en/" class="site-name">Enrique</a>
+        <p class="site-tagline">Development, IT and learning</p>
+      </div>
+
+      <nav class="site-nav">
+        <ul class="site-langs">
+          <li><a href="/es/articulos/primer-articulo/">ES</a></li>
+        </ul><ul class="site-menu">
+          <li>
+            <a href="/en/">Home</a>
+          </li>
+          <li>
+            <a href="/en/articles/">Articles</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      
+<article>
+  <h1>My first post</h1>
+  <p><time datetime="2026-06-06">June 6, 2026</time></p>
+
+  <p>Hi! This is the first post on my blog.</p>
+<p>I write it in <strong>Markdown</strong>, a simple text format: with <code>**asterisks**</code> I make
+text bold, with <code>#</code> I create headings and with dashes I make lists.</p>
+<p>11ty turns this file into an HTML page using the blog template, so I don't have
+to write any HTML myself.</p>
+
+</article>
+
+<p><a href="/en/articles/">&larr; Back to the articles</a></p>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>Enrique – 2026</p>
+    </footer>
+  </div><div class="mobile-bar">
+    <button class="site-burger" aria-label="Abrir menú" aria-expanded="false"
+            onclick="const m=document.getElementById('mobileMenu');const o=m.classList.toggle('open');this.setAttribute('aria-expanded',o)">☰</button>
+    <div class="mobile-brand">
+      <a href="/en/" class="site-name">Enrique</a>
+      <p class="site-tagline">Development, IT and learning</p>
+    </div>
+    <ul class="site-langs">
+      <li><a href="/es/articulos/primer-articulo/">ES</a></li>
+    </ul>
+  </div><ul class="mobile-menu" id="mobileMenu">
+    <li><a href="/en/">Home</a></li>
+    <li><a href="/en/articles/">Articles</a></li>
+  </ul>
+</body>
+</html>

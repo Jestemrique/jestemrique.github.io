@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artículos</title><link rel="stylesheet" href="/css/pico.min.css">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <div class="layout">
+
+    <header class="site-header"><div class="site-brand">
+        <a href="/es/" class="site-name">Enrique</a>
+        <p class="site-tagline">Desarrollo, IT y aprendizaje</p>
+      </div>
+
+      <nav class="site-nav">
+        <ul class="site-langs">
+          <li><a href="/en/articles/">EN</a></li>
+        </ul><ul class="site-menu">
+          <li>
+            <a href="/es/">Home</a>
+          </li>
+          <li>
+            <a href="/es/articulos/" aria-current="page">Artículos</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      
+<h1>Artículos</h1>
+<ul>
+  <li>
+    <a href="/es/articulos/primer-articulo/">Mi primer artículo</a>
+    <time datetime="2026-06-06">6 de junio de 2026</time>
+  </li>
+  <li>
+    <a href="/es/articulos/aprender-11ty/">Por qué elegí 11ty</a>
+    <time datetime="2026-05-20">20 de mayo de 2026</time>
+  </li>
+  <li>
+    <a href="/es/articulos/docker-desarrollo/">Docker para desarrollo</a>
+    <time datetime="2026-05-02">2 de mayo de 2026</time>
+  </li>
+  <li>
+    <a href="/es/articulos/sitio-multilingue/">Un sitio en dos idiomas</a>
+    <time datetime="2026-04-15">15 de abril de 2026</time>
+  </li>
+  <li>
+    <a href="/es/articulos/markdown-basico/">Markdown en 5 minutos</a>
+    <time datetime="2026-03-28">28 de marzo de 2026</time>
+  </li>
+</ul>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>Enrique – 2026</p>
+    </footer>
+  </div><div class="mobile-bar">
+    <button class="site-burger" aria-label="Abrir menú" aria-expanded="false"
+            onclick="const m=document.getElementById('mobileMenu');const o=m.classList.toggle('open');this.setAttribute('aria-expanded',o)">☰</button>
+    <div class="mobile-brand">
+      <a href="/es/" class="site-name">Enrique</a>
+      <p class="site-tagline">Desarrollo, IT y aprendizaje</p>
+    </div>
+    <ul class="site-langs">
+      <li><a href="/en/articles/">EN</a></li>
+    </ul>
+  </div><ul class="mobile-menu" id="mobileMenu">
+    <li><a href="/es/">Home</a></li>
+    <li><a href="/es/articulos/" aria-current="page">Artículos</a></li>
+  </ul>
+</body>
+</html>

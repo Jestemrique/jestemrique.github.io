@@ -1,0 +1,166 @@
+/* ═══════════════════════════════════════════════════════════════
+   Estilos propios del sitio: SOLO el LAYOUT (dos columnas en escritorio
+   + barra inferior fija en móvil). La estética (tipografía, colores,
+   enlaces, light/dark…) la aporta Pico. Usamos sus variables --pico-*
+   para que todo combine.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* --- Rejilla general: barra lateral | contenido, y footer a todo el ancho --- */
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 1fr auto;
+  grid-template-areas:
+    "sidebar main"
+    "footer  footer";
+  min-height: 100vh;
+}
+
+/* --- Barra lateral (izquierda): header → idioma → navegación --- */
+.site-header {
+  grid-area: sidebar;
+  border-right: 1px solid var(--pico-muted-border-color);
+  padding: 2rem 1.5rem;
+}
+.site-header .site-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.site-header .site-tagline {
+  color: var(--pico-muted-color);
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+}
+.site-nav .site-menu,
+.site-nav .site-langs {
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0 0;
+}
+.site-nav .site-langs {
+  display: flex;
+  gap: 1rem;
+}
+.site-nav .site-menu li {
+  padding: 0.2rem 0;
+}
+.site-nav a {
+  text-decoration: none;
+}
+
+/* --- Contenido (derecha), con ancho de lectura cómodo --- */
+.site-main {
+  grid-area: main;
+  padding: 2rem 2.5rem;
+}
+.site-main > * {
+  max-width: 720px;
+}
+
+/* --- Footer (cruza ambas columnas, abajo) --- */
+.site-footer {
+  grid-area: footer;
+  border-top: 1px solid var(--pico-muted-border-color);
+  padding: 1rem 1.5rem;
+  color: var(--pico-muted-color);
+  font-size: 0.9rem;
+}
+
+/* Piezas que solo se usan en móvil: ocultas en escritorio */
+.site-burger,
+.mobile-bar,
+.mobile-menu {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MÓVIL (≤ 700px): barra inferior FIJA; el contenido scrollea encima
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 700px) {
+  .layout {
+    display: block;
+  }
+
+  /* La barra lateral de escritorio y el footer se ocultan en móvil */
+  .site-header,
+  .site-footer {
+    display: none;
+  }
+
+  .site-main {
+    padding: 1.5rem;
+    padding-bottom: 6rem; /* hueco para que la barra fija no tape el final */
+  }
+  .site-main > * {
+    max-width: none;
+  }
+
+  /* Barra inferior fija: ☰ | marca | selector de idioma */
+  .mobile-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--pico-card-background-color);
+    border-top: 1px solid var(--pico-muted-border-color);
+    padding: 0.6rem 1rem;
+    z-index: 10;
+  }
+  .mobile-bar .mobile-brand {
+    flex: 1;
+    margin: 0;
+  }
+  .mobile-bar .site-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .mobile-bar .site-tagline {
+    color: var(--pico-muted-color);
+    font-size: 0.75rem;
+  }
+  .site-burger {
+    display: block;
+    width: auto;
+    margin: 0;
+    padding: 0.2rem 0.6rem;
+    font-size: 1.2rem;
+  }
+  .mobile-bar .site-langs {
+    display: flex;
+    gap: 0.6rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .mobile-bar .site-langs a {
+    text-decoration: none;
+  }
+
+  /* Menú que despliega el botón ☰ (aparece sobre la barra) */
+  .mobile-menu {
+    position: fixed;
+    bottom: 56px;
+    left: 0;
+    right: 0;
+    background: var(--pico-background-color);
+    border-top: 1px solid var(--pico-muted-border-color);
+    list-style: none;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    z-index: 10;
+  }
+  .mobile-menu.open {
+    display: block;
+  }
+  .mobile-menu li {
+    padding: 0.4rem 0;
+  }
+  .mobile-menu a {
+    text-decoration: none;
+  }
+}

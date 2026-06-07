@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi primer artículo</title><link rel="stylesheet" href="/css/pico.min.css">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <div class="layout">
+
+    <header class="site-header"><div class="site-brand">
+        <a href="/es/" class="site-name">Enrique</a>
+        <p class="site-tagline">Desarrollo, IT y aprendizaje</p>
+      </div>
+
+      <nav class="site-nav">
+        <ul class="site-langs">
+          <li><a href="/en/articles/first-post/">EN</a></li>
+        </ul><ul class="site-menu">
+          <li>
+            <a href="/es/">Home</a>
+          </li>
+          <li>
+            <a href="/es/articulos/">Artículos</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      
+<article>
+  <h1>Mi primer artículo</h1>
+  <p><time datetime="2026-06-06">6 de junio de 2026</time></p>
+
+  <p>¡Hola! Este es el primer artículo de mi blog.</p>
+<p>Lo escribo en <strong>Markdown</strong>, un formato de texto sencillo: con <code>**asteriscos**</code>
+pongo cosas en negrita, con <code>#</code> creo títulos y con guiones hago listas.</p>
+<p>11ty se encarga de convertir este archivo en una página HTML usando la
+plantilla del blog, sin que yo tenga que escribir nada de HTML.</p>
+
+</article>
+
+<p><a href="/es/articulos/">&larr; Volver a los artículos</a></p>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>Enrique – 2026</p>
+    </footer>
+  </div><div class="mobile-bar">
+    <button class="site-burger" aria-label="Abrir menú" aria-expanded="false"
+            onclick="const m=document.getElementById('mobileMenu');const o=m.classList.toggle('open');this.setAttribute('aria-expanded',o)">☰</button>
+    <div class="mobile-brand">
+      <a href="/es/" class="site-name">Enrique</a>
+      <p class="site-tagline">Desarrollo, IT y aprendizaje</p>
+    </div>
+    <ul class="site-langs">
+      <li><a href="/en/articles/first-post/">EN</a></li>
+    </ul>
+  </div><ul class="mobile-menu" id="mobileMenu">
+    <li><a href="/es/">Home</a></li>
+    <li><a href="/es/articulos/">Artículos</a></li>
+  </ul>
+</body>
+</html>

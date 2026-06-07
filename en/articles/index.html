@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Articles</title><link rel="stylesheet" href="/css/pico.min.css">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <div class="layout">
+
+    <header class="site-header"><div class="site-brand">
+        <a href="/en/" class="site-name">Enrique</a>
+        <p class="site-tagline">Development, IT and learning</p>
+      </div>
+
+      <nav class="site-nav">
+        <ul class="site-langs">
+          <li><a href="/es/articulos/">ES</a></li>
+        </ul><ul class="site-menu">
+          <li>
+            <a href="/en/">Home</a>
+          </li>
+          <li>
+            <a href="/en/articles/" aria-current="page">Articles</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      
+<h1>Articles</h1>
+<ul>
+  <li>
+    <a href="/en/articles/first-post/">My first post</a>
+    <time datetime="2026-06-06">June 6, 2026</time>
+  </li>
+  <li>
+    <a href="/en/articles/why-11ty/">Why I chose 11ty</a>
+    <time datetime="2026-05-20">May 20, 2026</time>
+  </li>
+  <li>
+    <a href="/en/articles/docker-for-development/">Docker for development</a>
+    <time datetime="2026-05-02">May 2, 2026</time>
+  </li>
+  <li>
+    <a href="/en/articles/a-site-in-two-languages/">A site in two languages</a>
+    <time datetime="2026-04-15">April 15, 2026</time>
+  </li>
+  <li>
+    <a href="/en/articles/markdown-in-5-minutes/">Markdown in 5 minutes</a>
+    <time datetime="2026-03-28">March 28, 2026</time>
+  </li>
+</ul>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>Enrique – 2026</p>
+    </footer>
+  </div><div class="mobile-bar">
+    <button class="site-burger" aria-label="Abrir menú" aria-expanded="false"
+            onclick="const m=document.getElementById('mobileMenu');const o=m.classList.toggle('open');this.setAttribute('aria-expanded',o)">☰</button>
+    <div class="mobile-brand">
+      <a href="/en/" class="site-name">Enrique</a>
+      <p class="site-tagline">Development, IT and learning</p>
+    </div>
+    <ul class="site-langs">
+      <li><a href="/es/articulos/">ES</a></li>
+    </ul>
+  </div><ul class="mobile-menu" id="mobileMenu">
+    <li><a href="/en/">Home</a></li>
+    <li><a href="/en/articles/" aria-current="page">Articles</a></li>
+  </ul>
+</body>
+</html>

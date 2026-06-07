@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A site in two languages</title><link rel="stylesheet" href="/css/pico.min.css">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <div class="layout">
+
+    <header class="site-header"><div class="site-brand">
+        <a href="/en/" class="site-name">Enrique</a>
+        <p class="site-tagline">Development, IT and learning</p>
+      </div>
+
+      <nav class="site-nav">
+        <ul class="site-langs">
+          <li><a href="/es/articulos/sitio-multilingue/">ES</a></li>
+        </ul><ul class="site-menu">
+          <li>
+            <a href="/en/">Home</a>
+          </li>
+          <li>
+            <a href="/en/articles/">Articles</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      
+<article>
+  <h1>A site in two languages</h1>
+  <p><time datetime="2026-04-15">April 15, 2026</time></p>
+
+  <p>I wanted the site to be in <strong>Spanish and English</strong>, with each language on its own URL.</p>
+<h2>The scheme I chose</h2>
+<p>Each language lives in its own folder and carries its code in the address:</p>
+<ul>
+<li>Spanish → <code>/es/</code></li>
+<li>English → <code>/en/</code></li>
+</ul>
+<p>The default language is Spanish, so the root of the site redirects to <code>/es/</code>.</p>
+<h2>The hard part</h2>
+<p>The challenge wasn't having two languages, but <strong>linking each page to its translation</strong> for the language switcher. When the addresses in both languages don't match (for example <code>/es/articulos/</code> and <code>/en/articles/</code>), you have to tell the site explicitly that they are the same page in another language.</p>
+<blockquote>
+<p>What matters isn't just translating the content, but letting the visitor jump from one version to the other without getting lost.</p>
+</blockquote>
+<p>Solving it taught me a lot about how a multilingual site works under the hood.</p>
+
+</article>
+
+<p><a href="/en/articles/">&larr; Back to the articles</a></p>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>Enrique – 2026</p>
+    </footer>
+  </div><div class="mobile-bar">
+    <button class="site-burger" aria-label="Abrir menú" aria-expanded="false"
+            onclick="const m=document.getElementById('mobileMenu');const o=m.classList.toggle('open');this.setAttribute('aria-expanded',o)">☰</button>
+    <div class="mobile-brand">
+      <a href="/en/" class="site-name">Enrique</a>
+      <p class="site-tagline">Development, IT and learning</p>
+    </div>
+    <ul class="site-langs">
+      <li><a href="/es/articulos/sitio-multilingue/">ES</a></li>
+    </ul>
+  </div><ul class="mobile-menu" id="mobileMenu">
+    <li><a href="/en/">Home</a></li>
+    <li><a href="/en/articles/">Articles</a></li>
+  </ul>
+</body>
+</html>

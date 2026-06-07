@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Docker para desarrollo</title><link rel="stylesheet" href="/css/pico.min.css">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <div class="layout">
+
+    <header class="site-header"><div class="site-brand">
+        <a href="/es/" class="site-name">Enrique</a>
+        <p class="site-tagline">Desarrollo, IT y aprendizaje</p>
+      </div>
+
+      <nav class="site-nav">
+        <ul class="site-langs">
+          <li><a href="/en/articles/docker-for-development/">EN</a></li>
+        </ul><ul class="site-menu">
+          <li>
+            <a href="/es/">Home</a>
+          </li>
+          <li>
+            <a href="/es/articulos/">Artículos</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      
+<article>
+  <h1>Docker para desarrollo</h1>
+  <p><time datetime="2026-05-02">2 de mayo de 2026</time></p>
+
+  <p>Una de las primeras decisiones del proyecto fue usar <strong>Docker</strong> en lugar de instalar Node.js directamente en mi máquina.</p>
+<h2>El problema que resuelve</h2>
+<p>Sin Docker, tendría que instalar Node.js, la versión correcta, y las herramientas del proyecto en mi ordenador. Con el tiempo eso se vuelve un lío difícil de mantener limpio.</p>
+<p>Docker mete todo eso en un <strong>contenedor</strong> aislado: el proyecto trae su propio entorno y mi máquina queda limpia.</p>
+<h2>Cómo lo arranco</h2>
+<p>Para levantar el sitio uso un único comando:</p>
+<pre><code class="language-bash">docker compose up --build -d
+</code></pre>
+<p>Y para detenerlo:</p>
+<pre><code class="language-bash">docker compose down
+</code></pre>
+<h2>Lo que aprendí</h2>
+<ul>
+<li>Solo la carpeta <code>src/</code> está montada como volumen, así que los cambios ahí se recargan solos.</li>
+<li>Si cambio la configuración (<code>.eleventy.js</code>, <code>Dockerfile</code>), hay que <strong>reconstruir</strong> la imagen con <code>--build</code>.</li>
+</ul>
+<p>Tener el entorno aislado me da tranquilidad: puedo romper cosas dentro del contenedor sin afectar al resto del sistema.</p>
+
+</article>
+
+<p><a href="/es/articulos/">&larr; Volver a los artículos</a></p>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>Enrique – 2026</p>
+    </footer>
+  </div><div class="mobile-bar">
+    <button class="site-burger" aria-label="Abrir menú" aria-expanded="false"
+            onclick="const m=document.getElementById('mobileMenu');const o=m.classList.toggle('open');this.setAttribute('aria-expanded',o)">☰</button>
+    <div class="mobile-brand">
+      <a href="/es/" class="site-name">Enrique</a>
+      <p class="site-tagline">Desarrollo, IT y aprendizaje</p>
+    </div>
+    <ul class="site-langs">
+      <li><a href="/en/articles/docker-for-development/">EN</a></li>
+    </ul>
+  </div><ul class="mobile-menu" id="mobileMenu">
+    <li><a href="/es/">Home</a></li>
+    <li><a href="/es/articulos/">Artículos</a></li>
+  </ul>
+</body>
+</html>
