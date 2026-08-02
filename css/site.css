@@ -3,19 +3,71 @@
    + barra inferior fija en móvil). La estética (tipografía, colores,
    enlaces, light/dark…) la aporta Pico. Usamos sus variables --pico-*
    para que todo combine.
+
+   ORDEN DEL ARCHIVO — primero la regla general, después las excepciones:
+     0. Variables (:root)
+     1. BASE (tablet)      → layout · header · aside/nav · main · footer
+     2. DESKTOP (≥1280px)
+     3. MÓVIL (<768px)
+   Dentro de la base, las reglas siguen el orden del documento: la rejilla
+   primero y luego cada región de arriba abajo, igual que en base.njk.
    ═══════════════════════════════════════════════════════════════ */
 
 /* ─────────────────────────────────────────────────────────────────
-   ESTADO BASE = TABLET (768–1023px): header + navegación juntos en la
-   barra lateral izquierda. Es el comportamiento por defecto; desktop y
-   móvil son variaciones sobre esta base (mobile-first con breakpoints Pico).
+   0. VARIABLES — los mandos del layout, todos en un sitio.
+   Van en :root (= el <html>) porque las custom properties se heredan:
+   declaradas ahí, están disponibles en todo el sitio.
+   Criterio para que un valor esté aquí: que lo usen varias reglas que
+   TIENEN que cambiar a la vez. Números que coinciden por casualidad no
+   son la misma variable.
+   ───────────────────────────────────────────────────────────────── */
+:root {
+  /* La línea divisoria del sitio (aside, header, footer, barras de móvil).
+     En una custom property cabe el valor compuesto entero, no solo el número. */
+  --divider: 1px solid var(--pico-muted-border-color);
+  /* Aire horizontal: header, aside, footer y main deben respirar igual
+     o el texto se ve desalineado entre regiones. */
+  --gutter: 1.5rem;
+  /* Proporciones del layout (un solo uso cada una: están aquí para que se
+     lean juntas y con nombre, no porque ahorren repetición). */
+  --sidebar-w: 260px;
+  --reading-w: 720px;
+  /* Full-bleed: cuánto sobresale la ventana por cada lado del .container.
+     Con este valor, una caja se estira de borde a borde (margin-inline
+     negativo) y devuelve su texto a la columna del contenedor (el mismo
+     valor como padding-inline). Lo usan el footer siempre y el header en
+     desktop; una sola fuente para que no se descuadren entre sí. */
+  --bleed: calc(50vw - 50%);
+  /* Alto de la barra inferior fija. Solo se usa en móvil, pero se declara
+     aquí con el resto: lo necesitan la barra (su alto) y el menú desplegable
+     (para anclarse justo encima), y deben coincidir siempre. */
+  --mobile-bar-h: 3.5rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   1. ESTADO BASE — sin media query, así que aplica a cualquier ancho;
+   visualmente es el estado de 768px a 1279px (tablet y tablet horizontal):
+   header + navegación juntos en la barra lateral izquierda.
+
+   ESTRATEGIA DE BREAKPOINTS: esto NO es mobile-first. La base es tablet y
+   los dos extremos se corrigen desde ella: desktop hacia arriba (min-width:
+   1280px) y móvil hacia abajo (max-width: 767px). Ambos son breakpoints de
+   Pico (xl y md).
+   Mobile-first sería lo contrario: base = móvil y solo min-width, añadiendo
+   complejidad conforme crece la pantalla. Se nota la diferencia en el bloque
+   de móvil, que se pasa la vida DESHACIENDO (display:none al header, aside y
+   footer; max-width:none al main) en vez de no haberlo puesto — es decir, el
+   CSS más pesado le toca al dispositivo más débil.
+   Funciona, pero está del revés. Pasarlo a mobile-first es un pendiente
+   anotado en docs/plan.md; es una reescritura, no una reordenación, y por
+   eso va en su propia rama.
    ───────────────────────────────────────────────────────────────── */
 
 /* Rejilla: columna lateral (header apilado sobre aside) | contenido;
    footer a todo el ancho abajo. header y aside comparten la columna izq. */
 .layout {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: var(--sidebar-w) 1fr;
   grid-template-rows: auto 1fr auto;
   grid-template-areas:
     "header  main"
@@ -24,10 +76,16 @@
   min-height: 100vh;
 }
 
-/* Header (identidad: nombre + lema), arriba de la barra lateral */
+/* --- Header (identidad: nombre + lema), arriba de la barra lateral --- */
 .site-header {
   grid-area: header;
-  padding: 2rem 1.5rem 0;
+  padding: 2rem var(--gutter) 0;
+  /* La línea divisoria de la columna lateral la lleva el aside (border-right).
+     En tablet, header y aside están en la misma columna, así que el borde
+     derecho del aside no cubre la fila del header: se lo damos también.
+     El contenido del header también se alinea a la derecha en la barra lateral. */
+  border-right: var(--divider);
+  text-align: right;
 }
 .site-header .site-name {
   font-size: 1.4rem;
@@ -40,12 +98,12 @@
   margin-top: 0.2rem;
 }
 
-/* Barra lateral: navegación + selector de idioma, bajo el header.
-   Todo el contenido de la columna lateral se alinea a la derecha. */
+/* --- Barra lateral: navegación + selector de idioma, bajo el header.
+   Todo el contenido de la columna lateral se alinea a la derecha. --- */
 .site-aside {
   grid-area: aside;
-  border-right: 1px solid var(--pico-muted-border-color);
-  padding: 1.5rem;
+  border-right: var(--divider);
+  padding: var(--gutter);
   text-align: right;
 }
 /* Las listas son flex (por Pico): para pegarlas a la derecha hay que usar
@@ -58,39 +116,7 @@
   justify-content: flex-end;
 }
 
-/* La línea divisoria de la columna lateral la lleva el aside (border-right).
-   En tablet, header y aside están en la misma columna, así que el borde
-   derecho del aside no cubre la fila del header: se lo damos también.
-   El contenido del header también se alinea a la derecha en la barra lateral. */
-.site-header {
-  border-right: 1px solid var(--pico-muted-border-color);
-  text-align: right;
-}
-
-/* ─────────────────────────────────────────────────────────────────
-   DESKTOP (≥1280px, breakpoint de Pico): el header sube ARRIBA a todo
-   el ancho; debajo quedan lateral | contenido. En 1024px (tablet
-   horizontal) el header sigue en la barra lateral.
-   ───────────────────────────────────────────────────────────────── */
-@media (min-width: 1280px) {
-  .layout {
-    grid-template-areas:
-      "header  header"
-      "aside   main"
-      "footer  footer";
-  }
-  /* Arriba a todo el ancho: borde inferior en vez de derecho.
-     Full-bleed: el header cruza toda la ventana de borde a borde, con el
-     texto alineado al .container (misma técnica que el footer). */
-  .site-header {
-    border-right: none;
-    border-bottom: 1px solid var(--pico-muted-border-color);
-    text-align: left;                                 /* arriba: vuelve a la izq. */
-    padding-block: 2rem;                              /* vertical */
-    margin-inline: calc(-50vw + 50%);                 /* estira borde a borde */
-    padding-inline: calc(50vw - 50% + 1.5rem);        /* re-alinea el texto */
-  }
-}
+/* --- Navegación: listas sin viñetas, enlaces sin subrayado --- */
 .site-nav .site-menu,
 .site-nav .site-langs {
   list-style: none;
@@ -114,21 +140,21 @@
   padding: 2rem 2.5rem;
 }
 .site-main > * {
-  max-width: 720px;
+  max-width: var(--reading-w);
 }
 
 /* --- Footer (cruza ambas columnas, abajo) ---
-   Full-bleed: el borde superior cruza toda la ventana de borde a borde,
-   pero el texto queda alineado al .container (misma técnica que el header).
-   Visible en tablet y desktop; en móvil se oculta (regla de móvil). */
+   Full-bleed vía --bleed: el borde superior cruza toda la ventana de borde a
+   borde, pero el texto queda alineado al .container (igual que el header en
+   desktop). Visible en tablet y desktop; en móvil se oculta (regla de móvil). */
 .site-footer {
   grid-area: footer;
-  border-top: 1px solid var(--pico-muted-border-color);
+  border-top: var(--divider);
   color: var(--pico-muted-color);
   font-size: 0.9rem;
-  padding-block: 1rem;                              /* vertical */
-  margin-inline: calc(-50vw + 50%);                 /* estira borde a borde */
-  padding-inline: calc(50vw - 50% + 1.5rem);        /* re-alinea el texto */
+  padding-block: 1rem;                                  /* vertical */
+  margin-inline: calc(var(--bleed) * -1);               /* estira borde a borde */
+  padding-inline: calc(var(--bleed) + var(--gutter));   /* re-alinea el texto */
 }
 
 /* Piezas que solo se usan en móvil: ocultas en escritorio */
@@ -138,17 +164,36 @@
   display: none;
 }
 
+/* ─────────────────────────────────────────────────────────────────
+   2. DESKTOP (≥1280px, breakpoint de Pico): el header sube ARRIBA a todo
+   el ancho; debajo quedan lateral | contenido. En 1024px (tablet
+   horizontal) el header sigue en la barra lateral.
+   ───────────────────────────────────────────────────────────────── */
+@media (min-width: 1280px) {
+  .layout {
+    grid-template-areas:
+      "header  header"
+      "aside   main"
+      "footer  footer";
+  }
+  /* Arriba a todo el ancho: borde inferior en vez de derecho.
+     Full-bleed vía --bleed: el header cruza toda la ventana de borde a borde,
+     con el texto alineado al .container (igual que el footer). */
+  .site-header {
+    border-right: none;
+    border-bottom: var(--divider);
+    text-align: left;                                    /* arriba: vuelve a la izq. */
+    padding-block: 2rem;                                 /* vertical */
+    margin-inline: calc(var(--bleed) * -1);              /* estira borde a borde */
+    padding-inline: calc(var(--bleed) + var(--gutter));  /* re-alinea el texto */
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════════
-   MÓVIL (< 768px, breakpoint de Pico): barra inferior FIJA; el
+   3. MÓVIL (< 768px, breakpoint de Pico): barra inferior FIJA; el
    contenido scrollea encima
    ═══════════════════════════════════════════════════════════════ */
 @media (max-width: 767px) {
-  /* Altura fija de la barra inferior, en UN solo sitio: la usan tanto la barra
-     (para medir su alto) como el menú desplegable (para anclarse justo encima).
-     Así el borde superior de la barra coincide con el inferior del menú. */
-  :root {
-    --mobile-bar-h: 3.5rem;
-  }
   .layout {
     display: block;
   }
@@ -162,7 +207,7 @@
   }
 
   .site-main {
-    padding: 1.5rem;
+    padding: var(--gutter);
     padding-bottom: 6rem; /* hueco para que la barra fija no tape el final */
   }
   .site-main > * {
@@ -182,7 +227,7 @@
     height: var(--mobile-bar-h);
     box-sizing: border-box;
     background: var(--pico-card-background-color);
-    border-top: 1px solid var(--pico-muted-border-color);
+    border-top: var(--divider);
     padding: 0 1rem;
     z-index: 20; /* por encima del menú desplegable (z-index:10): el burger
                     y la barra siempre visibles y pulsables */
@@ -231,7 +276,7 @@
     left: 0;
     right: 0;
     background: var(--pico-background-color);
-    border-top: 1px solid var(--pico-muted-border-color);
+    border-top: var(--divider);
     padding: 0.5rem 1rem;
     z-index: 10;
   }
