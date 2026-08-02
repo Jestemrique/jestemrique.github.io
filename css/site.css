@@ -1,14 +1,16 @@
 /* ═══════════════════════════════════════════════════════════════
-   Estilos propios del sitio: SOLO el LAYOUT (dos columnas en escritorio
-   + barra inferior fija en móvil). La estética (tipografía, colores,
-   enlaces, light/dark…) la aporta Pico. Usamos sus variables --pico-*
-   para que todo combine.
+   Estilos propios del sitio: el LAYOUT (dos columnas en escritorio +
+   barra inferior fija en móvil) y los ajustes de TIPOGRAFÍA. La estética
+   (colores, enlaces, light/dark…) la sigue aportando Pico, y su tipografía
+   tampoco se reescribe: solo se le giran sus mandos --pico-*. Usamos sus
+   variables para que todo combine.
 
    ORDEN DEL ARCHIVO — primero la regla general, después las excepciones:
      0. Variables (:root)
-     1. BASE (tablet)      → layout · header · aside/nav · main · footer
-     2. DESKTOP (≥1280px)
-     3. MÓVIL (<768px)
+     1. TIPOGRAFÍA (mandos de Pico)
+     2. BASE (tablet)      → layout · header · aside/nav · main · footer
+     3. DESKTOP (≥1280px)
+     4. MÓVIL (<768px)
    Dentro de la base, las reglas siguen el orden del documento: la rejilla
    primero y luego cada región de arriba abajo, igual que en base.njk.
    ═══════════════════════════════════════════════════════════════ */
@@ -21,6 +23,23 @@
    TIENEN que cambiar a la vez. Números que coinciden por casualidad no
    son la misma variable.
    ───────────────────────────────────────────────────────────────── */
+
+/* Registrar --reading-w con un TIPO cambia CUÁNDO se calcula su valor.
+   Una custom property normal se sustituye tal cual, como texto: un `ch`
+   dentro se resolvería en cada elemento que la use, y `ch` depende del
+   tamaño de fuente de ese elemento. Un <h1> hijo de .site-main (páginas
+   de índice) se llevaría 68ch medidos a 2.441rem: una caja 2,4 veces más
+   ancha que la de un párrafo. Registrada como <length>, el navegador la
+   calcula UNA vez aquí en :root —con la fuente y el tamaño base del
+   sitio— y la hereda ya convertida a píxeles, igual para todos.
+   initial-value solo actúa si la declaración de abajo falla; 640px es un
+   ancho razonable (un 0px dejaría el contenido invisible). */
+@property --reading-w {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 640px;
+}
+
 :root {
   /* La línea divisoria del sitio (aside, header, footer, barras de móvil).
      En una custom property cabe el valor compuesto entero, no solo el número. */
@@ -31,7 +50,14 @@
   /* Proporciones del layout (un solo uso cada una: están aquí para que se
      lean juntas y con nombre, no porque ahorren repetición). */
   --sidebar-w: 260px;
-  --reading-w: 720px;
+  /* Medida (ancho de línea). En `ch` —anchos del carácter "0"— y no en px
+     porque lo que cansa al leer no son los píxeles, son los CARACTERES por
+     línea: pasados ~75, el ojo pierde el salto a la línea siguiente. Con px
+     ese número cambia solo si cambia la fuente o el tamaño; con ch se
+     mantiene. 720px daban ~75-80 caracteres, algo por encima del rango
+     cómodo (60-75). Ojo: `ch` mide el dígito, más ancho que la letra media,
+     así que 68ch acaban siendo unos 70 caracteres reales, no 68. */
+  --reading-w: 68ch;
   /* Full-bleed: cuánto sobresale la ventana por cada lado del .container.
      Con este valor, una caja se estira de borde a borde (margin-inline
      negativo) y devuelve su texto a la columna del contenedor (el mismo
@@ -45,7 +71,52 @@
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   1. ESTADO BASE — sin media query, así que aplica a cualquier ancho;
+   1. TIPOGRAFÍA — legibilidad, girando los mandos de Pico.
+   Pico define toda su tipografía con variables --pico-*, así que aquí solo
+   se les da otro valor: no se reescribe ni un selector suyo. Estas reglas
+   usan selectores de elemento (h1, h2…) igual que Pico, y ganan porque
+   site.css se enlaza DESPUÉS en base.njk: a igual especificidad, manda el
+   orden de aparición.
+   La MEDIDA (--reading-w) no está aquí sino con el resto de variables,
+   arriba: es una decisión tipográfica, pero la aplica una regla de layout.
+   ───────────────────────────────────────────────────────────────── */
+:root {
+  /* Interlineado del texto corrido: 1.5 (Pico) → 1.6. Con líneas largas,
+     más aire entre ellas ayuda al ojo a volver al principio de la
+     siguiente. NO afecta a los titulares: Pico les pone su propio
+     --pico-line-height en cada uno (1.125 a 1.25, más apretado cuanto
+     más grande, que es lo correcto) y eso los deja fuera de esta herencia. */
+  --pico-line-height: 1.6;
+  /* La razón de la escala de titulares (ver abajo). Un solo mando: 1.2 es
+     más sobrio, 1.333 más dramático. */
+  --type-scale: 1.25;
+}
+
+/* Escala modular: cada nivel es --type-scale veces el siguiente. Pico traía
+   saltos irregulares (1.14, 1.17, 1.20, 1.11, 1.125), y una jerarquía se
+   percibe por la CONSTANCIA del salto, no por su tamaño: si cada escalón
+   mide distinto, los niveles no se leen como niveles.
+   El ancla es h5 = 1rem (el tamaño del texto) y desde ahí se sube; h6 queda
+   por debajo, en su papel de rótulo pequeño. Los valores no se escriben a
+   mano: pow() deja la escala visible en el código y retocarla es cambiar
+   --type-scale, no recalcular seis números. */
+h1 { --pico-font-size: calc(1rem * pow(var(--type-scale), 4)); } /* 2.441rem */
+h2 { --pico-font-size: calc(1rem * pow(var(--type-scale), 3)); } /* 1.953rem */
+h3 { --pico-font-size: calc(1rem * pow(var(--type-scale), 2)); } /* 1.563rem */
+h4 { --pico-font-size: calc(1rem * var(--type-scale)); }         /* 1.25rem  */
+h5 { --pico-font-size: 1rem; }                                   /* 1rem     */
+h6 { --pico-font-size: calc(1rem / var(--type-scale)); }         /* 0.8rem   */
+
+/* El aire sobre cada titular lo calcula Pico como 1.5 × su tamaño (3rem
+   para un h1 de 2rem, y así los seis). Al cambiar los tamaños ese aire se
+   queda descuadrado, así que en vez de seis números nuevos se escribe la
+   regla misma: se recalcula sola con la escala. */
+h1, h2, h3, h4, h5, h6 {
+  --pico-typography-spacing-top: calc(var(--pico-font-size) * 1.5);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   2. ESTADO BASE — sin media query, así que aplica a cualquier ancho;
    visualmente es el estado de 768px a 1279px (tablet y tablet horizontal):
    header + navegación juntos en la barra lateral izquierda.
 
@@ -165,7 +236,7 @@
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   2. DESKTOP (≥1280px, breakpoint de Pico): el header sube ARRIBA a todo
+   3. DESKTOP (≥1280px, breakpoint de Pico): el header sube ARRIBA a todo
    el ancho; debajo quedan lateral | contenido. En 1024px (tablet
    horizontal) el header sigue en la barra lateral.
    ───────────────────────────────────────────────────────────────── */
@@ -190,7 +261,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   3. MÓVIL (< 768px, breakpoint de Pico): barra inferior FIJA; el
+   4. MÓVIL (< 768px, breakpoint de Pico): barra inferior FIJA; el
    contenido scrollea encima
    ═══════════════════════════════════════════════════════════════ */
 @media (max-width: 767px) {
