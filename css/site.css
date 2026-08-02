@@ -339,21 +339,32 @@ h1, h2, h3, h4, h5, h6,
   justify-content: flex-end;
 }
 
-/* --- Navegación: listas sin viñetas, enlaces sin subrayado --- */
+/* Pico pone justify-content:space-between a TODO <nav>. Con un solo hijo eso
+   lo empuja al principio (a la izquierda), así que el selector de idioma, ya
+   como <nav> propio, necesita alinearse al final como el resto del aside. */
+.site-aside .site-langs-nav {
+  justify-content: flex-end;
+}
+
+/* --- Navegación: listas sin viñetas, enlaces sin subrayado.
+   Los selectores nombran las dos navegaciones del aside, no solo .site-nav:
+   desde que el selector de idioma tiene su propio <nav>, un `.site-nav .site-langs`
+   ya no casaría con nada. --- */
 .site-nav .site-menu,
-.site-nav .site-langs {
+.site-langs-nav .site-langs {
   list-style: none;
   padding: 0;
   margin: 1.25rem 0 0;
 }
-.site-nav .site-langs {
+.site-langs-nav .site-langs {
   display: flex;
   gap: 1rem;
 }
 .site-nav .site-menu li {
   padding: 0.2rem 0;
 }
-.site-nav a {
+.site-nav a,
+.site-langs-nav a {
   text-decoration: none;
 }
 
@@ -490,9 +501,14 @@ h1, h2, h3, h4, h5, h6,
     margin: 0;
   }
   /* Pico pone list-style:square en el <li> (regla "ul li"); para quitarlo hay
-     que anularlo en el propio <li>, no en el <ul>. */
+     que anularlo en el propio <li>, no en el <ul>.
+     El padding lo anula por un motivo NUEVO: al envolver la lista en un <nav>,
+     entra en juego la regla "nav li" de Pico (padding 1rem 0.5rem), que antes
+     no aplicaba porque aquí no había ningún <nav>. Sin esto, el selector
+     engordaría y desajustaría la altura de la barra. */
   .mobile-bar .site-langs li {
     list-style: none;
+    padding: 0;
   }
   .mobile-bar .site-langs a {
     text-decoration: none;
