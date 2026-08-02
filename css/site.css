@@ -8,6 +8,7 @@
    ORDEN DEL ARCHIVO — primero la regla general, después las excepciones:
      0. Variables (:root)
      1. TIPOGRAFÍA (mandos de Pico)
+    1b. UTILIDADES (clases sueltas, válidas en todo el sitio)
      2. BASE (tablet)      → layout · header · aside/nav · main · footer
      3. DESKTOP (≥1280px)
      4. MÓVIL (<768px)
@@ -242,6 +243,31 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   1b. UTILIDADES — clases sueltas, sin región del layout a la que
+   pertenecer. Van entre la tipografía y el layout porque valen para
+   todo el sitio.
+   ───────────────────────────────────────────────────────────────── */
+
+/* Oculta a la VISTA pero no al lector de pantalla (texto que da contexto a
+   algo que en pantalla ya se entiende por su posición o su forma).
+   No sirve display:none ni visibility:hidden: ambos sacan el elemento del
+   árbol de accesibilidad y entonces tampoco se anuncia. La receta es dejarlo
+   renderizado pero de 1x1px y recortado:
+     · clip-path recorta lo que se pinta; el tamaño de 1px evita que el texto
+       fuerce scroll o desplace a sus vecinos.
+     · white-space: nowrap impide que en 1px de ancho se parta letra a letra,
+       lo que rompe la lectura de algunos lectores.
+     · position: absolute lo saca del flujo para que no ocupe hueco. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────────────────────────────
    2. ESTADO BASE — sin media query, así que aplica a cualquier ancho;
    visualmente es el estado de 768px a 1279px (tablet y tablet horizontal):
    header + navegación juntos en la barra lateral izquierda.
@@ -441,6 +467,14 @@ h1, h2, h3, h4, h5, h6,
   .mobile-bar .site-tagline {
     color: var(--pico-muted-color);
     font-size: 0.75rem;
+    /* Sin esto el texto se ve pegado al borde superior de la barra: Pico da a
+       todo <p> un margin-bottom de 1rem, y ese margen entra en la ALTURA de
+       .mobile-brand (es un flex item, así que crea su propio contexto de
+       formato y los márgenes de sus hijos no se colapsan hacia fuera).
+       align-items:center centra esa caja con el margen dentro, de modo que el
+       texto visible sube media línea. El margen sobra: el lema es la última
+       línea de la barra y no tiene nada debajo de lo que separarse. */
+    margin-bottom: 0;
   }
   .site-burger {
     display: block;
