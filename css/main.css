@@ -1,0 +1,49 @@
+/* ═══════════════════════════════════════════════════════════════
+   PUNTO DE ENTRADA del CSS. Aquí se declara el ORDEN DE MANDO entre Pico
+   y los estilos propios, y desde aquí se cargan los dos. Es el único
+   archivo que enlaza base.njk.
+
+   POR QUÉ EXISTE ESTE ARCHIVO
+   Las capas de cascada (@layer) resuelven de raíz las peleas de
+   especificidad: una regla de la capa `sitio` gana a cualquier regla de la
+   capa `pico`, por larga que sea la de Pico y por corta que sea la nuestra.
+   Sin capas, ganar a Pico obliga a escribir selectores más pesados de lo
+   que el estilo necesita, y entonces el CSS cuenta dos historias mezcladas:
+   qué queremos que se vea, y quién le gana a quién.
+
+   Pero hay una regla del lenguaje que obliga a montarlo justo así:
+   lo que NO está en ninguna capa gana a TODO lo que sí lo está. Las capas
+   no son niveles por encima del CSS normal, son un sótano ordenado por
+   debajo. Así que no basta con meter site.css en una capa: si Pico se
+   quedara fuera, Pico ganaría siempre y el layout se caería entero. Los
+   dos tienen que entrar.
+
+   Y un <link rel="stylesheet"> del HTML no se puede asignar a una capa (el
+   atributo `layer` está propuesto pero no lo implementa ningún navegador),
+   así que la única forma sin un paso de build es cargarlos con @import
+   desde aquí. De ahí este archivo.
+
+   EL COSTE, Y CÓMO SE PAGA
+   Con @import el navegador no se entera de que Pico y site.css existen
+   hasta que ha bajado y leído ESTE archivo: una petición más encadenada en
+   el camino crítico, y el CSS bloquea el pintado de la página. Lo compensan
+   los <link rel="preload"> de base.njk, que le dicen al navegador que
+   empiece a bajarlos ya, en paralelo con este archivo; cuando los @import
+   se resuelven, los dos ya están en la caché.
+
+   Cuando toque modularizar site.css (pendiente en docs/plan.md), los
+   archivos nuevos se añaden aquí con su @import y su capa. Este archivo es
+   el índice del CSS del sitio.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* El orden se declara ANTES de usar las capas, y manda la ÚLTIMA: `sitio`
+   gana a `pico`. Se podría deducir del orden de los @import de abajo, pero
+   escribirlo en una línea propia es lo que hace esto legible: se ve quién
+   manda sin leer nada más, y añadir una capa en medio es tocar esta línea. */
+@layer pico, sitio;
+
+/* Pico: la estética (colores, enlaces, tipografía base, claro/oscuro). */
+@import url("/css/pico.min.css") layer(pico);
+
+/* Lo propio: el layout y los ajustes de tipografía. */
+@import url("/css/site.css") layer(sitio);

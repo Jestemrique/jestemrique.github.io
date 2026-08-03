@@ -5,6 +5,14 @@
    tampoco se reescribe: solo se le giran sus mandos --pico-*. Usamos sus
    variables para que todo combine.
 
+   Este archivo no se enlaza directamente: lo carga main.css dentro de la CAPA
+   `sitio`, que manda sobre la capa `pico`. Es decir, cualquier regla de aquí
+   gana a cualquier regla de Pico sin importar la especificidad, así que los
+   selectores pueden ser los más cortos que describan la intención. Si algo de
+   aquí no se aplica, la causa ya no puede ser Pico: será otra regla de este
+   mismo archivo, o que Pico apunte a un elemento distinto (ver el <li> del
+   selector de idioma en móvil).
+
    ORDEN DEL ARCHIVO — primero la regla general, después las excepciones:
      0. Variables (:root)
      1. TIPOGRAFÍA (mandos de Pico)
@@ -76,8 +84,11 @@
    Pico define toda su tipografía con variables --pico-*, así que sus ajustes
    se hacen dándoles otro valor: no se reescribe ni un selector suyo. Estas
    reglas usan selectores de elemento (h1, h2…) igual que Pico, y ganan porque
-   site.css se enlaza DESPUÉS en base.njk: a igual especificidad, manda el
-   orden de aparición.
+   este archivo vive en la capa `sitio`, que manda sobre `pico`.
+   Antes ganaban por otro motivo: el <link> de site.css iba DESPUÉS del de Pico
+   y, a igual especificidad, manda el orden de aparición. Funcionaba, pero se
+   apoyaba en el orden de dos etiquetas del <head> — algo que nada declaraba y
+   que cualquier reordenación habría roto en silencio. Ahora está escrito.
    La MEDIDA (--reading-w) no está aquí sino con el resto de variables,
    arriba: es una decisión tipográfica, pero la aplica una regla de layout.
    ───────────────────────────────────────────────────────────────── */
@@ -341,26 +352,30 @@ h1, h2, h3, h4, h5, h6,
 
 /* Pico pone justify-content:space-between a TODO <nav>. Con un solo hijo eso
    lo empuja al principio (a la izquierda), así que el selector de idioma, ya
-   como <nav> propio, necesita alinearse al final como el resto del aside. */
+   como <nav> propio, necesita alinearse al final como el resto del aside.
+   El `.site-aside` de delante NO es peso extra para ganarle a Pico —de eso ya
+   se encarga la capa—: es ALCANCE. La barra de móvil usa la misma clase y allí
+   el selector no debe irse a la derecha. */
 .site-aside .site-langs-nav {
   justify-content: flex-end;
 }
 
 /* --- Navegación: listas sin viñetas, enlaces sin subrayado.
-   Los selectores nombran las dos navegaciones del aside, no solo .site-nav:
-   desde que el selector de idioma tiene su propio <nav>, un `.site-nav .site-langs`
-   ya no casaría con nada. --- */
-.site-nav .site-menu,
-.site-langs-nav .site-langs {
+   Los selectores nombran las LISTAS y no sus <nav>. Cada lista vive solo
+   dentro de su nav, así que el ancestro no acotaba nada: estaba ahí para pesar
+   más que las reglas `nav ul` y `nav li` de Pico. Con la capa `sitio` esa
+   pelea ya no existe y se cae solo. --- */
+.site-menu,
+.site-langs {
   list-style: none;
   padding: 0;
   margin: 1.25rem 0 0;
 }
-.site-langs-nav .site-langs {
+.site-langs {
   display: flex;
   gap: 1rem;
 }
-.site-nav .site-menu li {
+.site-menu li {
   padding: 0.2rem 0;
 }
 .site-nav a,
@@ -502,6 +517,11 @@ h1, h2, h3, h4, h5, h6,
   }
   /* Pico pone list-style:square en el <li> (regla "ul li"); para quitarlo hay
      que anularlo en el propio <li>, no en el <ul>.
+     Ojo, que es la trampa clásica: esto NO lo arregla la capa. Poner
+     list-style:none en el <ul> seguiría sin funcionar por muy alta que fuera
+     su capa, porque no hay conflicto que resolver — la regla de Pico habla del
+     <li> y la nuestra hablaría del <ul>. Las capas deciden quién gana cuando
+     dos reglas apuntan AL MISMO elemento; no cambian a dónde apuntas tú.
      El padding lo anula por un motivo NUEVO: al envolver la lista en un <nav>,
      entra en juego la regla "nav li" de Pico (padding 1rem 0.5rem), que antes
      no aplicaba porque aquí no había ningún <nav>. Sin esto, el selector
