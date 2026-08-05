@@ -5,7 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Markdown in 5 minutes</title><link rel="alternate" hreflang="en" href="https://jestemrique.github.io/en/articles/markdown-in-5-minutes/">
   <link rel="alternate" hreflang="es" href="https://jestemrique.github.io/es/articulos/markdown-basico/">
-  <link rel="alternate" hreflang="x-default" href="https://jestemrique.github.io/es/articulos/markdown-basico/"><link rel="stylesheet" href="/css/main.css">
+  <link rel="alternate" hreflang="x-default" href="https://jestemrique.github.io/es/articulos/markdown-basico/"><script>
+    (function () {
+      try {
+        var t = localStorage.getItem("tema");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="/css/main.css">
 </head>
 <body><div class="container">
   <div class="layout"><header class="site-header">
@@ -29,7 +38,33 @@
         <ul class="site-langs">
           <li><a href="/es/articulos/markdown-basico/" lang="es" hreflang="es">ES<span class="visually-hidden"> Español</span></a></li>
         </ul>
-      </nav>
+      </nav><details class="theme-menu">
+  <summary data-theme-estado aria-label="Theme">
+    <span class="theme-icon" data-icono="light" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>
+    <span class="theme-icon" data-icono="dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(0 -1.1)" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
+    <span class="theme-icon" data-icono="system" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+  </summary>
+  <div class="theme-menu-panel">
+    <fieldset class="theme-switch">
+  <legend class="visually-hidden">Theme</legend>
+  <label>
+    <input type="radio" name="tema-aside" value="light" data-theme-option>
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>
+    <span class="visually-hidden">Light</span>
+  </label>
+  <label>
+    <input type="radio" name="tema-aside" value="dark" data-theme-option>
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(0 -1.1)" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
+    <span class="visually-hidden">Dark</span>
+  </label>
+  <label>
+    <input type="radio" name="tema-aside" value="system" data-theme-option>
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+    <span class="visually-hidden">System</span>
+  </label>
+</fieldset>
+  </div>
+</details>
     </aside>
 
     <main class="site-main">
@@ -107,13 +142,168 @@
       <ul class="site-langs">
         <li><a href="/es/articulos/markdown-basico/" lang="es" hreflang="es">ES<span class="visually-hidden"> Español</span></a></li>
       </ul>
-    </nav>
+    </nav><details class="theme-menu">
+  <summary data-theme-estado aria-label="Theme">
+    <span class="theme-icon" data-icono="light" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>
+    <span class="theme-icon" data-icono="dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(0 -1.1)" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
+    <span class="theme-icon" data-icono="system" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+  </summary>
+  <div class="theme-menu-panel">
+    <fieldset class="theme-switch">
+  <legend class="visually-hidden">Theme</legend>
+  <label>
+    <input type="radio" name="tema-barra" value="light" data-theme-option>
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>
+    <span class="visually-hidden">Light</span>
+  </label>
+  <label>
+    <input type="radio" name="tema-barra" value="dark" data-theme-option>
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(0 -1.1)" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
+    <span class="visually-hidden">Dark</span>
+  </label>
+  <label>
+    <input type="radio" name="tema-barra" value="system" data-theme-option>
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+    <span class="visually-hidden">System</span>
+  </label>
+</fieldset>
+  </div>
+</details>
   </div><nav class="mobile-menu" id="mobileMenu" aria-label="Main">
     <ul>
       <li><a href="/en/">Home</a></li>
       <li><a href="/en/articles/">Articles</a></li>
       <li><a href="/en/topics/">Topics</a></li>
     </ul>
-  </nav>
+  </nav><script>
+    (function () {
+      var CLAVE = "tema";
+
+      function leer() {
+        try { return localStorage.getItem(CLAVE) || "system"; } catch (e) { return "system"; }
+      }
+      function guardar(valor) {
+        try {
+          if (valor === "system") localStorage.removeItem(CLAVE);
+          else localStorage.setItem(CLAVE, valor);
+        } catch (e) {}
+      }
+      function aplicar(valor) {
+        if (valor === "system") delete document.documentElement.dataset.theme;
+        else document.documentElement.dataset.theme = valor;
+      }
+      function marcar(valor) {
+        var opciones = document.querySelectorAll("[data-theme-option]");
+        for (var i = 0; i < opciones.length; i++) {
+          opciones[i].checked = opciones[i].value === valor;
+        }
+      }
+
+      // El botón que despliega el control en móvil enseña el icono del tema
+      // ACTIVO: cerrado tiene que seguir diciendo en qué estado estás. Cuál se
+      // ve lo decide el CSS a partir de este data-estado.
+      function pintarEstado(valor) {
+        var botones = document.querySelectorAll("[data-theme-estado]");
+        for (var i = 0; i < botones.length; i++) botones[i].dataset.estado = valor;
+      }
+
+      // Los desplegables, en PLURAL: hay uno en la barra lateral y otro en la
+      // barra de móvil. Se buscan por clase y no por id porque un id tiene que
+      // ser único en el documento; con dos instancias, getElementById devolvía
+      // solo la primera y la otra se quedaba sin cerrar, sin foco y sin
+      // Escape. Solo uno de los dos es visible a la vez (cada barra está
+      // display:none en la anchura de la otra), pero los dos existen en el DOM
+      // y los dos se manejan igual.
+      var menus = document.querySelectorAll(".theme-menu");
+
+      // Cerrar el desplegable DEVOLVIENDO EL FOCO al <summary>. Lo segundo no
+      // es un detalle: al elegir con el teclado, el foco está en un radio que
+      // el cierre acaba de esconder, y un elemento oculto no puede tener el
+      // foco, así que el navegador lo manda al principio del documento. Quien
+      // navega con teclado tendría que recorrer la página entera para volver.
+      function cerrarMenu(menu, devolverFoco) {
+        if (!menu.open) return;
+        menu.open = false;
+        if (devolverFoco) menu.querySelector("summary").focus();
+      }
+
+      // Cerrar TODOS. El foco solo se devuelve al menú que lo tenía dentro:
+      // mandárselo a un <summary> que está en la otra barra —y por tanto
+      // oculto— movería el foco a un sitio invisible, que es peor que no
+      // moverlo. Por eso no vale con pasar `true` a los dos.
+      function cerrarMenus(devolverFoco) {
+        menus.forEach(function (menu) {
+          cerrarMenu(menu, devolverFoco && menu.contains(document.activeElement));
+        });
+      }
+
+      marcar(leer());
+      pintarEstado(leer());
+
+      // APLICAR el tema. Ojo: aquí NO se cierra el menú, y es deliberado. Las
+      // flechas del teclado disparan un `change` en CADA salto, así que cerrar
+      // aquí haría imposible recorrer las opciones: la primera flecha elegiría
+      // y cerraría de golpe. El cierre se decide por cómo ha elegido el
+      // usuario, no por el hecho de elegir; ver los dos manejadores de abajo.
+      document.addEventListener("change", function (e) {
+        if (!e.target.hasAttribute || !e.target.hasAttribute("data-theme-option")) return;
+        var valor = e.target.value;
+        aplicar(valor);
+        marcar(valor);
+        guardar(valor);
+        pintarEstado(valor);
+      });
+
+      // Lo que se engancha a CADA menú. Va con forEach y no con un bucle `for`
+      // por una razón concreta: los manejadores necesitan recordar de QUÉ menú
+      // son, y con `var i` en un for todos acabarían apuntando al último. El
+      // parámetro de la función de forEach crea un ámbito nuevo en cada vuelta.
+      menus.forEach(function (menu) {
+        // Al ABRIR, meter el foco en la opción activa. Un <details> no lo hace
+        // solo: deja el foco en el <summary>, y las flechas de un grupo de
+        // radios solo responden si el foco ya está DENTRO del grupo. Sin esto,
+        // con teclado se abre el panel y no se puede recorrer.
+        menu.addEventListener("toggle", function () {
+          if (!menu.open) return;
+          var activa = menu.querySelector("[data-theme-option]:checked") ||
+                       menu.querySelector("[data-theme-option]");
+          if (activa) activa.focus();
+        });
+
+        // Cerrar CON EL DEDO O EL RATÓN: un click de verdad trae detail >= 1,
+        // mientras que el que sintetiza el teclado al marcar un radio trae
+        // detail === 0. Es la forma de distinguir "he tocado la opción" de "he
+        // llegado a ella con las flechas" sin escuchar eventos de puntero.
+        menu.addEventListener("click", function (e) {
+          if (e.detail > 0 && e.target.closest("label")) cerrarMenu(menu, false);
+        });
+      });
+
+      // Cerrar al tocar fuera y con teclado. Es lo ÚNICO que <details> no trae
+      // de serie: abrirse, anunciarse al lector de pantalla y responder a
+      // Enter y Espacio en el botón ya lo hace el navegador solo.
+      // Ojo al "fuera": es fuera de CADA menú por separado, no fuera de todos.
+      document.addEventListener("click", function (e) {
+        menus.forEach(function (menu) {
+          if (!menu.contains(e.target)) cerrarMenu(menu, false);
+        });
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") cerrarMenus(true);
+        // Enter DENTRO del panel = "esta me vale": confirma y cierra. El tema
+        // ya está aplicado por el change de la flecha; esto solo cierra.
+        else if (e.key === "Enter") {
+          menus.forEach(function (menu) {
+            if (!menu.open || !menu.contains(e.target)) return;
+            e.preventDefault();
+            cerrarMenu(menu, true);
+          });
+        }
+      });
+    })();
+  </script>
+
+
+
 </body>
 </html>
