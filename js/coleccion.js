@@ -168,10 +168,285 @@ function celda(d) {
   return li;
 }
 
+// ░░░ EL ÍNDICE ALFABÉTICO — las separatas de la tienda de discos ░░░
+//
+// Los 224 se reparten en 22 letras con contenido, ninguna de más de 20 discos.
+// Ese reparto tan parejo es lo que hace útil el índice: cada letra es un bocado
+// cómodo. Si una acumulara 80, saltar a ella no resolvería nada.
+
+// LA INICIAL SE CALCULA SOBRE `clave`, que es la misma cadena por la que se
+// ORDENA (el artista sin artículo, en minúsculas). Si el índice usara otra —el
+// nombre tal cual, por ejemplo— The Beatles saldría bajo la T y estaría
+// colocado entre las B: el encabezado diría una cosa y el orden otra.
+//
+// Los acentos se quitan con el mismo truco que en los slugs: NFD separa la
+// letra de su tilde y el rango \u0300-\u036f borra la tilde. Así Ángel va con
+// la A, que es donde lo buscaría cualquiera.
+//
+// Todo lo que no acabe en A-Z —números, símbolos, alfabetos no latinos— cae en
+// "#", exactamente igual que en las separatas de una tienda. La comparación
+// `>= "A" && <= "Z"` funciona porque es un solo carácter ya en mayúscula; una
+// cadena vacía da `undefined`, y `undefined >= "A"` es false, que es justo lo
+// que queremos (a "#").
+const INICIALES = ["#", ..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+
+function inicial(clave) {
+  const c = clave
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")[0]
+    ?.toUpperCase();
+  return c >= "A" && c <= "Z" ? c : "#";
+}
+
+// AGRUPAR. El Map se crea de antemano con las 27 entradas, así que el resultado
+// SIEMPRE las trae todas, vacías incluidas: es lo que permite pintar la Q
+// apagada sin volver a preguntar por ella. No se reordena nada — cada grupo
+// hereda el orden que ya traía la colección entera.
+function agrupar(discos) {
+  const grupos = new Map(INICIALES.map((letra) => [letra, []]));
+  for (const d of discos) grupos.get(inicial(d.clave)).push(d);
+  return grupos;
+}
+
+// El ancla de cada letra. "#" no puede ir tal cual en un id: el enlace sería
+// href="#letra-#" y el navegador corta el fragmento en la segunda almohadilla.
+const anclaId = (letra) => `letra-${letra === "#" ? "num" : letra.toLowerCase()}`;
+
+function barraLetras(grupos) {
+  const nav = document.createElement("nav");
+  nav.className = "indice-letras";
+  // Un <nav> con nombre: es un landmark, y quien navega por landmarks quiere
+  // poder saltar a él. El texto viene del JSON de la plantilla, como todos.
+  nav.setAttribute("aria-label", cfg.textos.indice);
+
+  nav.append(enlaceTodos());
+
+  for (const [letra, discos] of grupos) {
+    // CON DISCOS, UN ENLACE; SIN DISCOS, UN <span>. La diferencia no es
+    // estética: un enlace que no lleva a ninguna parte es una trampa para quien
+    // navega con teclado (el tabulador para en él para nada) y para un lector
+    // de pantalla (lo anuncia como enlace). Y el aria-hidden del vacío tampoco
+    // es capricho: "Q, W, X, Y, Z" dicho en voz alta entre 22 saltos es ruido;
+    // la letra apagada informa a la VISTA, que es a quien va dirigida.
+    const el = document.createElement(discos.length ? "a" : "span");
+    if (discos.length) {
+      el.href = `#${anclaId(letra)}`;
+    } else {
+      el.className = "indice-vacia";
+      el.setAttribute("aria-hidden", "true");
+    }
+    el.textContent = letra;
+    nav.append(el);
+  }
+
+  // EL CLIC LO LLEVAMOS NOSOTROS, y la razón es el ORDEN. Un <a href="#letra-l">
+  // hace dos cosas en el navegador, en este orden: salta al ancla y DESPUÉS
+  // dispara `hashchange`. O sea que salta con la página todavía entera y solo
+  // entonces el filtro la encoge, con lo que el sitio al que había saltado ya no
+  // existe y el navegador te deja donde puede: al final del documento nuevo.
+  // Medido en 1280px: pasa por scrollY 12.214 (página de 22.272) y acaba en
+  // 1.041, que es exactamente el fondo de la página de 1.841 que queda. En un
+  // móvil de 390px el salto intermedio es de 47.087.
+  //
+  // Filtrando ANTES de colocar el scroll, el salto desaparece. Sigue siendo un
+  // <a> de verdad: el href, el foco, el teclado, «abrir en otra pestaña» y el
+  // historial no se tocan. Lo único que se sustituye es el desplazamiento.
+  //
+  // Un solo manejador en el <nav> y no uno por letra: son 27, y además el nav se
+  // reconstruye entero en cada `pintar`, así que el manejador se va con él y no
+  // hay nada que desenganchar.
+  nav.addEventListener("click", pulsarLetra);
+
+  return nav;
+}
+
+// LA BARRA HORIZONTAL TAPA EL RÓTULO AL QUE SALTAS (de 768px para arriba, donde
+// el índice se coloca arriba y pegado), y `scroll-margin-top` es lo que lo
+// arregla: le dice al rótulo «cuando el navegador se desplace hasta ti, deja
+// este hueco por arriba». El hueco es el alto de la barra, que NO es un número
+// fijo —27 letras se reparten en más o menos filas según el ancho—, así que se
+// mide aquí y se publica como variable CSS para que el CSS pueda usarlo.
+//
+// Con un ResizeObserver y no midiendo una sola vez: al girar el aparato o
+// redimensionar la ventana la barra cambia de filas, y el hueco tiene que
+// seguirla. `offsetHeight` y no `contentRect`, que se deja fuera el relleno.
+const medirBarra = new ResizeObserver(([entrada]) => {
+  app.style.setProperty("--indice-h", `${entrada.target.offsetHeight}px`);
+});
+
+// ░░░ LAS PESTAÑAS: el índice no salta, FILTRA ░░░
+//
+// Se ve una letra cada vez, y el enlace "todos" devuelve la colección entera.
+// Decidido el 9-ago-2026 con el prototipo delante, y el número que lo decidió
+// está medido: en un móvil de 390px la página pasa de 87.158px de alto a 7.587
+// con una letra abierta. Once veces más corta.
+//
+// LO QUE CUESTA, y hay que saberlo: con una letra abierta, el BUSCADOR DEL
+// NAVEGADOR (Ctrl+F) solo encuentra esa letra. `hidden` retira la sección del
+// árbol de accesibilidad y también de la búsqueda. Ese agujero lo tapa el
+// buscador propio del punto 6 de docs/plan.md, que sigue pendiente.
+//
+// Todo lo que hacía falta ya estaba: los discos vienen agrupados en un Map y cada letra
+// es una <section>, así que esto solo pone y quita el atributo `hidden`.
+//
+// EL ESTADO VIVE EN EL HASH DE LA URL, y no en una variable. Eso da tres cosas
+// gratis: compartir un enlace a una letra, que "atrás" deshaga el cambio de
+// pestaña, y que las anclas #letra-l que ya existen sigan valiendo — la misma
+// URL que hoy salta, aquí abre. Por eso son <a> de verdad y no botones: el
+// teclado, el "abrir en otra pestaña" y el historial los da el navegador.
+//
+// `hidden` y no una clase con display:none: retira la sección del árbol de
+// accesibilidad Y del buscador del navegador, que es exactamente lo que hay que
+// entender antes de decidir esto — con las pestañas puestas, Ctrl+F deja de
+// encontrar los 224 discos y solo ve la letra abierta.
+const TODOS = "todos";
+let TOTAL = 0;
+
+function letraDelHash() {
+  const h = location.hash.slice(1);
+  return h.startsWith("letra-") || h === TODOS ? h : TODOS;
+}
+
+function aplicarPestana() {
+  const activa = letraDelHash();
+
+  for (const seccion of document.querySelectorAll(".coleccion-tramos section")) {
+    seccion.hidden = activa !== TODOS && seccion.querySelector("h2").id !== activa;
+  }
+
+  for (const enlace of document.querySelectorAll(".indice-letras a")) {
+    // `aria-current` y no una clase: dice CUÁL de los enlaces es el sitio donde
+    // estás, y el lector de pantalla lo anuncia. La clase solo pintaría.
+    const suyo = enlace.getAttribute("href").slice(1) === activa;
+    if (suyo) enlace.setAttribute("aria-current", "true");
+    else enlace.removeAttribute("aria-current");
+  }
+
+  const visibles = document.querySelectorAll(".coleccion-tramos section:not([hidden]) .disco").length;
+  const p = document.querySelector(".coleccion-estado");
+  if (p) {
+    p.textContent = activa === TODOS
+      ? `${visibles} ${cfg.textos.discos}.`
+      : `${visibles} ${cfg.textos.discos} ${cfg.textos.de} ${TOTAL}.`;
+  }
+}
+
+function pulsarLetra(evento) {
+  const enlace = evento.target.closest(".indice-letras a[href^='#']");
+  if (!enlace) return;
+
+  // Ctrl/Cmd/Shift/Alt y el botón central abren en otra pestaña o ventana. Ahí
+  // no hay que estorbar: quien hace eso no está filtrando ESTA página, y
+  // robarle el gesto es de las cosas que más molestan de un sitio.
+  const otroSitio = evento.button !== 0 || evento.metaKey || evento.ctrlKey
+    || evento.shiftKey || evento.altKey;
+  if (otroSitio) return;
+
+  evento.preventDefault();
+
+  // Pulsar la letra que ya está abierta no hace nada, y sobre todo no deja una
+  // entrada repetida en el historial: si no, «atrás» tendría que pulsarse tantas
+  // veces como clics diste y parecería roto.
+  const destino = enlace.getAttribute("href");
+  if (destino === location.hash) return;
+
+  // pushState y NO `location.hash = …`: escribir el hash provoca otra vez el
+  // salto nativo, que es justo lo que estamos quitando. pushState cambia la URL
+  // sin desplazar y deja su entrada, así que «atrás» sigue deshaciendo.
+  history.pushState(null, "", destino);
+  // pushState no dispara `hashchange`, así que el filtro se llama a mano. El
+  // oyente de hashchange sigue haciendo falta para «atrás» y para quien escriba
+  // el fragmento en la barra de direcciones.
+  aplicarPestana();
+  colocarScroll();
+}
+
+// EL SCROLL SE COLOCA DESPUÉS DE FILTRAR, con la página ya en su alto nuevo, y
+// SOLO SI HACE FALTA:
+//
+//   · Si estás por encima del principio de la colección —el caso normal, con el
+//     índice a la vista— no se mueve nada. Cambia la lista de debajo y ya.
+//   · Si estabas metido dentro de la lista, te lleva al principio de la letra.
+//     Sin esto la página encogería bajo tus pies y el navegador te dejaría en
+//     un sitio arbitrario (el fondo, casi siempre).
+//
+// scrollIntoView() y no un scrollTo con números: respeta el `scroll-margin-top`
+// del rótulo, que es donde ya vive el hueco de la barra pegada (--indice-h).
+// Repetir aquí ese cálculo sería tener el mismo número en dos sitios.
+function colocarScroll() {
+  const activa = letraDelHash();
+  const destino = document.getElementById(activa)
+    ?? document.querySelector(".coleccion-tramos");
+  if (!destino) return;
+
+  const principio = destino.getBoundingClientRect().top + window.scrollY;
+  if (window.scrollY > principio) destino.scrollIntoView();
+}
+
+// El enlace "todos": sin él no habría forma de volver a ver la colección entera. Va con un glifo y no con la palabra porque
+// en móvil comparte un carril de 32px con las letras; el nombre de verdad lo da
+// el texto oculto, que es lo que oye un lector de pantalla y lo que dice quien
+// maneja el sitio por voz.
+function enlaceTodos() {
+  const a = document.createElement("a");
+  a.href = `#${TODOS}`;
+
+  const glifo = document.createElement("span");
+  glifo.textContent = "≡";
+  glifo.setAttribute("aria-hidden", "true");
+
+  const nombre = document.createElement("span");
+  nombre.className = "visually-hidden";
+  nombre.textContent = cfg.textos.todos;
+
+  a.append(glifo, nombre);
+  return a;
+}
+
+function seccionLetra(letra, discos) {
+  const seccion = document.createElement("section");
+
+  // El <h2> es el ancla Y el encabezado visible: un solo elemento hace los dos
+  // trabajos. Además da estructura de verdad al documento —un lector de
+  // pantalla puede recorrer la colección saltando de titular en titular—, que
+  // es algo que la rejilla plana de antes no ofrecía.
+  const h2 = document.createElement("h2");
+  h2.className = "letra-titulo";
+  h2.id = anclaId(letra);
+  h2.textContent = letra;
+
+  const ul = document.createElement("ul");
+  ul.className = "discos";
+  const frag = document.createDocumentFragment();
+  for (const d of discos) frag.append(celda(d));
+  ul.append(frag);
+
+  seccion.append(h2, ul);
+  return seccion;
+}
+
 // ─────────────────────────────────────────────────────────────────
 // 3. TRAER Y MOSTRAR.
 
+// LA COLECCIÓN ENLATADA, para no gastar el cupo de Discogs mientras se trabaja.
+// Cada carga de esta página son 3 de las 25 peticiones por minuto que permite
+// la API, así que unas pocas recargas seguidas la dejan sin cupo y la página
+// aparece vacía —que es exactamente lo que parece un fallo del código y no lo
+// es—. Con ?mock en la URL los datos salen de mocks/, que son esas mismas tres
+// respuestas guardadas tal cual.
+//
+// Se exige `cfg.mockBase` ADEMÁS del parámetro: en producción la plantilla lo
+// deja en null y la carpeta ni se publica, así que escribir ?mock allí no hace
+// nada. Un interruptor de desarrollo tiene que ser inofensivo fuera de él.
+const MOCK =
+  Boolean(cfg.mockBase) && new URLSearchParams(location.search).has("mock");
+
 async function pedirPagina(p) {
+  if (MOCK) {
+    const r = await fetch(`${cfg.mockBase}coleccion-${p}.json`);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return r.json();
+  }
   // Sin token: la colección es pública. Y sin cabecera User-Agent, porque el
   // navegador manda la suya y JavaScript tiene PROHIBIDO tocar esa cabecera.
   //
@@ -224,17 +499,61 @@ async function traerColeccion() {
 }
 
 function pintar(discos) {
-  const ul = document.createElement("ul");
-  ul.className = "discos";
-  // Un DocumentFragment: los 224 <li> se montan fuera del documento y se
-  // insertan de una vez. Añadiéndolos uno a uno el navegador recalcularía
-  // la rejilla 224 veces.
-  const frag = document.createDocumentFragment();
-  for (const d of discos) frag.append(celda(d));
-  ul.append(frag);
+  const grupos = agrupar(discos);
 
+  // Un DocumentFragment: las 224 celdas se montan fuera del documento y entran
+  // de una vez. Añadiéndolas una a una el navegador recalcularía la rejilla 224
+  // veces. Ahora envuelve el índice entero —barra y secciones— por lo mismo.
+  const frag = document.createDocumentFragment();
   // Mismo texto que escribía la plantilla antes: «224 discos.»
-  app.replaceChildren(mensaje(`${discos.length} ${cfg.textos.discos}.`), ul);
+  const barra = barraLetras(grupos);
+  frag.append(mensaje(`${discos.length} ${cfg.textos.discos}.`));
+
+  // Se vuelve a observar en cada pintado: al repintar, la barra de antes ya no
+  // está en el documento y un ResizeObserver colgado de un elemento muerto no
+  // vuelve a disparar. `disconnect` primero para no acumular observaciones.
+  medirBarra.disconnect();
+  medirBarra.observe(barra);
+
+  // UNA REJILLA POR LETRA, y no una sola con encabezados intercalados: cada
+  // sección se reparte sus columnas y la ÚLTIMA FILA DE CADA LETRA queda
+  // irregular. Eso no es un fallo pendiente de arreglar, es exactamente cómo se
+  // ven las separatas de una tienda de discos.
+  //
+  // DOS ENVOLTORIOS, y cada uno se gana el suyo:
+  //
+  //   .coleccion-cuerpo — la caja que en vertical se convierte en una FILA con
+  //     el carril a un lado y los discos al otro. Tiene que contener exactamente
+  //     esas dos cosas y nada más: cuando el mensaje «224 discos.» estaba
+  //     dentro, el carril se le colocaba AL LADO en la misma línea (el margen
+  //     negativo le dejaba hueco justo) en vez de bajar a la siguiente.
+  //
+  //   .coleccion-tramos — las 22 secciones juntas, para que sean UNA caja
+  //     frente al carril. Sueltas habría que colocar cada una en su columna.
+  const cuerpo = document.createElement("div");
+  cuerpo.className = "coleccion-cuerpo";
+
+  const tramos = document.createElement("div");
+  tramos.className = "coleccion-tramos";
+  for (const [letra, delGrupo] of grupos) {
+    if (delGrupo.length) tramos.append(seccionLetra(letra, delGrupo));
+  }
+
+  cuerpo.append(barra, tramos);
+  frag.append(cuerpo);
+
+  app.replaceChildren(frag);
+
+  // Va DESPUÉS del replaceChildren y no antes: aplicarPestana busca las
+  // secciones EN EL DOCUMENTO, y hasta esta línea solo existían dentro del
+  // fragmento. El hashchange es quien reacciona a pulsar una letra: eso solo
+  // cambia la URL y el navegador no recarga nada. Se desengancha antes de
+  // enganchar porque `pintar` corre dos veces (caché y datos frescos) y si no
+  // se acumularían manejadores.
+  TOTAL = discos.length;
+  aplicarPestana();
+  window.removeEventListener("hashchange", aplicarPestana);
+  window.addEventListener("hashchange", aplicarPestana);
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -252,7 +571,9 @@ function pintar(discos) {
 // mientras tanto se piden los datos frescos. Si han cambiado, se repinta. Es
 // el patrón "enseña lo viejo mientras revalidas".
 
-const CLAVE_CACHE = "coleccion";
+// Clave distinta con ?mock: si no, lo enlatado y lo real se pisarían en la
+// misma caché y una carga normal empezaría pintando datos del mock.
+const CLAVE_CACHE = MOCK ? "coleccion-mock" : "coleccion";
 
 function leerCache() {
   try {
