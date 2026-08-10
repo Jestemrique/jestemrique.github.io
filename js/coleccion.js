@@ -123,9 +123,30 @@ function recortar(slug) {
 const urlFicha = (d) =>
   `${cfg.fichaUrl}${recortar(trozoUrl(`${d.artista} ${d.titulo}`))}-${d.id}/`;
 
+// SIN ACENTOS Y EN MINÚSCULAS, que es como se compara texto que ha escrito
+// gente distinta. NFD separa la letra de su tilde y el rango \u0300-\u036f la
+// borra: Björk pasa a bjork, que es lo que teclea quien la busca.
+//
+// El archivo ya hacía esto a mano en dos sitios (el slug de la URL y la inicial
+// del índice). No se han tocado: los dos siguen con su propia copia porque
+// además hacen otras cosas, y unificarlos ahora sería reescribir código
+// probado dentro de una feature que no va de eso.
+const sinAcentos = (s) =>
+  s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
 function celda(d) {
   const li = document.createElement("li");
   li.className = "disco";
+
+  // EL HENO DE LA BÚSQUEDA, guardado en la celda y no recalculado en cada
+  // tecla. Artista Y título, porque quien busca "tribe" no distingue si es de
+  // uno o del otro.
+  //
+  // Aquí y no en `normalizar()` a propósito: lo que sale de normalizar() se
+  // guarda en sessionStorage, y una pestaña con caché de ANTES de este cambio
+  // devolvería objetos sin el campo. Puesto al pintar, se calcula siempre,
+  // venga el disco de la red o de la caché.
+  li.dataset.busqueda = sinAcentos(`${d.artista} ${d.titulo}`);
 
   // TODA la celda es el enlace, no solo el título: en una rejilla el objetivo
   // que el dedo busca es la portada. El <a> va DENTRO del <li> y envuelve el
@@ -283,8 +304,9 @@ const medirBarra = new ResizeObserver(([entrada]) => {
 //
 // LO QUE CUESTA, y hay que saberlo: con una letra abierta, el BUSCADOR DEL
 // NAVEGADOR (Ctrl+F) solo encuentra esa letra. `hidden` retira la sección del
-// árbol de accesibilidad y también de la búsqueda. Ese agujero lo tapa el
-// buscador propio del punto 6 de docs/plan.md, que sigue pendiente.
+// árbol de accesibilidad y también de la búsqueda. Ese agujero LO TAPA EL
+// BUSCADOR de aquí abajo, que por eso busca SIEMPRE en los 224 aunque haya una
+// letra abierta: si respetara la pestaña, dejaría el agujero igual de abierto.
 //
 // Todo lo que hacía falta ya estaba: los discos vienen agrupados en un Map y cada letra
 // es una <section>, así que esto solo pone y quita el atributo `hidden`.
@@ -302,33 +324,83 @@ const medirBarra = new ResizeObserver(([entrada]) => {
 const TODOS = "todos";
 let TOTAL = 0;
 
+// LO QUE HAY ESCRITO EN EL BUSCADOR, ya sin acentos y en minúsculas. Esta SÍ es
+// una variable y no vive en la URL, al revés que la letra, y la diferencia es
+// de naturaleza: una letra es un SITIO de la colección —se enlaza, se comparte,
+// el botón atrás vuelve a él—, mientras que una búsqueda es una ACCIÓN EN CURSO.
+// Además, meterla en la URL obligaría a decidir qué hacer con el historial en
+// cada tecla: o se llena de entradas basura o hay que ir con replaceState.
+let CONSULTA = "";
+// Y lo tecleado TAL CUAL, con sus acentos y sus mayúsculas. Hacen falta las dos:
+// con la de arriba se compara, y con esta se repone el campo cuando `pintar`
+// vuelve a correr con los datos frescos y se lleva por delante el <input>
+// anterior. Devolverle la versión sin acentos sería corregirle lo que escribió.
+let TECLEADO = "";
+
 function letraDelHash() {
   const h = location.hash.slice(1);
   return h.startsWith("letra-") || h === TODOS ? h : TODOS;
 }
 
-function aplicarPestana() {
+// EL ÚNICO SITIO QUE DECIDE QUÉ SE VE, y por eso los dos filtros están juntos en
+// una función y no en dos: si cada uno pusiera y quitara `hidden` por su cuenta,
+// el último en correr borraría el trabajo del otro.
+//
+// MANDA LA BÚSQUEDA. Con algo escrito se busca en los 224 y la pestaña se
+// ignora: ese es el trabajo del buscador —tapar el agujero de Ctrl+F— y
+// respetar la letra abierta lo dejaría sin tapar. Borrar el campo devuelve el
+// mando a la pestaña, que sigue donde estaba porque vive en la URL.
+function aplicarFiltros() {
   const activa = letraDelHash();
+  const buscando = CONSULTA !== "";
+  let visibles = 0;
 
   for (const seccion of document.querySelectorAll(".coleccion-tramos section")) {
-    seccion.hidden = activa !== TODOS && seccion.querySelector("h2").id !== activa;
+    let enEstaLetra = 0;
+    for (const disco of seccion.querySelectorAll(".disco")) {
+      // Sin búsqueda TODOS los discos vuelven a verse. Es lo que deshace el
+      // filtro anterior: si solo se ocultaran los que no casan, los ocultos de
+      // la búsqueda de antes se quedarían ocultos para siempre.
+      const casa = !buscando || disco.dataset.busqueda.includes(CONSULTA);
+      disco.hidden = !casa;
+      if (casa) enEstaLetra++;
+    }
+    // Buscando, una letra sin resultados sobra: dejarla dejaría un rótulo "K"
+    // con nada debajo. Sin buscar, mandan las pestañas.
+    seccion.hidden = buscando
+      ? enEstaLetra === 0
+      : activa !== TODOS && seccion.querySelector("h2").id !== activa;
+    if (!seccion.hidden) visibles += enEstaLetra;
   }
 
   for (const enlace of document.querySelectorAll(".indice-letras a")) {
     // `aria-current` y no una clase: dice CUÁL de los enlaces es el sitio donde
     // estás, y el lector de pantalla lo anuncia. La clase solo pintaría.
-    const suyo = enlace.getAttribute("href").slice(1) === activa;
+    // Buscando no lo lleva NINGUNO: no estás en ninguna letra, y marcar una
+    // sería mentir sobre dónde estás.
+    const suyo = !buscando && enlace.getAttribute("href").slice(1) === activa;
     if (suyo) enlace.setAttribute("aria-current", "true");
     else enlace.removeAttribute("aria-current");
   }
 
-  const visibles = document.querySelectorAll(".coleccion-tramos section:not([hidden]) .disco").length;
   const p = document.querySelector(".coleccion-estado");
   if (p) {
-    p.textContent = activa === TODOS
-      ? `${visibles} ${cfg.textos.discos}.`
-      : `${visibles} ${cfg.textos.discos} ${cfg.textos.de} ${TOTAL}.`;
+    // El singular no es un detalle de estilo: hasta ahora ninguna letra tenía un
+    // solo disco y "1 discos" no llegaba a verse nunca, pero buscando aparece a
+    // poco que afines la palabra. Se pide el singular al JSON de la plantilla
+    // como todo lo demás, que es lo que mantiene el módulo idéntico en los dos
+    // idiomas (y un plural en inglés no siempre es añadir una ese).
+    const nombre = visibles === 1 ? cfg.textos.disco : cfg.textos.discos;
+    p.textContent = !buscando && activa === TODOS
+      ? `${visibles} ${nombre}.`
+      : `${visibles} ${nombre} ${cfg.textos.de} ${TOTAL}.`;
   }
+
+  // El aviso de "nada encontrado" solo con búsqueda: sin ella, cero discos
+  // significa que la colección está vacía o que falló la carga, y para eso ya
+  // hay otros mensajes.
+  const vacio = document.querySelector(".coleccion-sin-resultados");
+  if (vacio) vacio.hidden = !(buscando && visibles === 0);
 }
 
 function pulsarLetra(evento) {
@@ -354,11 +426,93 @@ function pulsarLetra(evento) {
   // salto nativo, que es justo lo que estamos quitando. pushState cambia la URL
   // sin desplazar y deja su entrada, así que «atrás» sigue deshaciendo.
   history.pushState(null, "", destino);
+  // ELEGIR UNA LETRA BORRA LA BÚSQUEDA. Son dos maneras de recorrer la misma
+  // colección y has cambiado de una a la otra; dejar el texto escrito daría una
+  // letra que no enseña lo que dice su rótulo, porque la búsqueda manda.
+  vaciarBuscador();
   // pushState no dispara `hashchange`, así que el filtro se llama a mano. El
   // oyente de hashchange sigue haciendo falta para «atrás» y para quien escriba
   // el fragmento en la barra de direcciones.
-  aplicarPestana();
+  aplicarFiltros();
   colocarScroll();
+}
+
+// ░░░ EL BUSCADOR ░░░
+//
+// Cierra la segunda mitad del punto 6 y tapa el agujero que abrieron las
+// pestañas: con una letra abierta, Ctrl+F solo encuentra esa letra. Este busca
+// siempre en los 224.
+//
+// FILTRA SEGÚN SE ESCRIBE, sin botón. No hay nada que enviar a ningún sitio: los
+// 224 discos ya están en la página, así que el resultado puede aparecer mientras
+// tecleas. Por eso tampoco es un <form>: no hay envío, y un <form> aquí solo
+// serviría para que Enter recargara la página.
+//
+// <search> es el elemento de HTML para esto —el landmark de búsqueda, lo que
+// antes se escribía role="search"—, y un lector de pantalla puede saltar a él
+// como salta a un <nav>.
+const ID_BUSCADOR = "buscar-coleccion";
+
+function buscador() {
+  const caja = document.createElement("search");
+  caja.className = "coleccion-buscador";
+
+  // UN <label> DE VERDAD, oculto a la vista pero presente. El placeholder NO es
+  // una etiqueta: desaparece en cuanto escribes —justo cuando querrías
+  // comprobar qué te estaban pidiendo— y no todos los lectores de pantalla lo
+  // anuncian. La etiqueta dice QUÉ es el campo; el placeholder, un ejemplo de
+  // qué escribir. Son dos cosas distintas y aquí están las dos.
+  const etiqueta = document.createElement("label");
+  etiqueta.className = "visually-hidden";
+  etiqueta.htmlFor = ID_BUSCADOR;
+  etiqueta.textContent = cfg.textos.buscar;
+
+  const campo = document.createElement("input");
+  campo.type = "search";        // trae la ✕ de borrar del navegador y, en el
+                                // móvil, un teclado con tecla de buscar
+  campo.id = ID_BUSCADOR;
+  campo.placeholder = cfg.textos.buscarEjemplo;
+  // Nombres propios de gente de medio mundo: el corrector y el autocompletado
+  // solo estorban, y la mayúscula automática del móvil no pinta nada en un
+  // campo que compara en minúsculas.
+  campo.autocomplete = "off";
+  campo.spellcheck = false;
+  campo.setAttribute("autocapitalize", "none");
+
+  campo.addEventListener("input", () => {
+    TECLEADO = campo.value;
+    CONSULTA = sinAcentos(campo.value.trim());
+    aplicarFiltros();
+  });
+
+  caja.append(etiqueta, campo);
+  return caja;
+}
+
+// LA LUPA DE LA BARRA INFERIOR la pinta base.njk, no este archivo: vive fuera
+// de #coleccion y sobrevive a los repintados. Aquí solo se le añade lo que el
+// ancla no puede dar por sí sola — EL FOCO —, porque saltar hasta un campo y
+// dejarte que lo toques otra vez para escribir es media función.
+//
+// preventDefault y focus() en vez de dejar que salte: `focus()` ya desplaza lo
+// justo para que el campo se vea, y así no queda una entrada nueva en el
+// historial cada vez que pulsas la lupa (el ancla la dejaría, y «atrás»
+// pasaría a deshacer «he pulsado la lupa», que no es un sitio donde estuviste).
+//
+// Se engancha UNA vez al cargar el módulo y no en cada `pintar`: el enlace no
+// se repinta, así que enganchar allí acumularía manejadores.
+document.querySelector(".mobile-buscar")?.addEventListener("click", (evento) => {
+  const campo = document.getElementById(ID_BUSCADOR);
+  if (!campo) return;   // aún cargando: que el ancla haga su trabajo
+  evento.preventDefault();
+  campo.focus();
+});
+
+function vaciarBuscador() {
+  const campo = document.getElementById(ID_BUSCADOR);
+  if (campo) campo.value = "";
+  CONSULTA = "";
+  TECLEADO = "";
 }
 
 // EL SCROLL SE COLOCA DESPUÉS DE FILTRAR, con la página ya en su alto nuevo, y
@@ -505,9 +659,33 @@ function pintar(discos) {
   // de una vez. Añadiéndolas una a una el navegador recalcularía la rejilla 224
   // veces. Ahora envuelve el índice entero —barra y secciones— por lo mismo.
   const frag = document.createDocumentFragment();
-  // Mismo texto que escribía la plantilla antes: «224 discos.»
   const barra = barraLetras(grupos);
-  frag.append(mensaje(`${discos.length} ${cfg.textos.discos}.`));
+
+  // LA CABECERA: el contador a la izquierda, el buscador a la derecha. Van
+  // juntos porque se responden — al filtrar, el contador es quien dice cuánto
+  // ha encontrado («13 discos de 224»), así que el resultado se lee al lado del
+  // campo donde acabas de escribir y no en otra parte de la página.
+  const cabecera = document.createElement("div");
+  cabecera.className = "coleccion-cabecera";
+  // Mismo texto que escribía la plantilla antes: «224 discos.»
+  const contador = mensaje(`${discos.length} ${cfg.textos.discos}.`);
+  // UNA REGIÓN VIVA, y es lo que hace usable un filtro que no se envía: al
+  // teclear, el cambio ocurre lejos del foco y en silencio. `polite` espera a
+  // que el lector de pantalla termine la palabra en curso en vez de cortarla,
+  // que es lo correcto para un contador que cambia en cada tecla.
+  contador.setAttribute("aria-live", "polite");
+  cabecera.append(contador, buscador());
+  frag.append(cabecera);
+
+  // El aviso de "ningún disco coincide". Se crea siempre y se enseña o se
+  // esconde con `hidden`; creado y destruido al vuelo no habría dónde anunciar
+  // nada, porque una región viva tiene que estar en la página ANTES de cambiar
+  // para que el lector de pantalla la vigile.
+  const vacio = document.createElement("p");
+  vacio.className = "coleccion-sin-resultados";
+  vacio.textContent = cfg.textos.sinResultados;
+  vacio.hidden = true;
+  frag.append(vacio);
 
   // Se vuelve a observar en cada pintado: al repintar, la barra de antes ya no
   // está en el documento y un ResizeObserver colgado de un elemento muerto no
@@ -544,16 +722,22 @@ function pintar(discos) {
 
   app.replaceChildren(frag);
 
-  // Va DESPUÉS del replaceChildren y no antes: aplicarPestana busca las
+  // Va DESPUÉS del replaceChildren y no antes: aplicarFiltros busca las
   // secciones EN EL DOCUMENTO, y hasta esta línea solo existían dentro del
   // fragmento. El hashchange es quien reacciona a pulsar una letra: eso solo
   // cambia la URL y el navegador no recarga nada. Se desengancha antes de
   // enganchar porque `pintar` corre dos veces (caché y datos frescos) y si no
   // se acumularían manejadores.
   TOTAL = discos.length;
-  aplicarPestana();
-  window.removeEventListener("hashchange", aplicarPestana);
-  window.addEventListener("hashchange", aplicarPestana);
+  // `pintar` corre DOS veces (lo guardado primero, los datos frescos después) y
+  // la segunda tira el campo con lo que hubiera escrito. Si alguien estaba
+  // tecleando, se le devuelve lo suyo al campo nuevo y se vuelve a filtrar; sin
+  // esto, la respuesta de la red le borraría la búsqueda a media palabra.
+  const campo = document.getElementById(ID_BUSCADOR);
+  if (campo && CONSULTA) campo.value = TECLEADO;
+  aplicarFiltros();
+  window.removeEventListener("hashchange", aplicarFiltros);
+  window.addEventListener("hashchange", aplicarFiltros);
 }
 
 // ─────────────────────────────────────────────────────────────────
