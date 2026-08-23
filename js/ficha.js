@@ -91,6 +91,19 @@ function pintar(d) {
 
   const frag = document.createDocumentFragment();
 
+  // LA CABECERA VA EN SU PROPIA CAJA: portada + título + artista + datos.
+  //
+  // No es un envoltorio decorativo, es lo que permite la forma de dos
+  // columnas sin colocar cada hijo a mano en la rejilla. La alternativa era
+  // poner la rejilla en #ficha y darle a cada elemento su `grid-row`, y eso
+  // se rompe con lo que aquí varía: la lista de datos puede traer dos filas
+  // o una (hay discos sin año), así que las filas que ocupa la columna
+  // derecha no se saben de antemano.
+  //
+  // Y deja el tracklist FUERA de la caja, que es justo lo que se quiere: al
+  // no ser hijo de la rejilla cruza abajo a todo el ancho sin decírselo.
+  const cabecera = el("div", null, "ficha-cabecera");
+
   // ── Portada. images[] trae las grandes (600×600); si el disco no tiene
   //    (los hay), se cae al thumb, y si tampoco, no se pinta nada.
   const portada = d.images?.find((i) => i.type === "primary") ?? d.images?.[0];
@@ -100,28 +113,43 @@ function pintar(d) {
     img.alt = `${artista} — ${d.title}`;
     if (portada) { img.width = portada.width; img.height = portada.height; }
     img.className = "ficha-portada";
-    frag.append(img);
+    cabecera.append(img);
   }
 
-  frag.append(el("h1", d.title), el("p", artista, "ficha-artista"));
+  // La columna derecha: título, artista y los datos, en su propia caja para
+  // que los tres se apilen juntos al lado de la portada en vez de repartirse
+  // por la rejilla como tres hijos sueltos.
+  const texto = el("div", null, "ficha-texto");
+  texto.append(el("h1", d.title), el("p", artista, "ficha-artista"));
 
-  // ── Los datos de ficha. Solo se pintan las filas que traen algo: un <dt>
-  //    "País" con un guion al lado no informa de nada.
+  // ── Los datos de ficha: SOLO AÑO Y FORMATO.
+  //
+  //    Hubo cinco filas (año, sello con nº de catálogo, país, formato,
+  //    géneros+estilos) y se recortó a dos a propósito: la página había
+  //    acabado siendo un volcado de la ficha de Discogs, y para eso ya está
+  //    el enlace del final. Lo que se queda responde a "¿qué disco es y en
+  //    qué formato lo tengo?"; el resto es dato de catálogo, y quien lo
+  //    quiera está a un clic de la fuente, que además lo tendrá más al día.
+  //
+  //    Solo se pintan las filas que traen algo: un <dt> "Año" con un guion
+  //    al lado no informa de nada. Con dos filas esto importa MÁS que con
+  //    cinco — hay discos sin año (por ejemplo el 10595616 de los mocks), y
+  //    ahí la lista se queda en una sola fila sin que se descuadre.
   const filas = [
     [t.anio, d.year || d.released || null],
-    [t.sello, (d.labels ?? []).map((l) => [l.name, l.catno].filter(Boolean).join(" — ")).join(", ")],
-    [t.pais, d.country],
     [t.formato, (d.formats ?? []).map((f) =>
       [f.qty > 1 ? `${f.qty}×` : "", f.name, (f.descriptions ?? []).join(", ")]
         .filter(Boolean).join(" ")).join(" + ")],
-    [t.generos, [...(d.genres ?? []), ...(d.styles ?? [])].join(", ")],
   ].filter(([, v]) => v);
 
   if (filas.length) {
     const dl = el("dl", null, "ficha-datos");
     for (const [k, v] of filas) dl.append(el("dt", k), el("dd", String(v)));
-    frag.append(dl);
+    texto.append(dl);
   }
+
+  cabecera.append(texto);
+  frag.append(cabecera);
 
   // ── Tracklist. `position` puede venir vacío (los índices de un box set,
   //    o las cabeceras de sección), así que no se da por hecho.
@@ -139,12 +167,6 @@ function pintar(d) {
       ol.append(li);
     }
     frag.append(ol);
-  }
-
-  // ── Notas de la edición: número de catálogo en el lomo, prensados… Es dato
-  //    de coleccionista y por eso se conserva, pero va al final.
-  if (d.notes) {
-    frag.append(el("h2", t.notas), el("p", d.notes, "ficha-notas"));
   }
 
   // Enlace a la ficha original: lo que se enseña aquí es un resumen, y el
