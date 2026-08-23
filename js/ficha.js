@@ -176,6 +176,27 @@ function arreglarEnlacesDeIdioma() {
   }
 }
 
+// LAS FICHAS ENLATADAS, para no gastar el cupo de Discogs mientras se trabaja.
+//
+// AQUÍ DUELE MÁS QUE EN LA COLECCIÓN, y por dos motivos: esta página NO
+// guarda nada en sessionStorage —el tracklist lo edita la comunidad y se
+// quiere al día—, así que CADA RECARGA es una petición de las 25 por minuto
+// que permite la API sin token. Y cuando se agota, lo que se ve es "no se ha
+// podido cargar la ficha", que en mitad de un trabajo de maquetación parece
+// un fallo de lo que estás tocando y no lo es.
+//
+// Se exige `cfg.mockBase` ADEMÁS del parámetro, igual que en coleccion.js: en
+// producción la plantilla lo deja en null y la carpeta ni se publica.
+//
+// SOLO ESTÁN ENLATADOS UNOS POCOS DISCOS, y elegidos a propósito para que
+// estresen la maquetación por sitios distintos (ver docs/plan.md): del de 4
+// canciones al de 40, uno sin año, uno sin notas, uno con tres artistas, uno
+// con un título de 104 caracteres. Con ?mock, un disco que no esté en la
+// lista da un 404 — y el mensaje de error lo dice, para no confundirlo con
+// un fallo de la página.
+const MOCK =
+  Boolean(cfg.mockBase) && new URLSearchParams(location.search).has("mock");
+
 async function arrancar() {
   if (!id || !/^\d+$/.test(id)) {
     error(t.sinId);
@@ -188,10 +209,10 @@ async function arrancar() {
   try {
     // no-store por lo mismo que en coleccion.js: Discogs no manda cabeceras de
     // caché y no queremos que el navegador decida por su cuenta.
-    const r = await fetch(`https://api.discogs.com/releases/${id}`, {
-      cache: "no-store",
-    });
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const r = MOCK
+      ? await fetch(`${cfg.mockBase}release-${id}.json`)
+      : await fetch(`https://api.discogs.com/releases/${id}`, { cache: "no-store" });
+    if (!r.ok) throw new Error(MOCK ? `HTTP ${r.status} — ¿ese disco está enlatado?` : `HTTP ${r.status}`);
     pintar(await r.json());
   } catch (e) {
     error(`${t.error} (${e.message}).`);
