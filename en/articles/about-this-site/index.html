@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Learning</title><link rel="alternate" hreflang="en" href="https://jestemrique.github.io/en/topic/learning/">
-  <link rel="alternate" hreflang="es" href="https://jestemrique.github.io/es/tema/desarrollo/">
-  <link rel="alternate" hreflang="x-default" href="https://jestemrique.github.io/es/tema/desarrollo/"><script>
+  <title>About this site</title><link rel="alternate" hreflang="en" href="https://jestemrique.github.io/en/articles/about-this-site/">
+  <link rel="alternate" hreflang="es" href="https://jestemrique.github.io/es/articulos/sobre-este-sitio/">
+  <link rel="alternate" hreflang="x-default" href="https://jestemrique.github.io/es/articulos/sobre-este-sitio/"><script>
     (function () {
       try {
         var t = localStorage.getItem("tema");
@@ -39,7 +39,7 @@
         </ul>
       </nav><nav class="site-langs-nav" aria-label="Language">
         <ul class="site-langs">
-          <li><a href="/es/tema/desarrollo/" lang="es" hreflang="es">ES<span class="visually-hidden"> Español</span></a></li>
+          <li><a href="/es/articulos/sobre-este-sitio/" lang="es" hreflang="es">ES<span class="visually-hidden"> Español</span></a></li>
         </ul>
       </nav><details class="theme-menu">
   <summary data-theme-estado="" aria-label="Theme">
@@ -71,15 +71,108 @@
     </aside>
 
     <main class="site-main">
-      <h1>Learning</h1>
-<ul class="index-list">
-  <li>
-    <a href="/en/articles/about-this-site/" class="index-row">
-      <span class="index-title">About this site</span>
-      <time datetime="2026-08-30">2026-08-30</time>
-    </a>
-  </li>
-</ul><p><a href="/en/topics/">&larr; Back to the topics</a></p>
+      
+<article>
+  <h1>About this site</h1><div class="post-meta"><p><time datetime="2026-08-30">2026-08-30</time></p>
+    <dl class="meta-table">
+      <div class="meta-row">
+        <dt>Topics</dt>
+        <dd>
+          <a href="/en/topic/development/">Development</a>
+          <a href="/en/topic/learning/">Learning</a>
+        </dd>
+      </div>
+    </dl>
+  </div>
+  <figure class="portada-articulo">
+    <picture><source type="image/avif" srcset="/img/gSg2P0L_4B-400.avif 400w, /img/gSg2P0L_4B-800.avif 800w, /img/gSg2P0L_4B-1200.avif 1200w, /img/gSg2P0L_4B-1600.avif 1600w" sizes="(max-width: 767px) 80vw, (max-width: 1279px) 600px, 830px"><source type="image/webp" srcset="/img/gSg2P0L_4B-400.webp 400w, /img/gSg2P0L_4B-800.webp 800w, /img/gSg2P0L_4B-1200.webp 1200w, /img/gSg2P0L_4B-1600.webp 1600w" sizes="(max-width: 767px) 80vw, (max-width: 1279px) 600px, 830px"><img loading="eager" decoding="async" src="/img/gSg2P0L_4B-400.jpeg" alt="A black-covered notebook lying open on a wooden table, its pages blank, with a pencil resting on top." width="1600" height="1066" srcset="/img/gSg2P0L_4B-400.jpeg 400w, /img/gSg2P0L_4B-800.jpeg 800w, /img/gSg2P0L_4B-1200.jpeg 1200w, /img/gSg2P0L_4B-1600.jpeg 1600w" sizes="(max-width: 767px) 80vw, (max-width: 1279px) 600px, 830px"></picture>
+    <figcaption>
+      <a href="https://unsplash.com/@honza_kahanek">Jan Kahánek</a> —
+      <a href="https://unsplash.com/license">Unsplash License</a>
+    </figcaption>
+  </figure>
+
+  <h2>Why a site</h2>
+<p>I needed a place of my own to write down what I'm learning, and not just any
+place would do: it had to be <strong>simple</strong> and it had to be <strong>free</strong>.</p>
+<p>The simple part speaks for itself. The free part has a catch, and I'd rather
+say it out loud: <strong>I don't know if this is going to last</strong>. I might still be
+writing here in two years, or I might quit in March. I don't know, and that
+doesn't strike me as a good reason not to start — but it is a good reason not
+to sign up for anything. A site that doesn't cost me a penny is a site I can
+park without feeling guilty about it, and that freedom is exactly what I needed
+to get going.</p>
+<p>So the first decision wasn't a technical one, it was <strong>laziness</strong>: how much
+work I was willing to put into this site that wasn't writing in it. And the
+answer was: the bare minimum. Everything else follows from that.</p>
+<h2>Why static</h2>
+<p>With that settled, the technology almost picked itself.</p>
+<p>A <strong>static</strong> site is plain HTML: files written in advance that the server hands
+over as they are. No database, no code running on every visit, nothing to patch
+for security and nothing to fall over at three in the morning. For what I
+wanted — write text and publish it — everything else was surplus.</p>
+<p>And it fits both conditions from before: it's as simple as it gets, and it's
+the cheapest thing to host, because serving flat files costs nobody anything.</p>
+<h2>Why 11ty</h2>
+<p>I went with <a href="https://www.11ty.dev/">11ty (Eleventy)</a>, a static site generator:
+it takes text in Markdown plus a few templates and spits out the finished HTML.</p>
+<p>Three reasons, in order of weight:</p>
+<ul>
+<li><strong>I'd already played with it.</strong> I wasn't starting from zero, and when you're
+learning that's worth more than any feature comparison.</li>
+<li><strong>It has masses of documentation.</strong> When you get stuck — and you get stuck —
+the difference between carrying on and giving up is usually whether you find
+the answer.</li>
+<li><strong>It's very extensible.</strong> It didn't close any doors on me. Whatever I don't
+need today can be added the day I do.</li>
+</ul>
+<p>I looked at others. <a href="https://jekyllrb.com/">Jekyll</a> comes as standard with
+GitHub Pages, so it was the easy path, but 11ty struck me as simpler, more
+modern and — why deny it — sexier. <a href="https://astro.build/">Astro</a> brings
+components, islands and half a framework with it, and it can do more, that's
+true, but I don't need any of that for this project.</p>
+<h2>And now, where do I host it?</h2>
+<p>For the free part, <a href="https://pages.github.com/">GitHub Pages</a>: it lets you host
+a static site at no cost, and the code was going to live in a repository
+anyway.</p>
+<p>I had looked at cheap hosting and the problem wasn't the money: it was that all
+of it led me to the same place, to setting up a heavy CMS like WordPress or
+similar just to end up publishing text. And that wasn't the point.</p>
+<p>What won me over was everything around it.
+<a href="https://github.com/features/actions">Actions</a> rebuilds and publishes the site
+on its own every time I push something. And <strong>branches</strong> let me write an
+article off to one side, mull it over and only bring it out when it's ready,
+without any of that showing up on the site in the meantime. All of it lives in
+the same place, and that's exactly what no cheap hosting gave me: simple on the
+outside, serious tools on the inside.</p>
+<p>That way I decide the workflow according to what I need, instead of adapting to
+whatever the tool brings with it. And publishing comes down to a <code>git push</code>: no
+dashboard, no FTP, nothing to touch. Exactly the amount of work I was willing
+to put in.</p>
+<h2>And what's Claude doing in all this?</h2>
+<p>I built this site with <a href="https://claude.com/claude-code">Claude Code</a> alongside
+me.</p>
+<p>What it saves me is time, and above all the time spent trying things out. I can
+put forward two ways of doing something and see both of them working within the
+hour, instead of choosing blind and finding the problem three weeks later. And
+when I get stuck on something I don't know — which is fairly often — it gets me
+out of there instead of leaving me going round in circles all afternoon.</p>
+<p>In the end I'm the one deciding. The layout of the page, making it look right
+on any screen, having the site in two languages, the music section: for every
+one of those there were several ways to go, and the one that's there is the one
+I chose.</p>
+<p>Not a single piece of this site went in without me understanding what it does
+and why it's there, which was another of the goals.</p>
+<h2>And now what?</h2>
+<p>That was the why. The how I'll be telling in separate, more specific articles:
+the situations I've run into and how I've gone about solving them.</p>
+<p>I'll also write about different matters, like other projects not necessarily
+about IT — for instance my <a href="/en/music/">record collection</a>, which is already
+knocking about here.</p>
+
+</article>
+
+<p><a href="/en/articles/">&larr; Back to the articles</a></p>
 
     </main>
 
@@ -93,7 +186,7 @@
       <p class="site-tagline">Development, projects, learning…</p>
     </div><nav class="site-langs-nav" aria-label="Language">
       <ul class="site-langs">
-        <li><a href="/es/tema/desarrollo/" lang="es" hreflang="es">ES<span class="visually-hidden"> Español</span></a></li>
+        <li><a href="/es/articulos/sobre-este-sitio/" lang="es" hreflang="es">ES<span class="visually-hidden"> Español</span></a></li>
       </ul>
     </nav><details class="theme-menu">
   <summary data-theme-estado="" aria-label="Theme">
