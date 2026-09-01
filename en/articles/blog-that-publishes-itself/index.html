@@ -93,12 +93,12 @@
   </figure>
 
   <p>In <a href="/en/articles/about-this-site/">About this site</a> I wrote about <strong>why</strong> I chose
-what I chose. This is the <strong>how</strong>: exactly what happens between my typing a
-sentence on my computer and that sentence being on the internet.</p>
+what I chose. This is the <strong>how</strong>: exactly what happens from the moment I type a
+sentence on my computer until that sentence is on the internet.</p>
 <p>Along the way there is a Docker container, GitHub Actions building the site on a
 virtual machine that is destroyed when it finishes, and two GitHub repositories.
-None of the three pieces is obvious and all three have alternatives, so I explain
-why each one is there.</p>
+None of the three pieces is obvious and all three have alternatives, so in this
+article I'll go through why I chose each one.</p>
 <h2>The whole journey</h2>
 <p>I've organised each article as <strong>a directory where the article is kept as
 <code>index.md</code></strong>, along with its images and attachments:</p>
@@ -118,8 +118,8 @@ breaks nothing. It also saves inventing site-wide unique names: the path tells
 them apart, so two articles can each have their own <code>cover.jpg</code>. The price is
 duplicating the odd file between the Spanish and English versions, and that is
 worth paying for the simplicity.</p>
-<p>That an article be a <strong>directory</strong> and not a loose file <em>is</em> a requirement, and
-it comes from the shape of the URLs. By default —and 11ty documents this under
+<p>Being a <strong>directory</strong> and not a loose file <em>is</em> a requirement, though, and it
+comes from the shape of the URLs. By default —and 11ty documents this under
 <a href="https://www.11ty.dev/docs/permalinks/"><em>Permalinks</em></a>— each template is written
 out as <code>…/about-this-site/index.html</code> and served with a trailing slash:
 <code>/en/articles/about-this-site/</code>. The browser resolves relative paths against that
@@ -150,17 +150,16 @@ a note at the top saying none of that is needed any more — relative paths work
 their own and plain Markdown is enough. That &quot;no longer needed&quot; is the setup this
 site uses.</p>
 <p>Once the article is finished, I open a Pull Request against <code>main</code> and merge it.
-That merge is the only trigger for everything that follows: <strong>from there on
-nobody intervenes.</strong></p>
-<p>From that point on, <strong><a href="https://github.com/features/actions">GitHub Actions</a></strong>
-takes over. The workflow lives in <code>.github/workflows/deploy.yml</code> and fires like
-this:</p>
+That merge is the only trigger for everything that follows: <strong>from there on the
+whole process is automated.</strong></p>
+<p><strong><a href="https://github.com/features/actions">GitHub Actions</a></strong> takes over. The
+workflow lives in <code>.github/workflows/deploy.yml</code> and fires like this:</p>
 <pre><code class="language-yaml">on:
   push:
     branches: [main]
   workflow_dispatch:
 </code></pre>
-<p>A <code>push</code> to <code>main</code> —which is what merging the PR produces— launches the deploy.
+<p>Merging the PR produces a <code>push</code> to <code>main</code>, and that push launches the deploy.
 <code>workflow_dispatch</code> adds the manual trigger from the Actions tab, to deploy again
 with no change involved.</p>
 <p>And here is the detail that ends up carrying the most weight: <strong>every run starts
@@ -190,10 +189,12 @@ GitHub Pages serves. <strong>Never edited by hand.</strong></li>
 <p><strong>The URL.</strong> GitHub Pages only gives you the address at the root —
 <code>jestemrique.github.io</code>— when the repository is named <strong>exactly</strong> that. With any
 other name you publish in a subdirectory: <code>jestemrique.github.io/my-blog/</code>. And
-that isn't just uglier: it forces you to configure <code>pathPrefix</code> in 11ty so that
-every internal link and every CSS and image path carries that prefix in front.
-With a dedicated, well-named repository, the problem never comes up.</p>
-<p><strong>The workshop isn't on show.</strong> Since what's public is only the result, I can
+that isn't just uglier: it forces you to <a href="https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix">configure
+<code>pathPrefix</code></a>
+in 11ty so that every internal link and every CSS and image path carries that
+prefix in front. With a dedicated, well-named repository, the problem never
+comes up.</p>
+<p><strong>The mess stays private.</strong> Since what's public is only the result, I can
 write whatever I want in the working repository: half-finished drafts,
 interminable planning documents, notes on why I ruled each thing out. None of it
 goes out to the internet.</p>
@@ -231,7 +232,7 @@ what I need.</p>
 with a development server that rebuilds and reloads the browser every time I
 save. The question is where that runs.</p>
 <p>The usual thing is to install it on my computer: Node, npm, the project's
-dependencies. It works, and it has two drawbacks. The first, that it fills your
+dependencies. It works, but it has two drawbacks. The first, that it fills your
 computer with things only one project uses. The second is worse: <strong>the Node
 version becomes a property of your machine, not of the project.</strong> The day you
 update Node for any other reason, or want to start this up on another computer,
@@ -257,7 +258,7 @@ no trace is left.</p>
 disk and the one the container sees are the same one. I write in my editor, the
 server inside sees it instantly and reloads the browser. Without that you'd have
 to rebuild the image with every sentence and this would be unusable.</p>
-<p>What I gain:</p>
+<p>What I get:</p>
 <ul>
 <li><strong>The Node version belongs to the project.</strong> It's written in the Dockerfile, it
 travels in the repository, and it doesn't depend on what I happen to have
@@ -272,8 +273,9 @@ each other between projects.</li>
 </ul>
 <h2>Writing without publishing</h2>
 <p>I need to be able to leave an article started without it going out into the
-world. Here that is solved by working with drafts in the <em>front matter</em>: one line
-in the file's header.</p>
+world. Here that is solved by working with drafts in the <a href="https://www.11ty.dev/docs/data-frontmatter/"><em>front
+matter</em></a>: one line in the file's
+header.</p>
 <pre><code class="language-yaml">---
 title: Un blog que se publica solo
 draft: true
@@ -321,9 +323,10 @@ for its translation, <strong>is invisible</strong>: it isn't on the site, it isn
 and that makes it terribly easy to forget. The solution is daft and it works: the
 script that starts the site fishes that notice out of the Docker logs and writes
 it on screen every time. Whatever is waiting shows up on its own, without having
-to remember to go looking for it. Even so, reading a notice out of some logs
-grates on me, I don't know, I'll think of an alternative, but for now it works.</p>
-<h2>Decisions, written down once</h2>
+to remember to go looking for it. Even so, having to read that off the logs
+doesn't sit right with me. I don't have a better idea yet, but for now it does
+the job.</p>
+<h2>Decisions I make just once</h2>
 <p>In <a href="/en/articles/about-this-site/">About this site</a> I wrote about the part
 <a href="https://claude.com/claude-code">Claude Code</a> plays in this. What's missing is
 the mechanical side: how the work gets into the repository.</p>
@@ -332,8 +335,9 @@ the mechanical side: how the work gets into the repository.</p>
 <code>articulo/</code> is content. The distinction isn't cosmetic, because the risks aren't
 alike: breaking the CSS breaks the whole site; getting an article wrong leaves a
 typo. When it's done, PR against <code>main</code> and merge — the trigger for the deploy
-above. I don't repeat those rules every time: they're written in a <code>CLAUDE.md</code> at
-the root of the project, which gets read at the start. I say &quot;let's do part 2&quot;
+above. I don't repeat those rules every time: they're written in a <a href="https://code.claude.com/docs/en/memory"><code>CLAUDE.md</code>
+file</a> at the root of the project, which
+gets read at the start. I say &quot;let's do part 2&quot;
 and the branch is created with the right prefix. This isn't specific to this
 site: it's the general way I work with Claude across all my projects, and I'll
 probably write about it in a separate article.</p>
@@ -342,24 +346,25 @@ probably write about it in a separate article.</p>
 creates the <code>articulo/blog-que-se-publica-solo</code> branch, writes
 <code>src/es/articulos/blog-que-se-publica-solo/index.md</code> with the front matter in
 place, brings the container up and hands me the URL.</p>
-<p>Creating a directory and a file isn't the work. What the command saves is
-<strong>deciding again</strong>: written inside it is that the topic ids are exactly three and
-go in English, that <code>transKey</code> is always the Spanish slug even when the English
-one differs, that <code>draft: true</code> hides nothing locally, and that the cover image
+<p>Creating a directory and a file isn't the hard part. What the command saves me is
+<strong>deciding all over again</strong>. The decisions are written into it: the topic ids are
+exactly three and go in English, <code>transKey</code> is always the Spanish slug even when
+the English one differs, <code>draft: true</code> hides nothing locally, and the cover image
 takes an absolute path in both languages —with a relative one on one side and an
 absolute one on the other, <code>eleventy-img</code> generates two identical sets of
-variants—. These are decisions already made that, with nowhere to live, I'd have
-to rediscover every month and a half. It's documentation that also executes.</p>
+variants—. These are decisions already made that, if they weren't written down,
+I'd have to work out again with every new article. It's documentation that also
+executes.</p>
 <p>It has one loose end still unresolved: <code>.gitignore</code> excludes the whole <code>.claude/</code>
 directory —local configuration, not part of the site—, so the command doesn't
 travel in the repository. The most specific thing this project has is precisely
 the only thing not backed up.</p>
 <h2>New markup with old styles</h2>
-<p>All of the above sounds very tidy. Now for the part where it wasn't.</p>
-<p>Early on in all this, for instance, I deployed the light/dark theme switcher.
-Locally it was perfect. On the published site it was broken: <strong>giant icons and
-the switcher unfolded</strong>, with styles from two different versions mixed together.</p>
-<p>My first suspicion was the build: GitHub Actions must have got something wrong
+<p>All of the above sounds very tidy. Now for the two times it wasn't.</p>
+<p>Early on I deployed the light/dark theme switcher. Locally it was perfect. On the
+published site it was broken: <strong>giant icons and the switcher unfolded</strong>, with
+styles from two different versions mixed together.</p>
+<p>My first thought was the build: GitHub Actions must have got something wrong
 while building. I was mistaken, and the way to find out was to stop supposing and
 <strong>measure</strong>. I brought down the CSS the public site was serving, measured it and
 compared it with the one I had built: exactly the same size. The server was
@@ -391,7 +396,7 @@ tweaks would leave the directory strewn with dead <code>main.&lt;fingerprint&gt;
 files.</li>
 </ul>
 <p>It looked like the build and in the end it was the cache.</p>
-<h2>A deleted page that kept answering</h2>
+<h2>A deleted page that was still being served</h2>
 <p>A few weeks later I changed the blog's list of topics. The ones I had
 —development, learning and <strong>tools</strong>— were the ones from the trial phase, not the
 final ones. &quot;Personal&quot; came in and &quot;tools&quot; went out, and I did it right then
@@ -402,20 +407,20 @@ cost.</p>
 <p>I checked that they had disappeared. <strong>They had not disappeared.</strong>
 <code>/es/tema/herramientas/</code> was still answering on my local server, with its title
 and its listing, as if I'd touched nothing.</p>
-<p>The reason is one of those things you only learn by tripping over them: <strong>11ty
-writes what it builds into <code>_site/</code>, but it doesn't delete what stopped
-existing.</strong> I was looking at a leftover file from an earlier build, served as
+<p>The reason is the kind of thing you only learn by tripping over it: <strong>11ty writes
+everything it builds into <code>_site/</code>, but deletes nothing it has stopped
+building.</strong> I was looking at a leftover file from an earlier build, served as
 happily as any other. A textbook <code>200</code> pointing at a ghost. This had already cost
 me a headache or two on other occasions.</p>
-<p>And here the two details I said were worth remembering come back. In production
-this doesn't happen, doubly so: GitHub Actions builds on a freshly made virtual
-machine, where there is no old <code>_site/</code> leaving remains, and the action that
-publishes deletes from the public repository anything not in the new build. <strong>The
+<p>And here those two details pay off. In production this doesn't happen, for two
+reasons: GitHub Actions builds on a freshly made virtual machine, where there is
+no old <code>_site/</code> leaving remains, and the action that publishes deletes from the
+public repository anything not in the new build. <strong>The
 deploy cleans up; my computer doesn't.</strong> Which is exactly the opposite of what
 you'd expect.</p>
-<p>The same change uncovered a second silence, this one inside the templates. When
-painting an article's topics, <code>post.njk</code> skipped, without saying anything, any
-identifier that didn't exist. It's fine that a typo shouldn't bring down the
+<p>The same change uncovered a second silent failure, this one inside the
+templates. When painting an article's topics, <code>post.njk</code> skipped, without saying
+anything, any identifier that didn't exist. It's fine that a typo shouldn't bring down the
 site, but it meant an article could go on naming a retired topic and the label
 would simply <strong>not appear</strong>, with nothing warning about it. Now the build says so
 out loud, and it was put to use in this very retirement:</p>
@@ -429,11 +434,11 @@ In both cases I requested an address, <strong>got a perfectly correct response, 
 correct response wasn't the proof I thought it was.</strong></p>
 <p>A <code>200</code> says &quot;I found something to give back to you&quot;. It doesn't say when it's
 from, nor who put it there, nor whether there's still a reason for it to exist.</p>
-<p>And the way out of the doubt was the same both times: stop reasoning about what
-<em>should</em> be happening and measure what is happening. In the first failure that
-was a <code>curl</code> and a byte count, and it was enough to move the suspicion from the
-wrong place —GitHub Actions— to the right one —my browser— in a minute, after a
-good long while staring at the workflow and seeing nothing.</p>
+<p>And both times the way out was the same: stop reasoning about what <em>should</em> be
+happening and measure what is. In the first failure that was a <code>curl</code> and a byte
+count, and it was enough to move the suspicion from the wrong place —GitHub
+Actions— to the right one —my browser— in a minute, after a good long while
+staring at the workflow and seeing nothing.</p>
 
 </article>
 

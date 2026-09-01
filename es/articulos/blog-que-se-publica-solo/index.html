@@ -151,16 +151,16 @@ le añadió un aviso arriba del todo diciendo que ya no hace falta nada de eso �
 las rutas relativas funcionan solas y basta con el Markdown de siempre. Ese «ya
 no hace falta» es la configuración que usa este sitio.</p>
 <p>Una vez terminado el artículo, abro un Pull Request contra <code>main</code> y lo fusiono.
-Ese merge es el único disparador de lo que viene después: <strong>a partir de ahí no
-interviene nadie.</strong></p>
-<p>De ahí en adelante trabaja <strong><a href="https://github.com/features/actions">GitHub Actions</a></strong>. El workflow vive en
-<code>.github/workflows/deploy.yml</code> y se dispara así:</p>
+Ese merge es el único disparador de lo que viene después: <strong>a partir de ahí todo
+el proceso está automatizado.</strong></p>
+<p>Aquí <strong><a href="https://github.com/features/actions">GitHub Actions</a></strong> toma el control.
+El workflow vive en <code>.github/workflows/deploy.yml</code> y se dispara así:</p>
 <pre><code class="language-yaml">on:
   push:
     branches: [main]
   workflow_dispatch:
 </code></pre>
-<p>Un <code>push</code> a <code>main</code> —que es lo que produce el merge del PR— lanza el despliegue.
+<p>El merge del PR produce un <code>push</code> a <code>main</code>, y ese push lanza el despliegue.
 <code>workflow_dispatch</code> añade el disparo manual desde la pestaña Actions, para
 volver a desplegar sin ningún cambio de por medio.</p>
 <p>Ahí está el detalle que más peso acaba teniendo: <strong>cada ejecución arranca en un
@@ -192,10 +192,11 @@ que GitHub Pages sirve. <strong>No se edita a mano nunca.</strong></li>
 <p><strong>La URL.</strong> GitHub Pages solo te da la dirección en la raíz —
 <code>jestemrique.github.io</code>— cuando el repositorio se llama <strong>exactamente</strong> así.
 Con cualquier otro nombre publicas en un subdirectorio:
-<code>jestemrique.github.io/mi-blog/</code>. Y eso no es solo más feo: obliga a configurar
-<code>pathPrefix</code> en 11ty para que todos los enlaces internos y todas las rutas del
-CSS y de las imágenes lleven ese prefijo delante. Con un repositorio dedicado y
-bien nombrado, ese problema no llega a existir.</p>
+<code>jestemrique.github.io/mi-blog/</code>. Y eso no es solo más feo: obliga a <a href="https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix">configurar
+<code>pathPrefix</code></a>
+en 11ty para que todos los enlaces internos y todas las rutas del CSS y de las
+imágenes lleven ese prefijo delante. Con un repositorio dedicado y bien
+nombrado, ese problema no llega a existir.</p>
 <p><strong>El taller no se enseña.</strong> Como lo público es solo el resultado, puedo dejar
 por escrito lo que quiera en el repositorio de trabajo: borradores a medias,
 documentos de planificación larguísimos, las notas de por qué descarté cada
@@ -272,8 +273,9 @@ peleándose entre proyectos.</li>
 </ul>
 <h2>Escribir sin publicar</h2>
 <p>Necesito poder dejar un artículo empezado sin que salga a la calle. Aquí eso se
-resuelve trabajando con borradores en el <em>front matter</em>: una línea en la
-cabecera del archivo.</p>
+resuelve trabajando con borradores en el <a href="https://www.11ty.dev/docs/data-frontmatter/"><em>front
+matter</em></a>: una línea en la cabecera
+del archivo.</p>
 <pre><code class="language-yaml">---
 title: Un blog que se publica solo
 draft: true
@@ -332,8 +334,9 @@ cambia lo que el sitio hace, <code>fix/</code> repara algo roto y <code>articulo
 La distinción no es cosmética, porque los riesgos no se parecen: romper el CSS
 rompe el sitio entero; equivocarse en un artículo deja una errata. Al terminar,
 PR contra <code>main</code> y merge — el disparador del despliegue de más arriba. Esas
-reglas no las repito cada vez: están escritas en un <code>CLAUDE.md</code> en la raíz del
-proyecto, que se lee al empezar. Digo «vamos con la parte 2» y la rama se crea
+reglas no las repito cada vez: están escritas en un <a href="https://code.claude.com/docs/en/memory">archivo
+<code>CLAUDE.md</code></a> en la raíz del proyecto,
+que se lee al empezar. Digo «vamos con la parte 2» y la rama se crea
 con el prefijo que toca. Esto no es de este sitio: es la forma general en la que
 trabajo con Claude en todos mis proyectos, y seguramente escriba sobre esto en
 un artículo aparte.</p>
@@ -348,8 +351,8 @@ tres y van en inglés, que <code>transKey</code> es siempre el slug español aun
 sea distinto, que <code>draft: true</code> no oculta nada en local, y que la portada va con
 ruta absoluta en los dos idiomas —con una relativa en un lado y una absoluta en
 el otro, <code>eleventy-img</code> genera dos juegos idénticos de variantes—. Son
-decisiones ya tomadas que, sin un sitio donde vivir, tocaría redescubrir cada
-mes y medio. Es documentación que además se ejecuta.</p>
+decisiones ya tomadas que, si no estuvieran escritas, habría que volver a tomar
+con cada artículo nuevo. Es documentación que además se ejecuta.</p>
 <p>Le queda un cabo suelto sin resolver: <code>.gitignore</code> excluye el directorio
 <code>.claude/</code> entero —configuración local, no parte del sitio—, así que el comando no viaja en
 el repositorio. Lo más específico que tiene este proyecto es justo lo único que
@@ -393,7 +396,7 @@ recarga y no borra lo anterior, así que con huella una tarde de retoques
 dejaría el directorio sembrado de <code>main.&lt;huella&gt;.css</code> muertos.</li>
 </ul>
 <p>Parecía el build y al final era la caché.</p>
-<h2>Una página borrada que seguía respondiendo</h2>
+<h2>Una página borrada que se seguía sirviendo</h2>
 <p>Unas semanas más tarde cambié la lista de temas del blog.
 Los que tenía —desarrollo, aprendizaje y <strong>herramientas</strong>— eran los de la fase
 de pruebas, no los definitivos. Entró «personal» y salió «herramientas», y lo
@@ -405,8 +408,8 @@ conocido y aceptado.</p>
 <code>/es/tema/herramientas/</code> seguía respondiendo en mi servidor local, con su título
 y su listado, como si no hubiera tocado nada.</p>
 <p>El motivo es de esas cosas que solo se aprenden tropezando: <strong>11ty escribe en
-<code>_site/</code> lo que construye, pero no borra lo que dejó de existir.</strong> Yo estaba
-mirando un archivo sobrante de una construcción anterior, servido tan
+<code>_site/</code> lo que construye, pero no borra lo que ha dejado de construir.</strong> Yo
+estaba mirando un archivo sobrante de una construcción anterior, servido tan
 tranquilamente como cualquier otro. Un <code>200</code> de manual apuntando a un fantasma.
 Esto ya me había costado algún dolor de cabeza en otras ocasiones.</p>
 <p>Y aquí vuelven los dos detalles que dije que había que recordar. En producción
@@ -415,9 +418,9 @@ recién hecha, donde no hay ningún <code>_site/</code> viejo del que queden res
 acción que publica borra del repositorio público lo que no venga en el build
 nuevo. <strong>El despliegue limpia; mi ordenador, no.</strong> Que es exactamente al revés
 de lo que uno esperaría.</p>
-<p>El mismo cambio destapó un segundo silencio, este dentro de las plantillas. Al
-pintar los temas de un artículo, <code>post.njk</code> se saltaba sin decir nada los
-identificadores que no existieran. Está bien que una errata no tumbe el sitio,
+<p>El mismo cambio destapó un segundo fallo silencioso, este dentro de las
+plantillas. Al pintar los temas de un artículo, <code>post.njk</code> se saltaba sin decir
+nada los identificadores que no existieran. Está bien que una errata no tumbe el sitio,
 pero significaba que un artículo podía seguir nombrando un tema retirado y la
 etiqueta simplemente <strong>no salir</strong>, sin que nada avisara. Ahora el build lo canta,
 y se estrenó en esta misma retirada:</p>
