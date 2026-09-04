@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Where the framework ends and where I begin</title><link rel="alternate" hreflang="en" href="https://jestemrique.github.io/en/articles/where-the-framework-ends/">
+  <link rel="alternate" hreflang="es" href="https://jestemrique.github.io/es/articulos/donde-acaba-el-framework/">
+  <link rel="alternate" hreflang="x-default" href="https://jestemrique.github.io/es/articulos/donde-acaba-el-framework/"><script>
+    (function () {
+      try {
+        var t = localStorage.getItem("tema");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="/css/main.9d23cd1e.css">
+</head>
+<body><div class="container">
+  <div class="layout"><header class="site-header">
+      <div class="site-brand">
+        <a href="/en/" class="site-name">Jestemrique</a>
+        <p class="site-tagline">Development, projects, learning…</p>
+      </div>
+    </header><aside class="site-aside">
+      <nav class="site-nav" aria-label="Main"><ul class="site-menu">
+          <li>
+            <a href="/en/">Home</a>
+          </li>
+          <li>
+            <a href="/en/articles/">Articles</a>
+          </li>
+          <li>
+            <a href="/en/topics/">Topics</a>
+          </li>
+          <li>
+            <a href="/en/music/">Music</a>
+          </li>
+        </ul>
+      </nav><nav class="site-langs-nav" aria-label="Language">
+        <ul class="site-langs">
+          <li><a href="/es/articulos/donde-acaba-el-framework/" lang="es" hreflang="es">ES<span class="visually-hidden"> Español</span></a></li>
+        </ul>
+      </nav><details class="theme-menu">
+  <summary data-theme-estado="" aria-label="Theme">
+    <span class="theme-icon" data-icono="light" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></span>
+    <span class="theme-icon" data-icono="dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(0 -1.1)" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></span>
+    <span class="theme-icon" data-icono="system" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg></span>
+  </summary>
+  <div class="theme-menu-panel">
+    <fieldset class="theme-switch">
+  <legend class="visually-hidden">Theme</legend>
+  <label>
+    <input type="radio" name="tema-aside" value="light" data-theme-option="">
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></span>
+    <span class="visually-hidden">Light</span>
+  </label>
+  <label>
+    <input type="radio" name="tema-aside" value="dark" data-theme-option="">
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(0 -1.1)" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></span>
+    <span class="visually-hidden">Dark</span>
+  </label>
+  <label>
+    <input type="radio" name="tema-aside" value="system" data-theme-option="">
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg></span>
+    <span class="visually-hidden">System</span>
+  </label>
+</fieldset>
+  </div>
+</details>
+    </aside>
+
+    <main class="site-main">
+      
+<article>
+  <h1>Where the framework ends and where I begin</h1><div class="post-meta"><p><time datetime="2026-09-02">2026-09-02</time></p>
+    <dl class="meta-table">
+      <div class="meta-row">
+        <dt>Topics</dt>
+        <dd>
+          <a href="/en/topic/development/">Development</a>
+          <a href="/en/topic/learning/">Learning</a>
+        </dd>
+      </div>
+    </dl>
+  </div>
+  <figure class="portada-articulo">
+    <picture><source type="image/avif" srcset="/img/YAyQEhDpSM-400.avif 400w, /img/YAyQEhDpSM-800.avif 800w, /img/YAyQEhDpSM-1200.avif 1200w, /img/YAyQEhDpSM-1600.avif 1600w" sizes="(max-width: 767px) 80vw, (max-width: 1279px) 600px, 830px"><source type="image/webp" srcset="/img/YAyQEhDpSM-400.webp 400w, /img/YAyQEhDpSM-800.webp 800w, /img/YAyQEhDpSM-1200.webp 1200w, /img/YAyQEhDpSM-1600.webp 1600w" sizes="(max-width: 767px) 80vw, (max-width: 1279px) 600px, 830px"><img loading="eager" decoding="async" src="/img/YAyQEhDpSM-400.jpeg" alt="Two concrete masses seen from below against a very dark blue sky. The one in front, white and lit by the sun, shows its corner in the middle of the frame; another looms behind it in grey shadow. No windows or any other detail of the building are visible." width="1600" height="1066" srcset="/img/YAyQEhDpSM-400.jpeg 400w, /img/YAyQEhDpSM-800.jpeg 800w, /img/YAyQEhDpSM-1200.jpeg 1200w, /img/YAyQEhDpSM-1600.jpeg 1600w" sizes="(max-width: 767px) 80vw, (max-width: 1279px) 600px, 830px"></picture>
+    <figcaption>
+      <a href="https://unsplash.com/@g_leighton">Gustavo Leighton</a> —
+      <a href="https://unsplash.com/license">Unsplash License</a>
+    </figcaption>
+  </figure>
+
+  <p>A CSS framework gives you the look for free, but charges you in control. The
+question is not who owns the typography or the colours, which is how it is
+usually put: it is <strong>where the change gets written</strong>. The split works as long as
+every change has one place to go, and only one. It breaks the day you have to
+touch the framework to move something.</p>
+<h2>The layout came out of the content, not the other way round</h2>
+<p>Before choosing anything I looked at what this site actually had to show: a menu
+and a list of articles. That's it. There is no user dashboard, no basket, no
+site-wide search, no sections unfolding into more sections.</p>
+<p>Given that inventory, a complicated layout doesn't solve a problem — it creates
+one. So I picked the simplest thing that did the job: one column with the menu on
+one side and the content on the other. I also found it the most comfortable to
+read, which on a site that is almost entirely text is not a minor detail.</p>
+<p>Today the layout has three states, not two:</p>
+<ul>
+<li><strong>Phone</strong>: a single column. The whole frame of the site — identity, menu,
+language switch and theme switch — lives in a bar fixed to the bottom, and the
+content gets the full screen.</li>
+<li><strong>From 768px</strong>: the two-column grid appears. On the left, the site identity
+with the menu below it; on the right, the content; the footer running across
+the bottom. The bottom bar disappears.</li>
+<li><strong>From 1280px</strong>: the identity moves up into a full-width row of its own,
+leaving the entire left column to the menu.</li>
+</ul>
+<p>Those two cut-off points aren't numbers I picked by eye: they are the <code>md</code> and
+<code>xl</code> breakpoints Pico already uses. Inventing my own would have meant running two
+grids whose sizes don't line up.</p>
+<h2>Mobile-first isn't about starting with the phone</h2>
+<p>The name is slightly misleading. Mobile-first doesn't describe the order you
+design in; it describes <strong>which CSS applies when no condition is met</strong>. On this
+site the base state — everything written outside any media query — is the phone,
+and larger screens are built on top of it with <code>min-width</code>.</p>
+<p>I did it that way for two reasons:</p>
+<p>The first is <strong>what you see when the media queries don't apply</strong>. A browser that
+doesn't evaluate them is left with the CSS that carries no condition — the base
+state — and nothing else. If that base state describes a two-column desktop, a
+360px screen gets two cramped columns. If it describes the phone, that screen
+gets one column, and one column fits anywhere. It fails in the right direction.</p>
+<p>The second is that you write less and think better. With <code>min-width</code> every block
+<strong>adds</strong>: the grid, the sidebar, the full-width header. With <code>max-width</code> every
+block <strong>undoes</strong> the one before it, and you end up with rules whose only job is
+to switch off another rule further up.</p>
+<p>There's one detail I learned the hard way, and it is written into the CSS itself:
+mixing <code>max-width: 767px</code> with <code>min-width: 768px</code> leaves a gap. Screen widths
+aren't whole numbers — zoom, or a phone with an unusual pixel density, will hand
+you 767.5px — and in that half pixel neither condition is true. That's why the
+site never mixes the two directions: either everything stacks upwards, or there
+is no reliable boundary.</p>
+<h2>The menu goes at the bottom</h2>
+<p>On a phone, the site bar is pinned to the bottom edge of the screen. Almost no
+website does this, and I want to explain why I think almost no website is right.</p>
+<p>The argument is that your thumb doesn't reach the top. And this isn't just an
+impression of mine: in 2013 Steven Hoober watched more than 1,300 people using
+their phones out in the street and published <a href="https://www.uxmatters.com/mt/archives/2013/02/how-do-users-really-hold-mobile-devices.php">how they actually hold
+them</a>.
+Close to half were holding the phone one-handed, and thumbs accounted for three
+out of every four interactions with the screen. That's where the map known as the
+<a href="https://www.smashingmagazine.com/2016/09/the-thumb-zone-designing-for-mobile-users/">thumb
+zone</a>
+comes from: the bottom band is reached effortlessly, the sides at mid-height ask
+you to stretch, and the top corners force you to shift the phone in your hand or
+use the other one. Phones have done nothing but grow since then, so the top-left
+corner — where so many websites put the menu — is further away today than it was
+when the measurements were taken.</p>
+<p>The striking part is that <strong>apps do get this right</strong>. The bottom bar is the
+standard pattern in both <a href="https://m2.material.io/components/bottom-navigation">Material
+Design</a> and iOS tab bars.
+People designing apps have been putting navigation at the bottom for years;
+people designing websites still put it at the top.</p>
+<p>Looking into why the web hasn't followed, I found it isn't only desktop inertia.
+There is a genuine technical reason: <strong>on the web, the bottom edge isn't yours,
+it's the browser's</strong>. Safari on iOS put its address bar right there, and that bar
+<a href="https://samuelkraft.com/blog/safari-15-bottom-tab-bars-web">appears and disappears as you
+scroll</a>, so a bar
+fixed to the bottom ends up fighting it. There is a way round it —
+<code>env(safe-area-inset-bottom)</code>, which asks the browser how much room it is taking
+— but it is a problem a native app simply doesn't have.</p>
+<p>In other words, I put the menu at the bottom for comfort and I was right about
+the comfort, but I also moved into the one part of the screen the web doesn't
+fully control.</p>
+<h2>Why Pico</h2>
+<p><a href="https://picocss.com/">Pico</a> is a minimal, classless CSS framework: instead of
+asking you to write <code>class=&quot;btn btn-primary btn-lg&quot;</code> everywhere, it styles HTML
+elements directly. You write a <code>&lt;button&gt;</code> and it already looks decent.</p>
+<p>I chose it for that, and because it's light. It handed me two things I didn't
+fancy solving from scratch — a coherent look, and light and dark mode — without
+making me learn a vocabulary of class names that is only good inside that one
+framework. And if I ever drop it, what's left is ordinary HTML.</p>
+<p>Classless doesn't mean there are no classes. My HTML has quite a few —
+<code>site-nav</code>, <code>mobile-bar</code>, <code>meta-table</code> — but they're mine and my CSS is what
+paints them: they're there to place things, not to make Pico do its job. Of
+Pico's own, I use one: <code>container</code>.</p>
+<p>The split that came out of that is the one this article is named after: <strong>Pico
+provides the look, my CSS provides the layout.</strong> With one hard rule I have never
+broken — <code>pico.min.css</code> is never edited. Ever. Anything that needs changing gets
+changed from my own files, by setting the variables Pico itself exposes. When I
+update Pico, my CSS will still fit; if I had edited its file, updating would mean
+doing the work all over again.</p>
+<p>Sticking to that split wasn't free. I had to work out how to override Pico without
+getting into a specificity fight, and how to stop having a single CSS file that
+could no longer be read. Both come further down, because I didn't make either
+decision in the abstract: something concrete I wanted on the site forced each
+one.</p>
+<h2>The type scale runs the other way</h2>
+<p>The first test of the split between Pico and my CSS was the size of the text.</p>
+<p>Pico scales typography by window width: the bigger the screen, the bigger the
+type. Behind that is a reasonable assumption — a large screen is viewed from
+further away — which on this site turned out to be false. Here the text is <strong>20px
+on a phone and 17 on the desktop</strong>. The phone runs 18% larger, which is a lot,
+and it's deliberate.</p>
+<p>There are two reasons, and they add up.</p>
+<p>The first is <strong>the measure</strong>, meaning characters per line. On the desktop the
+text column is capped at a fixed reading width, so making the type bigger doesn't
+widen anything: it shortens the line and brings it closer to the 72 characters
+you're aiming for. On a phone the column is set by the screen, not by the
+typography; there, size isn't competing with anything except how much text fits.</p>
+<p>The second is <strong>angular size</strong>. A phone is held considerably closer than a
+computer, but its pixels are far smaller, and a CSS pixel doesn't reach the eye
+at the same size in both places.</p>
+<p>The interesting part isn't the number, it's how it turned up. <strong>You can't see
+this by making the browser window narrow.</strong> A narrow window gives you the same
+width, but not the same pixel density or the same reading distance: in the
+emulator the site looked fine and on the phone it read small. The fault was
+invisible in the tool I was looking through.</p>
+<p>Before touching anything I measured the one thing this change can spoil, which is
+characters per line:</p>
+<table>
+<thead>
+<tr>
+<th>window</th>
+<th>17px (before)</th>
+<th>18px</th>
+<th>19px</th>
+<th>20px (chosen)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>360px</td>
+<td>40</td>
+<td>33</td>
+<td>33</td>
+<td>33</td>
+</tr>
+<tr>
+<td>390px</td>
+<td>42</td>
+<td>40</td>
+<td>35</td>
+<td>33</td>
+</tr>
+<tr>
+<td>430px</td>
+<td>48</td>
+<td>43</td>
+<td>42</td>
+<td>40</td>
+</tr>
+</tbody>
+</table>
+<p>The numbers said 18: it leaves about 40 characters per line, inside the
+comfortable 35 to 45 that always gets quoted. The phone said 20. I went with 20,
+and I think the table was misapplied rather than wrong: that range comes from
+print and from large screens, and on a phone the line is taken in at a glance.
+What tires you there isn't finding your way back to the start of the next line,
+it's straining to see.</p>
+<p>And there's something you only learn by trying it on the device itself: <strong>18px
+wasn't the cautious option, it was the invisible one.</strong> Between 17 and 18 there
+is a 5.9% difference — so little that testing it felt like the change hadn't
+reached the phone at all. If an adjustment exists to fix something that bothers
+you and you can't tell once it's in, then by definition it falls short. The jump
+to 20 is 18%, and there's no arguing with it.</p>
+<p>All of this lives in my CSS, in a single declaration, and in percentages, so that
+whatever text size a visitor has set in their browser is respected. The variable
+is Pico's, but the value is mine, and its file still hasn't been touched. The step also falls at the same 768px where the menu goes from
+bottom bar to column: one place where the site changes shape, not two.</p>
+<p>The table showed me what was at stake and ruled out the adjustment nobody would
+notice. The number itself I ended up choosing with the phone in front of me.</p>
+<h2>The features that pushed the CSS</h2>
+<p>A two-column layout holds up fine as long as the site has nothing in it. What
+moves it is the features, and here there were two.</p>
+<p><strong>The theme switch</strong> — light, dark and system — has three states, and the third
+is the one that matters: it isn't &quot;dark by default&quot;, it's <em>don't decide for me,
+do whatever the computer says</em>. All three options need room and need to be able
+to close again, so it sits folded away.</p>
+<p><strong>The language switch</strong> is two links, ES and EN. I keep the English version of
+the site without knowing who is going to read it, and that is exactly the point:
+if somebody lands here looking for how one of these things is solved, the
+language shouldn't get in their way. It costs little and covers a good deal more.</p>
+<p>The two controls live <strong>in the same place, together</strong>: in the sidebar, under the
+menu, when there is a column; and in the bottom bar when there isn't. They are
+the site's two global settings — what changes how you see it, not where you go —
+and separating them would mean learning two places instead of one.</p>
+<p>Neither looks like much, and yet the theme switch is now the largest component in
+my CSS: nineteen blocks of rules. That, plus the indexes and the record
+collection, is what eventually broke how the file was organised. And before that,
+the type step had already broken something else: the way I was overriding Pico.</p>
+<h2>Who wins when rules collide</h2>
+<p>Changing the size of the text — 20px on the phone against 17 on the desktop —
+was the first place I had to override Pico, and I was overriding it for the worst
+possible reason: <strong>my stylesheet was linked after Pico's</strong>. It works, but it
+isn't declared anywhere. Move those two lines in the <code>&lt;head&gt;</code> and the site
+changes appearance, with nowhere to read why.</p>
+<p>The classic way out is to write selectors heavier than Pico's. That's the one I
+wanted to avoid: when a selector is long because it has to win a fight, the CSS
+ends up telling two stories at once — how I want things to look, and which rule
+beats which — and I only care about the first.</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@layer">Cascade layers</a> make
+that fight unnecessary. You declare an order once:</p>
+<pre><code class="language-css">@layer pico, sitio;
+</code></pre>
+<p>and from then on any rule in the <code>sitio</code> layer beats any rule in the <code>pico</code>
+layer, however long Pico's is and however short mine is. Selectors go back to
+describing intent and nothing else.</p>
+<p>Three things gave me trouble:</p>
+<p><strong>Anything not in a layer beats everything that is.</strong> Layers aren't floors above
+ordinary CSS; they're an ordered basement below it. So putting my own styles in a
+layer wasn't enough. If Pico stayed outside, Pico won every time and the layout
+collapsed entirely. Both have to go in.</p>
+<p><strong>A <code>&lt;link rel=&quot;stylesheet&quot;&gt;</code> can't be assigned to a layer.</strong> The attribute
+exists as a proposal and no browser implements it, so the only way to put a whole
+file into a layer is <code>@import</code>. Hence <code>main.css</code>, a file without a single style
+rule in it: all it does is declare the order of precedence and load the rest.</p>
+<p><strong>And layers don't change what you're pointing at.</strong> Pico sets list markers with
+the rule <code>ul li</code>. Writing <code>list-style: none</code> on the <code>&lt;ul&gt;</code> won't work however
+high the layer you put it in, because there is no conflict there to resolve:
+Pico's rule is about the <code>&lt;li&gt;</code> and mine was about the <code>&lt;ul&gt;</code>. Layers decide who wins when two
+rules point at <strong>the same element</strong>; they don't point you at the right one. That
+one has bitten me three times.</p>
+<p>The change didn't move a single pixel — fifteen screenshots, five pages across
+three widths, identical before and after — and that is precisely the description
+of what it does: it doesn't change the appearance, it removes a fragility.</p>
+<h2>A file that could no longer be read</h2>
+<p>My CSS reached 2,354 lines in a single file. It didn't grow through
+carelessness: it grew because the site kept gaining things, and each one brought
+its own.</p>
+<p>It's now split into eight files, one per component, and the list of <code>@import</code>
+statements in <code>main.css</code> is the map: the tokens, the typography, the utilities,
+the theme switch, the parts of Pico I switch off, the indexes, the collection and
+the layout.</p>
+<p><strong>The order of that list is meaningful</strong>, not alphabetical. Within a single layer
+the ordinary cascade rules apply again, and between two declarations of equal
+weight the last one wins. So the list preserves the order the sections had inside
+the big file, which is why splitting it changed nothing. Moving one <code>@import</code>
+does change things.</p>
+<p>The hard part wasn't breaking the file up; it was deciding where the seams went.
+<strong>Where does a rule like <code>.mobile-bar .theme-menu</code> go, when it names two
+components at once?</strong></p>
+<p>A selector like that reads left to right: it says &quot;the theme switch <em>when it is
+inside the bottom bar</em>&quot;. And what that rule decides isn't what the theme switch
+is like, it's where the bar puts it. It's a rule belonging to the bar, so it goes
+with the layout. Hence the criterion: <strong>a rule lives with the first element of
+its selector.</strong></p>
+<p>Since the change only moved code around, the test could be a strict one: <strong>the
+minified CSS had to come out byte for byte identical</strong>. Minifying strips the
+comments, so the only thing that could differ is actual CSS. It came out at the
+same 95,410 bytes.</p>
+<p>And splitting the file turned up something I wasn't looking for: a convention of
+my own that hadn't been holding for a long while. Modularising didn't create that
+fault, it made it visible — which was one of the reasons for splitting the file
+in the first place.</p>
+<h2>A typeface that cost 8,584 bytes</h2>
+<p>The interface and headings on this site weren't always set in this typeface. They
+were <a href="https://fonts.google.com/specimen/Figtree">Figtree</a>, and the move to
+<a href="https://fonts.google.com/specimen/Source+Sans+3">Source Sans 3</a> didn't come from
+the typeface at all, it came from a redesign.</p>
+<p>When the hierarchy was carried by size — an article heading ran to 49px — the
+family barely showed, so choosing one over another was almost cosmetic.</p>
+<p>Flattening the scale made the family the main signal, and Figtree found itself
+carrying a role on its own that nobody had chosen it for.</p>
+<p>The criterion didn't change, which is the interesting part: it's still <strong>contrast
+without clash</strong>, two humanist typefaces contrasting in genre alone, sans against
+serif. Source Sans 3 is humanist just as Figtree is. What changes is the
+character, which now shows because size no longer covers it. Six candidates were
+compared on the real site, not on isolated specimens.</p>
+<p>And it comes at a price worth saying out loud: the latin file goes from 20,156 to
+28,740 bytes. <strong>8,584 bytes more, 42%.</strong> It's accepted knowingly — it's the
+typeface for the whole interface and it downloads once — but it's a decision with
+an invoice attached, not a preference.</p>
+<h2>Images optimise themselves</h2>
+<p>The goal was not having to prepare anything before uploading a photo: drag it
+into the article's directory and that's it. That's handled by the <a href="https://www.11ty.dev/docs/plugins/image/">Eleventy image
+plugin</a>, which generates the variants
+as the site is built and writes the <code>&lt;img&gt;</code> with every width in it.</p>
+<p>Measured with a 4032×3024 photo weighing 6.1 MB: a phone downloads <strong>2.3 KB</strong>.
+The original never even reaches the published site, because the plugin reads it
+from the source directory rather than the output.</p>
+<p>The two settings I had to correct say a lot about how far you can trust a
+plugin's defaults:</p>
+<ul>
+<li><strong><code>widths</code> included the original width.</strong> With it, that photo also generated
+the 4032px variants: 8.6 MB nobody downloads, since the site never paints an
+image wider than 830px. They ate 43 of the build's 43 seconds; without them,
+12.2.</li>
+<li><strong><code>sizes=&quot;auto&quot;</code> is only understood by Chrome 133 and later.</strong> Everything else
+falls back to the default, <code>100vw</code>, and on a 1920 monitor that requests the
+largest variant in order to paint it at 830px. The widths had to be
+<strong>measured on the served site</strong>: the reading width depends on the typeface, so
+it can't be worked out on paper.</li>
+</ul>
+<h2>All of this sounds very tidy</h2>
+<p>It wasn't. Choosing a framework for what it gives you has a flip side you don't
+see until you're working with it: <strong>it also gives you what you never asked for</strong>,
+and you almost always find out late.</p>
+<h3><code>&lt;article&gt;</code> doesn't mean &quot;an article&quot;</h3>
+<p>Pico decorates <strong>by element, not by class</strong>. That's the point of it, and also the
+catch: <code>&lt;article&gt;</code> isn't &quot;an article&quot; as far as Pico is concerned, it's the card
+component.
+You choose the tag for what it <em>means</em> and it arrives decorated for how it
+<em>looks</em>.</p>
+<p>The way out ended up being a question: <em>does this element give me anything beyond
+its appearance?</em> If not, I change element. If it does, I keep it and switch the
+decoration off. Sometimes only one property is in the way: I left inline code its
+background, because telling code apart from text <strong>is information</strong>, not
+ornament.</p>
+<p>And switching the card off brought something I hadn't expected. Pico pulls the
+header and footer of an <code>&lt;article&gt;</code> out to full bleed using negative margins,
+<strong>offset by the card's own padding</strong>. With the padding gone, the offset had
+nothing left to offset and the grey band spilled a <code>rem</code> over each side. The
+lesson travels: when you switch a decoration off, look at <strong>what other rules were
+leaning on it</strong>.</p>
+<h3>Eight pixels that weren't mine</h3>
+<p>The site had a horizontal scrollbar above 768px from the moment I built the
+layout, and I never once saw it.</p>
+<p>The cause is the classic full-bleed fault. The calculation that pulls those bands
+out of the margin was <code>calc(50vw - 50%)</code>, and those two units <strong>don't measure the
+same thing</strong>: <code>50vw</code> counts the vertical scrollbar and <code>50%</code> doesn't. The
+difference is half a scrollbar per side, around 8 pixels in total.</p>
+<p>Why it went unseen: the text <strong>doesn't fall out of alignment</strong>. The negative
+margin and the padding both carry the same calculation and cancel each other out.
+The only thing sticking out is background.</p>
+<p>I tried two fixes and discarded both, each for a different reason that was worth
+understanding rather than pushing on. What stayed is clipping the overhang with
+<code>overflow-x: clip</code>, and clipping is legitimate here precisely because what
+escapes is only background. <strong><code>clip</code> and not <code>hidden</code></strong>: <code>hidden</code> creates a
+scroll container and breaks any <code>position: sticky</code> inside it.</p>
+<p>The most useful thing about this fault wasn't the fix. It was that my
+screenshot-comparison tool <strong>couldn't see it</strong>: it reported 96 identical images
+before and after, because what stuck out fell outside the crop. An image
+comparator is not a layout validator.</p>
+<h3>Winning too much</h3>
+<p>Layers resolve specificity by taking it out of the equation, and that cuts both
+ways. I wanted to switch off one of Pico's decorations on inline code with a bare
+<code>code</code> rule. Since the <code>sitio</code> layer wins <strong>without looking at specificity</strong>,
+that four-character rule also beat Pico's <code>pre &gt; code</code> and turned code blocks
+into running text.</p>
+<p>I didn't catch it myself: what corrected me was looking at the site, where the
+blocks already looked right. The fix is to narrow the selector, <code>:not(pre) &gt; code</code>. The general lesson is the one everybody misses when they first discover layers:
+<strong>when the layer wins the fight for you, the reach of the selector becomes the
+only brake left.</strong></p>
+<h2>Where the line falls</h2>
+<p>None of these decisions was about aesthetics. Pico still provides the colours and
+light and dark mode, and its file still hasn't been touched. What I was learning
+was something else: <strong>where to write each change so that I could read it again
+later</strong>. Layers so I don't win by accident, eight files so I can find
+anything, tokens so a value lives in one place only.</p>
+<p>The three faults above have the same cause, and it isn't Pico: a framework makes
+decisions you haven't made, and doesn't announce them. As long as the split is
+written down, those decisions stay where I can see them. If I had started editing
+<code>pico.min.css</code>, there would have been no split left to look at.</p>
+
+</article>
+
+<p><a href="/en/articles/">&larr; Back to the articles</a></p>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>Enrique – 2026</p>
+    </footer>
+  </div>
+  </div><div class="mobile-bar"><button class="site-burger" aria-label="Menu" aria-expanded="false" onclick="const m=document.getElementById('mobileMenu');const o=m.classList.toggle('open');this.setAttribute('aria-expanded',o)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h18M3 12h18M3 19h18"></path></svg></button>
+    <div class="mobile-brand">
+      <a href="/en/" class="site-name">Jestemrique</a>
+      <p class="site-tagline">Development, projects, learning…</p>
+    </div><nav class="site-langs-nav" aria-label="Language">
+      <ul class="site-langs">
+        <li><a href="/es/articulos/donde-acaba-el-framework/" lang="es" hreflang="es">ES<span class="visually-hidden"> Español</span></a></li>
+      </ul>
+    </nav><details class="theme-menu">
+  <summary data-theme-estado="" aria-label="Theme">
+    <span class="theme-icon" data-icono="light" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></span>
+    <span class="theme-icon" data-icono="dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(0 -1.1)" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></span>
+    <span class="theme-icon" data-icono="system" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg></span>
+  </summary>
+  <div class="theme-menu-panel">
+    <fieldset class="theme-switch">
+  <legend class="visually-hidden">Theme</legend>
+  <label>
+    <input type="radio" name="tema-barra" value="light" data-theme-option="">
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></span>
+    <span class="visually-hidden">Light</span>
+  </label>
+  <label>
+    <input type="radio" name="tema-barra" value="dark" data-theme-option="">
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(0 -1.1)" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></span>
+    <span class="visually-hidden">Dark</span>
+  </label>
+  <label>
+    <input type="radio" name="tema-barra" value="system" data-theme-option="">
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg></span>
+    <span class="visually-hidden">System</span>
+  </label>
+</fieldset>
+  </div>
+</details>
+  </div><nav class="mobile-menu" id="mobileMenu" aria-label="Main">
+    <ul>
+      <li><a href="/en/">Home</a></li>
+      <li><a href="/en/articles/">Articles</a></li>
+      <li><a href="/en/topics/">Topics</a></li>
+      <li><a href="/en/music/">Music</a></li>
+    </ul>
+  </nav><script>
+    (function () {
+      var CLAVE = "tema";
+
+      function leer() {
+        try { return localStorage.getItem(CLAVE) || "system"; } catch (e) { return "system"; }
+      }
+      function guardar(valor) {
+        try {
+          if (valor === "system") localStorage.removeItem(CLAVE);
+          else localStorage.setItem(CLAVE, valor);
+        } catch (e) {}
+      }
+      function aplicar(valor) {
+        if (valor === "system") delete document.documentElement.dataset.theme;
+        else document.documentElement.dataset.theme = valor;
+      }
+      function marcar(valor) {
+        var opciones = document.querySelectorAll("[data-theme-option]");
+        for (var i = 0; i < opciones.length; i++) {
+          opciones[i].checked = opciones[i].value === valor;
+        }
+      }
+
+      // El botón que despliega el control en móvil enseña el icono del tema
+      // ACTIVO: cerrado tiene que seguir diciendo en qué estado estás. Cuál se
+      // ve lo decide el CSS a partir de este data-estado.
+      function pintarEstado(valor) {
+        var botones = document.querySelectorAll("[data-theme-estado]");
+        for (var i = 0; i < botones.length; i++) botones[i].dataset.estado = valor;
+      }
+
+      // Los desplegables, en PLURAL: hay uno en la barra lateral y otro en la
+      // barra de móvil. Se buscan por clase y no por id porque un id tiene que
+      // ser único en el documento; con dos instancias, getElementById devolvía
+      // solo la primera y la otra se quedaba sin cerrar, sin foco y sin
+      // Escape. Solo uno de los dos es visible a la vez (cada barra está
+      // display:none en la anchura de la otra), pero los dos existen en el DOM
+      // y los dos se manejan igual.
+      var menus = document.querySelectorAll(".theme-menu");
+
+      // Cerrar el desplegable DEVOLVIENDO EL FOCO al <summary>. Lo segundo no
+      // es un detalle: al elegir con el teclado, el foco está en un radio que
+      // el cierre acaba de esconder, y un elemento oculto no puede tener el
+      // foco, así que el navegador lo manda al principio del documento. Quien
+      // navega con teclado tendría que recorrer la página entera para volver.
+      function cerrarMenu(menu, devolverFoco) {
+        if (!menu.open) return;
+        menu.open = false;
+        if (devolverFoco) menu.querySelector("summary").focus();
+      }
+
+      // Cerrar TODOS. El foco solo se devuelve al menú que lo tenía dentro:
+      // mandárselo a un <summary> que está en la otra barra —y por tanto
+      // oculto— movería el foco a un sitio invisible, que es peor que no
+      // moverlo. Por eso no vale con pasar `true` a los dos.
+      function cerrarMenus(devolverFoco) {
+        menus.forEach(function (menu) {
+          cerrarMenu(menu, devolverFoco && menu.contains(document.activeElement));
+        });
+      }
+
+      marcar(leer());
+      pintarEstado(leer());
+
+      // APLICAR el tema. Ojo: aquí NO se cierra el menú, y es deliberado. Las
+      // flechas del teclado disparan un `change` en CADA salto, así que cerrar
+      // aquí haría imposible recorrer las opciones: la primera flecha elegiría
+      // y cerraría de golpe. El cierre se decide por cómo ha elegido el
+      // usuario, no por el hecho de elegir; ver los dos manejadores de abajo.
+      document.addEventListener("change", function (e) {
+        if (!e.target.hasAttribute || !e.target.hasAttribute("data-theme-option")) return;
+        var valor = e.target.value;
+        aplicar(valor);
+        marcar(valor);
+        guardar(valor);
+        pintarEstado(valor);
+      });
+
+      // Lo que se engancha a CADA menú. Va con forEach y no con un bucle `for`
+      // por una razón concreta: los manejadores necesitan recordar de QUÉ menú
+      // son, y con `var i` en un for todos acabarían apuntando al último. El
+      // parámetro de la función de forEach crea un ámbito nuevo en cada vuelta.
+      menus.forEach(function (menu) {
+        // Al ABRIR, meter el foco en la opción activa. Un <details> no lo hace
+        // solo: deja el foco en el <summary>, y las flechas de un grupo de
+        // radios solo responden si el foco ya está DENTRO del grupo. Sin esto,
+        // con teclado se abre el panel y no se puede recorrer.
+        menu.addEventListener("toggle", function () {
+          if (!menu.open) return;
+          var activa = menu.querySelector("[data-theme-option]:checked") ||
+                       menu.querySelector("[data-theme-option]");
+          if (activa) activa.focus();
+        });
+
+        // Cerrar CON EL DEDO O EL RATÓN: un click de verdad trae detail >= 1,
+        // mientras que el que sintetiza el teclado al marcar un radio trae
+        // detail === 0. Es la forma de distinguir "he tocado la opción" de "he
+        // llegado a ella con las flechas" sin escuchar eventos de puntero.
+        menu.addEventListener("click", function (e) {
+          if (e.detail > 0 && e.target.closest("label")) cerrarMenu(menu, false);
+        });
+      });
+
+      // Cerrar al tocar fuera y con teclado. Es lo ÚNICO que <details> no trae
+      // de serie: abrirse, anunciarse al lector de pantalla y responder a
+      // Enter y Espacio en el botón ya lo hace el navegador solo.
+      // Ojo al "fuera": es fuera de CADA menú por separado, no fuera de todos.
+      document.addEventListener("click", function (e) {
+        menus.forEach(function (menu) {
+          if (!menu.contains(e.target)) cerrarMenu(menu, false);
+        });
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") cerrarMenus(true);
+        // Enter DENTRO del panel = "esta me vale": confirma y cierra. El tema
+        // ya está aplicado por el change de la flecha; esto solo cierra.
+        else if (e.key === "Enter") {
+          menus.forEach(function (menu) {
+            if (!menu.open || !menu.contains(e.target)) return;
+            e.preventDefault();
+            cerrarMenu(menu, true);
+          });
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
