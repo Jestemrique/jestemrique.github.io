@@ -330,11 +330,17 @@ question.</p>
 <p>There's an awkward side effect left over. A finished article, merged and waiting
 for its translation, <strong>is invisible</strong>: it isn't on the site, it isn't in the way,
 and that makes it terribly easy to forget. The solution is daft and it works: the
-script that starts the site fishes that notice out of the Docker logs and writes
-it on screen every time. Whatever is waiting shows up on its own, without having
-to remember to go looking for it. Even so, having to read that off the logs
-doesn't sit right with me. I don't have a better idea yet, but for now it does
-the job.</p>
+script that starts the site writes that list on screen every time. Whatever is
+waiting shows up on its own, without having to remember to go looking for it.</p>
+<p>The first version fished the notice out of the Docker logs with a <code>grep</code>, and it
+didn't sit right with me: it was looking for a piece of text. Change the label on
+the message, or the indentation, or the prefix Docker puts on every line, and the
+script stops finding it. With no error: it stops warning me, and I carry on
+trusting it. I tried it with fake logs, and some of those changes took the whole
+list away, but others left half of it, which is worse — it looks like it worked.</p>
+<p>Now it doesn't read the logs: it runs <code>borradores.js</code> and asks. It can do that
+because the file doesn't need 11ty for anything, so it answers the same inside
+the build and outside it. And if the question fails, it says so.</p>
 <h2>Decisions I make just once</h2>
 <p>In <a href="/en/articles/about-this-site/">About this site</a> I wrote about the part
 <a href="https://claude.com/claude-code">Claude Code</a> plays in this. What's missing is

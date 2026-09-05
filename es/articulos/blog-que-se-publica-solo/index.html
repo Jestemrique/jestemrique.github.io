@@ -331,10 +331,17 @@ respuesta para poder calcular la pregunta.</p>
 <p>Queda un efecto secundario incómodo. Un artículo terminado, fusionado y
 esperando a su traducción <strong>es invisible</strong>: no está en el sitio, no molesta, y
 por eso es facilísimo olvidarlo. La solución es tonta y funciona: el script que
-arranca el sitio pesca ese aviso de los logs de Docker y me lo escribe en la
-pantalla cada vez. Lo que está esperando aparece solo, sin tener que acordarse
-de ir a buscarlo. Aun así, me chirría leer un aviso de unos logs, no sé, ya
-pensaré en una alternativa, pero por ahora funciona.</p>
+arranca el sitio me escribe esa lista en la pantalla cada vez. Lo que está
+esperando aparece solo, sin tener que acordarse de ir a buscarlo.</p>
+<p>La primera versión pescaba el aviso de los logs de Docker con un <code>grep</code>, y me
+chirriaba: estaba buscando un texto. Cambiar el rótulo del mensaje, o la
+sangría, o el prefijo que Docker le pone a cada línea, y el script deja de
+encontrarlo. Sin error: deja de avisar, y yo sigo fiándome. Lo probé pasándole
+logs falsos y algunos cambios se llevaban la lista entera, pero otros dejaban
+media, que es peor todavía — parece que ha funcionado.</p>
+<p>Ahora no lee los logs: ejecuta <code>borradores.js</code> y le pregunta. Puede hacerlo
+porque ese archivo no necesita a 11ty para nada, así que contesta igual dentro
+del build que fuera. Y si la consulta falla, lo dice.</p>
 <h2>Las decisiones, escritas una sola vez</h2>
 <p>En <a href="/es/articulos/sobre-este-sitio/">Sobre este sitio</a> conté qué pinta tiene
 <a href="https://claude.com/claude-code">Claude Code</a> en esto. Falta la parte mecánica:
