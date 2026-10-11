@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Jestemrique – Talking to a model (LLM): the theory and the first SDK call</title><link rel="alternate" hreflang="en" href="https://jestemrique.net/en/articles/talking-to-a-model/">
+  <link rel="alternate" hreflang="es" href="https://jestemrique.net/es/articulos/hablar-con-un-modelo/">
+  <link rel="alternate" hreflang="x-default" href="https://jestemrique.net/es/articulos/hablar-con-un-modelo/"><script>
+    (function () {
+      try {
+        var t = localStorage.getItem("tema");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="/css/main.84711845.css">
+</head>
+<body><div class="container">
+  <div class="layout"><header class="site-header">
+      <div class="site-brand">
+        <a href="/en/" class="site-name">Jestemrique</a>
+        <p class="site-tagline">Development, projects, learning…</p>
+      </div>
+    </header><aside class="site-aside">
+      <nav class="site-nav" aria-label="Main"><ul class="site-menu">
+          <li>
+            <a href="/en/">Home</a>
+          </li>
+          <li>
+            <a href="/en/articles/">Articles</a>
+          </li>
+          <li>
+            <a href="/en/clips/">Clips</a>
+          </li>
+          <li>
+            <a href="/en/topics/">Topics</a>
+          </li>
+          <li>
+            <a href="/en/music/">Music</a>
+          </li>
+          <li>
+            <a href="/en/about/">About</a>
+          </li>
+        </ul>
+      </nav><nav class="site-langs-nav" aria-label="Language">
+        <ul class="site-langs">
+          <li><a href="/es/articulos/hablar-con-un-modelo/" lang="es" hreflang="es">ES<span class="visually-hidden"> Español</span></a></li>
+        </ul>
+      </nav><details class="theme-menu">
+  <summary data-theme-estado="" aria-label="Theme">
+    <span class="theme-icon" data-icono="light" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></span>
+    <span class="theme-icon" data-icono="dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(0 -1.1)" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></span>
+    <span class="theme-icon" data-icono="system" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg></span>
+  </summary>
+  <div class="theme-menu-panel">
+    <fieldset class="theme-switch">
+  <legend class="visually-hidden">Theme</legend>
+  <label>
+    <input type="radio" name="tema-aside" value="light" data-theme-option="">
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></span>
+    <span class="visually-hidden">Light</span>
+  </label>
+  <label>
+    <input type="radio" name="tema-aside" value="dark" data-theme-option="">
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(0 -1.1)" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></span>
+    <span class="visually-hidden">Dark</span>
+  </label>
+  <label>
+    <input type="radio" name="tema-aside" value="system" data-theme-option="">
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg></span>
+    <span class="visually-hidden">System</span>
+  </label>
+</fieldset>
+  </div>
+</details>
+    </aside>
+
+    <main class="site-main">
+      
+<article>
+  <h1>Talking to a model (LLM): the theory and the first SDK call</h1><div class="post-meta"><p><time datetime="2026-10-11">2026-10-11</time></p>
+    <dl class="meta-table">
+      <div class="meta-row">
+        <dt>Topics</dt>
+        <dd>
+          <a href="/en/topic/ai/">AI</a>
+        </dd>
+      </div>
+    </dl>
+  </div>
+  <figure class="portada-articulo">
+    <picture><source type="image/avif" srcset="/img/UK_McbqfRn-320.avif 320w, /img/UK_McbqfRn-640.avif 640w, /img/UK_McbqfRn-800.avif 800w, /img/UK_McbqfRn-1200.avif 1200w, /img/UK_McbqfRn-1600.avif 1600w" sizes="(max-width: 767px) 80vw, (max-width: 1279px) 600px, 830px"><source type="image/webp" srcset="/img/UK_McbqfRn-320.webp 320w, /img/UK_McbqfRn-640.webp 640w, /img/UK_McbqfRn-800.webp 800w, /img/UK_McbqfRn-1200.webp 1200w, /img/UK_McbqfRn-1600.webp 1600w" sizes="(max-width: 767px) 80vw, (max-width: 1279px) 600px, 830px"><img loading="eager" decoding="async" src="/img/UK_McbqfRn-320.jpeg" alt="Close-up of the edge of a dark glass object with the words &quot;Perceive&quot;, &quot;Synthesize&quot; and &quot;Interfere&quot; engraved in relief, lit in purple tones and reflecting off the glass." width="1600" height="900" srcset="/img/UK_McbqfRn-320.jpeg 320w, /img/UK_McbqfRn-640.jpeg 640w, /img/UK_McbqfRn-800.jpeg 800w, /img/UK_McbqfRn-1200.jpeg 1200w, /img/UK_McbqfRn-1600.jpeg 1600w" sizes="(max-width: 767px) 80vw, (max-width: 1279px) 600px, 830px"></picture>
+    <figcaption>
+      <a href="https://unsplash.com/@googledeepmind">Wes Cockx / Google DeepMind</a> —
+      <a href="https://unsplash.com/license">Unsplash License</a>
+    </figcaption>
+  </figure>
+
+  <p>In <a href="/en/articles/noise-to-method/">From AI noise to a method</a> I wrote about how AI found its way into my day-to-day, both at work and on my own time. I said I'd write more, mostly technical content. This is the first one: how a language model works on the inside, and how to interact with it through code for the first time.</p>
+<h2>What a model is and what it's made of</h2>
+<p><a href="https://hainet.substack.com/p/llms-explained-how-machines-understand-and-generate-language">This article is a good general introduction to how LLMs work</a>, if you want the big picture before going into the detail of each piece.</p>
+<p>At its core, a language model is a neural network: a network of nodes (&quot;neurons&quot;) organized in layers, where every connection between two neurons carries a number — its <strong>weight</strong> — that decides how much that connection's signal &quot;counts&quot;. Each neuron combines the signals reaching it, weighted by each connection, adds a value of its own — its <strong>bias</strong> — and applies a function that determines the activation passed on to the next layer. <a href="https://www.3blue1brown.com/lessons/neural-networks">3Blue1Brown has an excellent introduction to neural network theory</a>, with videos and the classic example of recognizing handwritten digits.</p>
+<p>Weights and biases together are the model's <strong>parameters</strong>. They aren't input data and they don't change between one call and the next: they're set during <strong>training</strong> — the process of adjusting them bit by bit, running through millions of examples until the model's predictions improve — and from then on they stay fixed, as the model's knowledge. <a href="https://www.3blue1brown.com/topic/neural-networks">3Blue1Brown goes into how that adjustment works</a>. Once deployed, the model uses those parameters unchanged on every response, though its creators can retrain or fine-tune it in later versions. When a model's name includes a number such as 70B or 400B, it refers to the approximate number of parameters in the model: the number of weights and biases in the entire network. More parameters isn't automatically &quot;better&quot;, but it does give the model more capacity to represent complex patterns.</p>
+<p>That alone isn't enough to build a <em>language</em> model: you also need a way to turn text into something a neural network can process, and a specific architecture — the <strong>transformer</strong> — that lets the network take an entire sentence's context into account, not just word by word. <a href="https://www.3blue1brown.com/lessons/mini-llm">The same 3Blue1Brown series continues from there</a>, explaining how those same weights and biases get used inside an LLM.</p>
+<h2>From text to numbers: tokens and embeddings</h2>
+<p>Those weights and biases only operate on numbers — a neural network doesn't understand text directly. Some models also process image, audio or video (multimodal models), but here I'm focusing on text, which is what I use in the example further down with Gemini.</p>
+<p>The first thing that happens to a text input is that it's split into <strong>tokens</strong>: chunks of text, not necessarily whole words. A word like &quot;unhappy&quot; might split into several tokens, for example &quot;un&quot; and &quot;happy&quot;, though the exact split depends on the tokenizer. It's not a grammar rule: the criterion is statistical — which chunks from a fixed-size vocabulary tend to appear together often in the language.</p>
+<p>Each token has a vector attached to it — a list of hundreds or thousands of numbers — stored in what's called the <strong>embedding matrix</strong>: a table with one row per token in the vocabulary. That vector is the token's initial numeric representation. During training, its components get adjusted so the model learns patterns of use and relationships between tokens. As a result, the vectors can end up reflecting linguistic or semantic similarities, though they're not a perfect representation of meaning. It's not a separate &quot;group by meaning&quot; step: it's a consequence of how the network is trained. <a href="https://www.3blue1brown.com/lessons/mini-llm">3Blue1Brown devotes a chapter of the same series to this, inside an LLM</a>, with the embedding matrix and the vectors explained visually.</p>
+<p>One important nuance: that initial vector is <strong>static</strong> — the same for a token no matter what sentence it appears in. &quot;Bank&quot; has the exact same vector whether you mean a riverbank or a place to deposit money. Context gets added by the network's later layers, not by the embedding matrix.</p>
+<h2>How you get to a response</h2>
+<p>Those static vectors pass through many layers of <strong>attention</strong> — the transformer's central mechanism — which mix information from different tokens together based on how related they are within the sentence. That's where the vector for &quot;bank&quot; stops being always the same and starts depending on the rest of the sentence: it becomes contextual.</p>
+<p>At the end of all those layers it reaches the <strong>language modelling head</strong>: a final layer that turns that result into a score for every possible token in the vocabulary — which can have hundreds of thousands of entries — and those scores become probabilities. Something like &quot;the token 'cat' has a 2% chance of being next, 'dog' 15%, 'the' almost 0%&quot;.</p>
+<p>One of those tokens gets picked — usually the most likely one, with some controlled room for variation — and added to the sequence. Then the whole process repeats to pick the next one. That's why an LLM generates text token by token, not all at once: every new token is predicted by looking at all the previous ones. All of an LLM's power comes from doing that one task well, over and over: predicting the next token.</p>
+<h2>From LLM theory to using an SDK</h2>
+<p>The entire neural network — its parameters, embedding matrix and attention layers — is trained and hosted on servers run by companies like Google, Anthropic, OpenAI and DeepSeek. It's too big and too expensive to train and run to have on a laptop (there are also smaller, local models, but that's for another article).</p>
+<p>In short, these companies offer APIs that let you interact with their models programmatically, and there are two ways to use them:</p>
+<ul>
+<li>Make the request to that API directly and by hand — with <code>fetch</code>, <code>curl</code>, whatever.</li>
+<li>Use the vendor's <strong>SDK</strong>: a library that builds that same request for you — authentication, the JSON format, reading the response.</li>
+</ul>
+<p>That's exactly what we're about to do below with <code>@google/genai</code>: a call to <code>aiClient.interactions.create(...)</code> instead of putting together a <code>fetch()</code> by hand.</p>
+<h2>The first real call</h2>
+<p>This is the bare minimum to get the SDK working — a single round trip to the model, nothing else. I'm using Gemini, from Google, following its <a href="https://ai.google.dev/gemini-api/docs/get-started">official getting-started guide</a>.</p>
+<ol>
+<li>
+<p><strong>API key</strong>: the credential that identifies your requests to Google's API. Created at <a href="https://aistudio.google.com/apikey">aistudio.google.com/apikey</a>, &quot;Create API key&quot; button.</p>
+</li>
+<li>
+<p><strong>Environment</strong>: Google also offers the SDK in Python, but I'm using Node by personal preference — with <code>&quot;type&quot;: &quot;module&quot;</code> in <code>package.json</code> so I can use <code>import</code>.</p>
+</li>
+<li>
+<p><strong>SDK</strong>: <code>npm install @google/genai</code>.</p>
+</li>
+<li>
+<p><strong>The script</strong> (<code>main.js</code>):</p>
+<pre><code class="language-js">import { GoogleGenAI } from &quot;@google/genai&quot;;
+
+// Read the Google GenAI API key from the environment variables
+const apiKey = process.env.GEMINI_API_KEY;
+
+// Create a Google GenAI client instance
+const aiClient = new GoogleGenAI({
+    apiKey: apiKey,
+});
+
+// Create an interaction with the model
+const interaction = await aiClient.interactions.create({
+    model: &quot;gemini-3.5-flash-lite&quot;,
+    input: &quot;Hi, which free model would you recommend for practicing the basics of an AI SDK?&quot;,
+});
+
+console.log(interaction.output_text);
+</code></pre>
+</li>
+<li>
+<p><strong>Run it</strong>: <code>node main.js</code>.</p>
+</li>
+</ol>
+<p>And with that, there's already a real response from the model in the terminal — exactly as that run returned it, unverified: the numbers and comparisons it includes aren't checked facts, they're part of what the model generated, and that's exactly what the next section calls into question.</p>
+<pre><code>The best model right now for getting started with an SDK, combining **genuinely free access, ease of use, and top-tier performance**, is:
+
+### 1. The Clear Winner: **Google Gemini 1.5 Flash** (via Google AI Studio)
+
+It's the best choice for beginners for the following reasons:
+
+*   **100% free for developers:** With **Google AI Studio**, you get API key access without needing a credit card. Its free tier gives you up to 15 requests per minute (RPM) and a million tokens per minute, which is more than enough for learning and personal projects.
+*   **Outstanding performance:** Despite being called &quot;Flash&quot; (built to be fast and lightweight), it beats GPT-3.5 and competes closely with GPT-4o on many tasks.
+*   **Natively multimodal:** With the same free SDK you can send it text, images, audio, video and PDFs.
+
+[...]
+</code></pre>
+<h2>When the model is wrong about itself</h2>
+<p>The model introduced claims about itself that I hadn't asked it to verify, and it mixed outdated model names (<code>gemini-1.5-flash</code>, the one it recommends above) with the actual model it was using in that same call (<code>gemini-3.5-flash-lite</code>). I tried using the name it had suggested itself, and the API returned a real error:</p>
+<pre><code>NotFoundError: 404 Model 'gemini-1.5-flash' not found. Did you mean 'gemini-3.5-flash'?
+Please verify the model name against the supported list: https://ai.google.dev/gemini-api/docs/models
+</code></pre>
+<p>I checked that name against the <a href="https://ai.google.dev/gemini-api/docs/models">list of current models</a> and the <a href="https://ai.google.dev/gemini-api/docs/deprecations">list of retired models</a>: I didn't find the identifier in either list, so I couldn't confirm its availability. The API also rejected the request and suggested a different model name.</p>
+<p>This is a concrete case of what's known as a <strong>hallucination</strong>: the model generates something that sounds plausible — a model name in the right format, from a family that exists — but is false. <a href="https://hainet.substack.com/p/llms-explained-how-machines-understand-and-generate-language">This article also discusses this problem</a>: LLMs &quot;can confidently produce incorrect or misleading information, especially when asked about facts or topics that are less common&quot; — and a model talking about itself is exactly that case. The reliable source isn't the chat's answer, it's the official documentation — and it's the API's own error that ends up pointing to it.</p>
+<h2>Other companies, other SDKs</h2>
+<p>This article's example used <a href="https://ai.google.dev/gemini-api/docs">Google</a> (Gemini), but it's not the only one offering models and SDKs. Three major providers are Google, <a href="https://docs.claude.com/">Anthropic</a> (Claude) and <a href="https://platform.openai.com/docs">OpenAI</a> (GPT) — each with its own API, its own SDK, and its own catalog of current models.</p>
+<p>There are several other players in the field: <a href="https://api-docs.deepseek.com/">DeepSeek</a>, a Chinese company whose models gained prominence in 2025 by competing with established models at a much lower cost; <a href="https://docs.mistral.ai/">Mistral</a>, a French AI company with a significant presence in the European market; <a href="https://docs.x.ai/">xAI</a> (Grok), from Elon Musk; and <a href="https://dev.meta.ai/llama">Meta</a>, with its Llama family of models.</p>
+<p>Among these companies there's a difference that isn't just about company size. Meta and DeepSeek publish models with <strong>open weights</strong> — that same parameter file I talked about at the start — that can be downloaded and run on your own hardware, subject to the terms of <a href="https://dev.meta.ai/llama">each Llama version's license</a> or DeepSeek's. <a href="https://deepmind.google/models/gemma">Google also offers open-weight models, like Gemma</a>, even though its Gemini models have <strong>closed weights</strong>. Anthropic and OpenAI offer their main commercial models only as hosted services, without publishing their weights.</p>
+<p>Either way, publishing the weights isn't the same as publishing all the training data and process, and it doesn't necessarily mean an open-source license. These are separate questions worth keeping apart. You can run Llama, DeepSeek or Gemma on your own hardware, but you can't redo the training that produced them: you're missing the code and the data they used, you only have the final result.</p>
+<p>Here are some of the most important models from the companies above:</p>
+<table>
+<thead>
+<tr>
+<th>Company</th>
+<th>Models (current examples)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://platform.claude.com/docs/en/models/overview">Anthropic</a></td>
+<td>Claude Opus 5.5, Claude Sonnet 5.5, Claude Haiku 5.5</td>
+</tr>
+<tr>
+<td><a href="https://ai.google.dev/gemini-api/docs/models">Google</a></td>
+<td>Gemini 3.8 Flash, Gemini 3.5 Flash-Lite</td>
+</tr>
+<tr>
+<td><a href="https://developers.openai.com/api/docs/models">OpenAI</a></td>
+<td>GPT-6 Astra, GPT-6.1 Sol, GPT-6 Luna</td>
+</tr>
+<tr>
+<td><a href="https://api-docs.deepseek.com/quick_start/pricing#model-details">DeepSeek</a></td>
+<td>DeepSeek-V4-Pro, DeepSeek-V4.1-Flash</td>
+</tr>
+</tbody>
+</table>
+<p><em>As of this article (October 2026). Every company ships new models often; the links above go to each one's current catalog, not to these specific names.</em></p>
+<h2>What's left</h2>
+<p>There's a gap between theory and making an actual API call, but it's not as big as it looked from outside: trained weights and biases, text turned into vectors, and a next-token prediction repeated over and over. The SDK just wraps that in a function.</p>
+<p>What I haven't touched here: why I picked <code>gemini-3.5-flash-lite</code> over another model in Gemini's catalog, how you build a multi-turn conversation instead of a single call, and RAG — which uses these same embeddings for something else, finding relevant information before asking the model anything. Plenty of material for future articles.</p>
+
+</article>
+
+<p><a href="/en/articles/">&larr; Back to the articles</a></p>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>Enrique – 2026</p>
+    </footer>
+  </div>
+  </div><div class="mobile-bar"><button class="site-burger" aria-label="Menu" aria-expanded="false" onclick="const m=document.getElementById('mobileMenu');const o=m.classList.toggle('open');this.setAttribute('aria-expanded',o)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h18M3 12h18M3 19h18"></path></svg></button>
+    <div class="mobile-brand">
+      <a href="/en/" class="site-name">Jestemrique</a>
+      <p class="site-tagline">Development, projects, learning…</p>
+    </div><nav class="site-langs-nav" aria-label="Language">
+      <ul class="site-langs">
+        <li><a href="/es/articulos/hablar-con-un-modelo/" lang="es" hreflang="es">ES<span class="visually-hidden"> Español</span></a></li>
+      </ul>
+    </nav><details class="theme-menu">
+  <summary data-theme-estado="" aria-label="Theme">
+    <span class="theme-icon" data-icono="light" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></span>
+    <span class="theme-icon" data-icono="dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(0 -1.1)" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></span>
+    <span class="theme-icon" data-icono="system" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg></span>
+  </summary>
+  <div class="theme-menu-panel">
+    <fieldset class="theme-switch">
+  <legend class="visually-hidden">Theme</legend>
+  <label>
+    <input type="radio" name="tema-barra" value="light" data-theme-option="">
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></span>
+    <span class="visually-hidden">Light</span>
+  </label>
+  <label>
+    <input type="radio" name="tema-barra" value="dark" data-theme-option="">
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(0 -1.1)" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></span>
+    <span class="visually-hidden">Dark</span>
+  </label>
+  <label>
+    <input type="radio" name="tema-barra" value="system" data-theme-option="">
+    <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg></span>
+    <span class="visually-hidden">System</span>
+  </label>
+</fieldset>
+  </div>
+</details>
+  </div><nav class="mobile-menu" id="mobileMenu" aria-label="Main">
+    <ul>
+      <li><a href="/en/">Home</a></li>
+      <li><a href="/en/articles/">Articles</a></li>
+      <li><a href="/en/clips/">Clips</a></li>
+      <li><a href="/en/topics/">Topics</a></li>
+      <li><a href="/en/music/">Music</a></li>
+      <li><a href="/en/about/">About</a></li>
+    </ul>
+  </nav><script>
+    (function () {
+      var CLAVE = "tema";
+
+      function leer() {
+        try { return localStorage.getItem(CLAVE) || "system"; } catch (e) { return "system"; }
+      }
+      function guardar(valor) {
+        try {
+          if (valor === "system") localStorage.removeItem(CLAVE);
+          else localStorage.setItem(CLAVE, valor);
+        } catch (e) {}
+      }
+      function aplicar(valor) {
+        if (valor === "system") delete document.documentElement.dataset.theme;
+        else document.documentElement.dataset.theme = valor;
+      }
+      function marcar(valor) {
+        var opciones = document.querySelectorAll("[data-theme-option]");
+        for (var i = 0; i < opciones.length; i++) {
+          opciones[i].checked = opciones[i].value === valor;
+        }
+      }
+
+      // El botón que despliega el control en móvil enseña el icono del tema
+      // ACTIVO: cerrado tiene que seguir diciendo en qué estado estás. Cuál se
+      // ve lo decide el CSS a partir de este data-estado.
+      function pintarEstado(valor) {
+        var botones = document.querySelectorAll("[data-theme-estado]");
+        for (var i = 0; i < botones.length; i++) botones[i].dataset.estado = valor;
+      }
+
+      // Los desplegables, en PLURAL: hay uno en la barra lateral y otro en la
+      // barra de móvil. Se buscan por clase y no por id porque un id tiene que
+      // ser único en el documento; con dos instancias, getElementById devolvía
+      // solo la primera y la otra se quedaba sin cerrar, sin foco y sin
+      // Escape. Solo uno de los dos es visible a la vez (cada barra está
+      // display:none en la anchura de la otra), pero los dos existen en el DOM
+      // y los dos se manejan igual.
+      var menus = document.querySelectorAll(".theme-menu");
+
+      // Cerrar el desplegable DEVOLVIENDO EL FOCO al <summary>. Lo segundo no
+      // es un detalle: al elegir con el teclado, el foco está en un radio que
+      // el cierre acaba de esconder, y un elemento oculto no puede tener el
+      // foco, así que el navegador lo manda al principio del documento. Quien
+      // navega con teclado tendría que recorrer la página entera para volver.
+      function cerrarMenu(menu, devolverFoco) {
+        if (!menu.open) return;
+        menu.open = false;
+        if (devolverFoco) menu.querySelector("summary").focus();
+      }
+
+      // Cerrar TODOS. El foco solo se devuelve al menú que lo tenía dentro:
+      // mandárselo a un <summary> que está en la otra barra —y por tanto
+      // oculto— movería el foco a un sitio invisible, que es peor que no
+      // moverlo. Por eso no vale con pasar `true` a los dos.
+      function cerrarMenus(devolverFoco) {
+        menus.forEach(function (menu) {
+          cerrarMenu(menu, devolverFoco && menu.contains(document.activeElement));
+        });
+      }
+
+      marcar(leer());
+      pintarEstado(leer());
+
+      // APLICAR el tema. Ojo: aquí NO se cierra el menú, y es deliberado. Las
+      // flechas del teclado disparan un `change` en CADA salto, así que cerrar
+      // aquí haría imposible recorrer las opciones: la primera flecha elegiría
+      // y cerraría de golpe. El cierre se decide por cómo ha elegido el
+      // usuario, no por el hecho de elegir; ver los dos manejadores de abajo.
+      document.addEventListener("change", function (e) {
+        if (!e.target.hasAttribute || !e.target.hasAttribute("data-theme-option")) return;
+        var valor = e.target.value;
+        aplicar(valor);
+        marcar(valor);
+        guardar(valor);
+        pintarEstado(valor);
+      });
+
+      // Lo que se engancha a CADA menú. Va con forEach y no con un bucle `for`
+      // por una razón concreta: los manejadores necesitan recordar de QUÉ menú
+      // son, y con `var i` en un for todos acabarían apuntando al último. El
+      // parámetro de la función de forEach crea un ámbito nuevo en cada vuelta.
+      menus.forEach(function (menu) {
+        // Al ABRIR, meter el foco en la opción activa. Un <details> no lo hace
+        // solo: deja el foco en el <summary>, y las flechas de un grupo de
+        // radios solo responden si el foco ya está DENTRO del grupo. Sin esto,
+        // con teclado se abre el panel y no se puede recorrer.
+        menu.addEventListener("toggle", function () {
+          if (!menu.open) return;
+          var activa = menu.querySelector("[data-theme-option]:checked") ||
+                       menu.querySelector("[data-theme-option]");
+          if (activa) activa.focus();
+        });
+
+        // Cerrar CON EL DEDO O EL RATÓN: un click de verdad trae detail >= 1,
+        // mientras que el que sintetiza el teclado al marcar un radio trae
+        // detail === 0. Es la forma de distinguir "he tocado la opción" de "he
+        // llegado a ella con las flechas" sin escuchar eventos de puntero.
+        menu.addEventListener("click", function (e) {
+          if (e.detail > 0 && e.target.closest("label")) cerrarMenu(menu, false);
+        });
+      });
+
+      // Cerrar al tocar fuera y con teclado. Es lo ÚNICO que <details> no trae
+      // de serie: abrirse, anunciarse al lector de pantalla y responder a
+      // Enter y Espacio en el botón ya lo hace el navegador solo.
+      // Ojo al "fuera": es fuera de CADA menú por separado, no fuera de todos.
+      document.addEventListener("click", function (e) {
+        menus.forEach(function (menu) {
+          if (!menu.contains(e.target)) cerrarMenu(menu, false);
+        });
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") cerrarMenus(true);
+        // Enter DENTRO del panel = "esta me vale": confirma y cierra. El tema
+        // ya está aplicado por el change de la flecha; esto solo cierra.
+        else if (e.key === "Enter") {
+          menus.forEach(function (menu) {
+            if (!menu.open || !menu.contains(e.target)) return;
+            e.preventDefault();
+            cerrarMenu(menu, true);
+          });
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
